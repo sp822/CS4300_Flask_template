@@ -11,8 +11,10 @@ import numpy as np
 import pandas as pd
 import csv
 
+cwd = os.getcwd()
+print(cwd)
+data = pd.read_csv(os.path.join(cwd,app,irsystem, models, Data-Set-Final.csv))
 
-data = pd.read_csv(r'app\irsystem\models\Data-Set-Final.csv')
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')

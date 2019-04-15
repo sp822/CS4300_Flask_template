@@ -24,7 +24,7 @@
                 <label for = "enjoyed">Shows That you Enjoyed:</label>
                 <input id="input" type="text" name="enjoyed" class="form-control" placeholder="Your Input">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                     <label for = "enjoyed">Shows That you Disliked:</label>
                 <input id="input" type="text" name="disliked" class="form-control" placeholder="Your Input">
             </div>
@@ -39,14 +39,14 @@
             <div class="form-group">
                     <label for = "enjoyed">Number of Shows you want to see:</label>
                 <input id="input" type="text" name="num_result" class="form-control" placeholder="Your Input">
-            </div>
+            </div> -->
             <div> <button type="submit" class="btn btn-info"> Go! </button></div>
            
         </form>
         <form class="form-inline global-search">
-        {% if data %}
+        {% if output %}
             <h1>{{output_message}}</h1>
-            {% for d in data %}
+            {% for d in output %}
                 <br>
                 <p>{{d}}</p>
             {% endfor %}

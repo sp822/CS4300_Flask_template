@@ -4,13 +4,15 @@ import re
 import string
 from operator import itemgetter
 from nltk.stem import PorterStemmer
+import os
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import pandas as pd
 import csv
 
-data = pd.read_csv('Data-Set-Final.csv')
+cwd = os.getcwd() + "/app/irsystem/models/"
+data = pd.read_csv(cwd + 'Data-Set-Final.csv')
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -146,5 +148,3 @@ def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_i
     result.insert(loc=0, column='Drama_Title', value=best_dramas)
     result.reset_index()
     return result
-
-best = best_match(num_movies, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, ["Doctor Stranger","Doctors","Emergency Couple"], [], ["Romance","Medical"], ["fun"], 10)

@@ -11,6 +11,7 @@ import pandas as pd
 #import csv
 import matplotlib.pyplot as plt
 import seaborn as sns
+#import scipy
 
 data = pd.read_csv(r'app\irsystem\models\Data-Set-Final.csv')
 
@@ -82,7 +83,13 @@ def get_sim(mov1, mov2, input_doc_mat, movie_name_to_index):
     idx2 = movie_name_to_index[mov2]
     movie1 = input_doc_mat[idx1,]
     movie2 = input_doc_mat[idx2,]
-    dot_product = np.dot(movie1, movie2)/(np.linalg.norm(movie1)* np.linalg.norm(movie2))
+    
+    
+    from sklearn.metrics.pairwise import cosine_similarity
+    
+    #dot_product = 1 - scipy.spatial.distance.cosine(movie1, movie2)
+    dot_product = np.dot(movie1, movie2)
+    #/(np.linalg.norm(movie1)* np.linalg.norm(movie2))
     return dot_product
 
 def build_movie_sims_cos(n_mov, movie_index_to_name, input_doc_mat, movie_name_to_index, input_get_sim_method):

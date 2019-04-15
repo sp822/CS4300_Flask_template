@@ -1,18 +1,22 @@
 from __future__ import print_function
-import requests
+#import requests
 import re
 import string
 from operator import itemgetter
 from nltk.stem import PorterStemmer
 import os
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import pandas as pd
-import csv
+#import csv
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+#CONSTANTS
 cwd = os.getcwd() + "/app/irsystem/models/"
 data = pd.read_csv(cwd + 'Data-Set-Final.csv')
+n_feats = 5000
+doc_by_vocab = np.empty([len(data), n_feats])
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -46,9 +50,6 @@ def preprocess(data):
         data.loc[index,'Summary'] = value
     return data
 
-n_feats = 5000
-doc_by_vocab = np.empty([len(data), n_feats])
-
 def build_vectorizer(max_features, stop_words, max_df=0.8, min_df=10, norm='l2'):
     """Returns a TfidfVectorizer object with the above preprocessing properties.
 
@@ -59,7 +60,6 @@ def build_vectorizer(max_features, stop_words, max_df=0.8, min_df=10, norm='l2')
              stop_words: String}
     Returns: TfidfVectorizer
     """
-
     result = TfidfVectorizer(max_features = max_features, stop_words = stop_words, max_df = max_df, min_df = min_df, norm = norm)
     return result
 
@@ -108,11 +108,45 @@ def build_movie_sims_cos(n_mov, movie_index_to_name, input_doc_mat, movie_name_t
                 mov1 = movie_index_to_name[i]
                 mov2 = movie_index_to_name[j]
                 result[i,j] = input_get_sim_method(mov1, mov2, input_doc_mat, movie_name_to_index)
-
-
     return result
 
 movie_sims_cos = build_movie_sims_cos(num_movies, movie_index_to_name, doc_by_vocab, movie_name_to_index, get_sim)
+
+def display_sim_matrix(sim_matrix, diag = False):
+    fig, ax = plt.subplots()
+    plt_title = "KDramas Cos-Sim Heatmap"
+    plt.title(plt_title, fontsize = 18)
+    ttl = ax.title
+    ttl.set_position([0.5, 1.05])
+    
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.axis('off')
+    
+    mask = None
+    if diag:
+        mask = np.tri(sim_matrix.shape[0], k=-1)
+    
+    heatmap = sns.heatmap(sim_matrix, fmt="", cmap='BuGn_r', linewidths=0, mask = mask, ax=ax)
+    
+    plt.show()
+    fig = heatmap.get_figure()    
+    fig.savefig('sim_heatmap.png', dpi=400)
+    
+    m_size = len(sim_matrix)
+    scores = np.zeros((m_size+1)//2*m_size)
+    cnt = 0
+    for i in range (0, m_size):
+        for j in range(i, m_size):
+            scores[cnt] = sim_matrix[i][j]
+            cnt+=1
+            
+    sns.distplot(scores, hist=True, kde=True, 
+             bins=int(180/5), color = 'darkblue', 
+             hist_kws={'edgecolor':'black'},
+             kde_kws={'linewidth': 4})
+    
+
 
 def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
     feature_list = ['Summary_Similarity', 'Genre_Similarity', 'Network_Similarity', 'Total']

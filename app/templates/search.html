@@ -1,7 +1,8 @@
 <html>
     <head>
         <link rel="stylesheet" href="static/bootstrap.min.css">
-        <link rel="stylesheet" href="static/main.css"/>
+        <link rel="stylesheet" href="/static/main.css"/>
+        <link rel="stylesheet" href="/static/all.css"/>
     </head>
     <body>
         <div class="topcorner">
@@ -22,33 +23,31 @@
 
             <div class="form-group">
                 <label for = "enjoyed">Shows That you Enjoyed:</label>
-                <input id="input" type="text" name="enjoyed" class="form-control" placeholder="Your Input">
+                <input id="enjoyed" type="text" name="enjoyed" class="form-control" placeholder="Your Input">
             </div>
             <div class="form-group">
-                    <label for = "enjoyed">Shows That you Disliked:</label>
-                <input id="input" type="text" name="disliked" class="form-control" placeholder="Your Input">
+                    <label for = "disliked">Shows That you Disliked:</label>
+                <input id="disliked" type="text" name="disliked" class="form-control" placeholder="Your Input">
             </div>
             <div class="form-group">
-                    <label for = "enjoyed">Your Prefered Genres:</label>
-                <input id="input" type="text" name="prefered_genres" class="form-control" placeholder="Your Input">
+                    <label for = "prefered_genres">Your Prefered Genres:</label>
+                <input id="prefered_genres" type="text" name="prefered_genres" class="form-control" placeholder="Your Input">
             </div>
             <div class="form-group">
-                    <label for = "enjoyed">Your Prefered Network:</label>
-                <input id="input" type="text" name="prefered_networks" class="form-control" placeholder="Your Input">
-            </div>
-            <div class="form-group">
-                    <label for = "enjoyed">Number of Shows you want to see:</label>
-                <input id="input" type="text" name="num_result" class="form-control" placeholder="Your Input">
-            </div>
+                    <label for = "prefered_networks">Your Prefered Network:</label>
+                <input id="prefered_networks" type="text" name="prefered_networks" class="form-control" placeholder="Your Input">
+            </div>  
             <div> <button type="submit" class="btn btn-info"> Go! </button></div>
            
         </form>
         <form class="form-inline global-search">
-        {% if data %}
+        {% if not output.empty %}
             <h1>{{output_message}}</h1>
-            {% for d in data %}
+            {% for y in output %}
                 <br>
-                <p>{{d}}</p>
+                <div><p>{{y}}</p></div>
+                <p></p>
+                <hr>
             {% endfor %}
         {% endif %}
         </form>

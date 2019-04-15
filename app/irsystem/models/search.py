@@ -12,11 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-#CONSTANTS
-cwd = os.getcwd() + "/app/irsystem/models/"
-data = pd.read_csv(os.path.join(cwd, 'Data-Set-Final.csv'))
-n_feats = 5000
-doc_by_vocab = np.empty([len(data), n_feats])
+data = pd.read_csv(r'app\irsystem\models\Data-Set-Final.csv')
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -63,6 +59,7 @@ def build_vectorizer(max_features, stop_words, max_df=0.8, min_df=10, norm='l2')
     result = TfidfVectorizer(max_features = max_features, stop_words = stop_words, max_df = max_df, min_df = min_df, norm = norm)
     return result
 
+n_feats = 5000
 data = preprocess(data)
 tfidf_vec = build_vectorizer(n_feats, "english")
 doc_by_vocab = tfidf_vec.fit_transform([value for _,value in data['Summary'].items()]).toarray()
@@ -85,7 +82,7 @@ def get_sim(mov1, mov2, input_doc_mat, movie_name_to_index):
     idx2 = movie_name_to_index[mov2]
     movie1 = input_doc_mat[idx1,]
     movie2 = input_doc_mat[idx2,]
-    dot_product = np.dot(movie1, movie2)
+    dot_product = np.dot(movie1, movie2)/(np.linalg.norm(movie1)* np.linalg.norm(movie2))
     return dot_product
 
 def build_movie_sims_cos(n_mov, movie_index_to_name, input_doc_mat, movie_name_to_index, input_get_sim_method):
@@ -131,7 +128,7 @@ def display_sim_matrix(sim_matrix, diag = False):
     
     plt.show()
     fig = heatmap.get_figure()    
-    fig.savefig('sim_heatmap.png', dpi=400)
+    fig.savefig('sim_heatmap1.png', dpi=400)
     
     m_size = len(sim_matrix)
     scores = np.zeros((m_size+1)//2*m_size)
@@ -146,7 +143,6 @@ def display_sim_matrix(sim_matrix, diag = False):
              hist_kws={'edgecolor':'black'},
              kde_kws={'linewidth': 4})
     
-
 
 def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
     feature_list = ['Summary_Similarity', 'Genre_Similarity', 'Network_Similarity', 'Total']
@@ -175,6 +171,7 @@ def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_i
         if preferred_network == data.iloc[index]['Network']:
             result['Network_Similarity']+=1
     result['Total'] = result.sum(axis = 1)
+    
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -182,3 +179,13 @@ def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_i
     result.insert(loc=0, column='Drama_Title', value=best_dramas)
     result.reset_index()
     return result
+
+def display (n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
+    dramas_enjoyed = dramas_enjoyed.split(', ')
+    dramas_disliked = dramas_disliked.split(', ')
+    preferred_genres = preferred_genres.split(', ')
+    preferred_network = preferred_network.split(', ')
+    best = best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results)
+    title = list(zip(best['Drama_Title'], best["Total"]))
+    final = ["Drama Titles: {}".format(final_title[0]) + "            " +"Total Similarity {}".format(final_title[1]) for final_title in title]
+    return final, best

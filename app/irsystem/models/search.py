@@ -9,6 +9,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import pandas as pd
 #import csv
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 #import scipy
@@ -84,10 +86,10 @@ def get_sim(mov1, mov2, input_doc_mat, movie_name_to_index):
     idx2 = movie_name_to_index[mov2]
     movie1 = input_doc_mat[idx1,]
     movie2 = input_doc_mat[idx2,]
-    
-    
+
+
     from sklearn.metrics.pairwise import cosine_similarity
-    
+
     #dot_product = 1 - scipy.spatial.distance.cosine(movie1, movie2)
     dot_product = np.dot(movie1, movie2)
     #/(np.linalg.norm(movie1)* np.linalg.norm(movie2))

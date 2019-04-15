@@ -12,7 +12,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-data = pd.read_csv(r'app\irsystem\models\Data-Set-Final.csv')
+path = os.path.join(os.getcwd(), "app", "irsystem", "models", "Data-Set-Final.csv")
+data = pd.read_csv(path)
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')

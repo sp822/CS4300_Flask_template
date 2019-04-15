@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 import csv
 
-cwd = os.getcwd() + "/app/irsystem/models/"
-data = pd.read_csv(cwd + 'Data-Set-Final.csv')
+
+data = pd.read_csv(r'app\irsystem\models\Data-Set-Final.csv')
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -148,3 +148,13 @@ def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_i
     result.insert(loc=0, column='Drama_Title', value=best_dramas)
     result.reset_index()
     return result
+
+def display (n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
+    dramas_enjoyed = dramas_enjoyed.split(',')
+    dramas_disliked = dramas_disliked.split(',')
+    preferred_genres = preferred_genres.split(',')
+    preferred_network = preferred_network.split(',')
+    best = best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results)
+    title = list(zip(best['Drama_Title'], best["Total"]))
+    final = ["Drama Titles: {}".format(final_title[0]) + "            " +"Total Similarity {}".format(final_title[1]) for final_title in title]
+    return final

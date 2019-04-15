@@ -1,0 +1,12 @@
+@media (min-width:400px){
+    .global-search .form-group {
+    margin:10px;
+    display: flex;
+    }
+    .global-search .form-group label {
+        flex-grow: 1
+    }
+    .global-search .form-group input {
+        flex-grow: 1
+    }
+}

@@ -14,7 +14,7 @@ import seaborn as sns
 
 #CONSTANTS
 cwd = os.getcwd() + "/app/irsystem/models/"
-data = pd.read_csv(cwd + 'Data-Set-Final.csv')
+data = pd.read_csv(os.path.join(cwd, 'Data-Set-Final.csv'))
 n_feats = 5000
 doc_by_vocab = np.empty([len(data), n_feats])
 

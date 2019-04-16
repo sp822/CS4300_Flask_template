@@ -192,12 +192,10 @@ def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_i
 
 def display (n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
     dramas_enjoyed = dramas_enjoyed.split(', ')
-    print(dramas_enjoyed)
     dramas_disliked = dramas_disliked.split(', ')
     preferred_genres = preferred_genres.split(', ')
-    print(preferred_genres)
     preferred_network = preferred_network.split(', ')
-    print(preferred_network)
+
     best = best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results)
     title = list(zip(best['Drama_Title'], best["Total"]))
     final = {}

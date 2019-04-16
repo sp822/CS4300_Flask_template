@@ -221,7 +221,12 @@ def display (n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_ind
     dramas_disliked = dramas_disliked.split(', ')
     preferred_genres = preferred_genres.split(', ')
     preferred_network = preferred_network.split(', ')
+
     best = best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results)
     title = list(zip(best['Drama_Title'], best["Total"]))
-    final = ["Drama Titles: {}".format(final_title[0]) + "            " +"Total Similarity {}".format(final_title[1]) for final_title in title]
-    return final, best
+    final = {}
+    for x in title:
+        title_name = x[0]
+        final.update({x[0]: ''})
+        final[title_name] += data['Summary'][list(data['Title']).index(title_name)]
+    return ['Drama Title: {},  Summary: {},  Total Similarity Score: {}'.format(x[0], final[x[0]], x[1]) for x in title]

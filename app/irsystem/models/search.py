@@ -5,7 +5,7 @@ from __future__ import print_function
 import re
 import string
 from operator import itemgetter
-from nltk.stem import PorterStemmer
+'''from nltk.stem import PorterStemmer'''
 import os
 import numpy as np
 import pandas as pd
@@ -33,10 +33,10 @@ def tokenize(text):
     """
     return list(filter(str.strip, list(map(lambda x: x, re.findall(r'[a-zA-Z]*', text)))))
 
-def stem(text):
+'''def stem(text):
     stemmer=PorterStemmer()
     stems = [stemmer.stem(w) for w in tokenize(text)]
-    return " ".join(stems)
+    return " ".join(stems)'''
 
 def preprocess_text(text):
     text = str(text)
@@ -53,7 +53,6 @@ def build_inverted_index_and_regular_index(data):
     data_index = {}
     for (index,value) in data['Summary'].items():
         value = preprocess_text(value)
-        value = stem(value)
         toks = value.split()
         counts = Counter(toks)
         data_index[index] = counts.items()

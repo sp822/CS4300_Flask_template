@@ -1,4 +1,7 @@
 from __future__ import print_function
+import matplotlib
+# matplotlib.use('Agg')
+# import matplotlib.pyplot as plt
 #import requests
 import re
 import string
@@ -147,41 +150,40 @@ def build_movie_sims_cos(n_mov, movie_index_to_name, input_doc_mat, movie_name_t
 
 movie_sims_cos = build_movie_sims_cos(num_movies, movie_index_to_name, doc_by_vocab, movie_name_to_index, get_sim)
 
-"""
-def display_sim_matrix(sim_matrix, diag = False):
-    fig, ax = plt.subplots()
-    plt_title = "KDramas Cos-Sim Heatmap"
-    plt.title(plt_title, fontsize = 18)
-    ttl = ax.title
-    ttl.set_position([0.5, 1.05])
+# def display_sim_matrix(sim_matrix, diag = False):
+#     fig, ax = plt.subplots()
+#     plt_title = "KDramas Cos-Sim Heatmap"
+#     plt.title(plt_title, fontsize = 18)
+#     ttl = ax.title
+#     ttl.set_position([0.5, 1.05])
 
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
-    ax.axis('off')
+#     ax.set_xticklabels([])
+#     ax.set_yticklabels([])
+#     ax.axis('off')
 
-    mask = None
-    if diag:
-        mask = np.tri(sim_matrix.shape[0], k=-1)
+#     mask = None
+#     if diag:
+#         mask = np.tri(sim_matrix.shape[0], k=-1)
 
-    heatmap = sns.heatmap(sim_matrix, fmt="", cmap='BuGn_r', linewidths=0, mask = mask, ax=ax)
+#     heatmap = sns.heatmap(sim_matrix, fmt="", cmap='BuGn_r', linewidths=0, mask = mask, ax=ax)
 
-    plt.show()
-    fig = heatmap.get_figure()
-    fig.savefig('sim_heatmap1.png', dpi=400)
+#     plt.show()
+#     fig = heatmap.get_figure()
+#     fig.savefig('sim_heatmap1.png', dpi=400)
 
-    m_size = len(sim_matrix)
-    scores = np.zeros((m_size+1)//2*m_size)
-    cnt = 0
-    for i in range (0, m_size):
-        for j in range(i, m_size):
-            scores[cnt] = sim_matrix[i][j]
-            cnt+=1
+#     m_size = len(sim_matrix)
+#     scores = np.zeros((m_size+1)//2*m_size)
+#     cnt = 0
+#     for i in range (0, m_size):
+#         for j in range(i, m_size):
+#             scores[cnt] = sim_matrix[i][j]
+#             cnt+=1
 
-    sns.distplot(scores, hist=True, kde=True,
-             bins=int(180/5), color = 'darkblue',
-             hist_kws={'edgecolor':'black'},
-             kde_kws={'linewidth': 4})
-"""
+#     sns.distplot(scores, hist=True, kde=True,
+#              bins=int(180/5), color = 'darkblue',
+#              hist_kws={'edgecolor':'black'},
+#              kde_kws={'linewidth': 4})
+
 
 def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
     feature_list = ['Summary_Similarity', 'Genre_Similarity', 'Network_Similarity', 'Total']

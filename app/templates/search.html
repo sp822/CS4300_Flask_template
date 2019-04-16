@@ -45,7 +45,7 @@
             <h1>{{output_message}}</h1>
             {% for y in output %}
                 <br>
-                <div class= 'title'><h2>{{  y[y.index(' ', 7): y.index(',')] }}</h2></div>
+                <div class= 'title'><h2>{{  y[y.index('Drama Title'): y.index(',')] }}</h2></div>
                 <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Total Similarity')] }}</p></div>
                 <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
                 <p></p>

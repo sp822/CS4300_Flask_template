@@ -5,14 +5,15 @@ import string
 from operator import itemgetter
 from nltk.stem import PorterStemmer
 import os
-from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import pandas as pd
+from collections import Counter
 #import csv
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
-import seaborn as sns
+#import seaborn as sns
+import math
 #import scipy
 
 path = os.path.join(os.getcwd(), "app", "irsystem", "models", "Data-Set-Final.csv")
@@ -43,6 +44,30 @@ def preprocess_text(text):
     text = text.strip()
     return text
 
+def build_inverted_index_and_regular_index(data):
+    """ Builds an inverted index from the movies
+    """
+    result = {}
+    data_index = {}
+    for (index,value) in data['Summary'].items():
+        value = preprocess_text(value)
+        value = stem(value)
+        toks = value.split()
+        counts = Counter(toks)
+        data_index[index] = counts.items()
+        for word, count in counts.items():
+            if word not in result.keys():
+                result[word] = []
+            result[word].append((index, count))
+    return (result, data_index)
+
+def compute_idf(inv_idx, n_movies):
+    idf_dict = {}
+    for word in inv_idx.keys():
+        DF = len(inv_idx[word])
+        idf_dict[word] = math.log(n_movies/(1+DF),2)
+    return idf_dict
+
 def preprocess(data):
     for (index,value) in data['Summary'].items():
         value = preprocess_text(value)
@@ -50,27 +75,31 @@ def preprocess(data):
         data.loc[index,'Summary'] = value
     return data
 
-def build_vectorizer(max_features, stop_words, max_df=0.8, min_df=10, norm='l2'):
-    """Returns a TfidfVectorizer object with the above preprocessing properties.
+def build_tfidf_matrix(data_index, n_movies,vocab_to_index, idf_dict):
+    result = np.zeros((n_movies, len(vocab_to_index.keys())))
+    for idx in range(n_movies):
+        sum_terms = 1
+        for (word, count) in data_index[idx]:
+            sum_terms = sum_terms + count
+            idx2 = vocab_to_index[word]
+            idf = idf_dict[word]
+            tfidf = idf*count
+            result[idx, idx2] = tfidf
+        result[idx,:]=np.divide(result[idx,:],sum_terms)
 
-    Params: {max_features: Integer,
-             max_df: Float,
-             min_df: Float,
-             norm: String,
-             stop_words: String}
-    Returns: TfidfVectorizer
-    """
-    result = TfidfVectorizer(max_features = max_features, stop_words = stop_words, max_df = max_df, min_df = min_df, norm = norm)
     return result
 
-n_feats = 5000
 data = preprocess(data)
-tfidf_vec = build_vectorizer(n_feats, "english")
-doc_by_vocab = tfidf_vec.fit_transform([value for _,value in data['Summary'].items()]).toarray()
-index_to_vocab = {i:v for i, v in enumerate(tfidf_vec.get_feature_names())}
+num_movies = len(data)
+res = build_inverted_index_and_regular_index(data)
+inv_index = res[0]
+reg_index = res[1]
+idf_dict = compute_idf(inv_index, num_movies)
+index_to_vocab = {i:v for i, v in enumerate(inv_index.keys())}
+vocab_to_index = {v: k for k, v in index_to_vocab.items()}
+doc_by_vocab = build_tfidf_matrix(reg_index, num_movies,vocab_to_index, idf_dict)
 movie_index_to_name = data['Title'].to_dict()
 movie_name_to_index = {v: k for k, v in movie_index_to_name.items()}
-num_movies = len(data)
 
 def get_sim(mov1, mov2, input_doc_mat, movie_name_to_index):
     """Returns a float giving the cosine similarity of
@@ -88,7 +117,6 @@ def get_sim(mov1, mov2, input_doc_mat, movie_name_to_index):
     movie2 = input_doc_mat[idx2,]
 
 
-    from sklearn.metrics.pairwise import cosine_similarity
 
     #dot_product = 1 - scipy.spatial.distance.cosine(movie1, movie2)
     dot_product = np.dot(movie1, movie2)
@@ -119,6 +147,7 @@ def build_movie_sims_cos(n_mov, movie_index_to_name, input_doc_mat, movie_name_t
 
 movie_sims_cos = build_movie_sims_cos(num_movies, movie_index_to_name, doc_by_vocab, movie_name_to_index, get_sim)
 
+"""
 def display_sim_matrix(sim_matrix, diag = False):
     fig, ax = plt.subplots()
     plt_title = "KDramas Cos-Sim Heatmap"
@@ -152,7 +181,7 @@ def display_sim_matrix(sim_matrix, diag = False):
              bins=int(180/5), color = 'darkblue',
              hist_kws={'edgecolor':'black'},
              kde_kws={'linewidth': 4})
-
+"""
 
 def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
     feature_list = ['Summary_Similarity', 'Genre_Similarity', 'Network_Similarity', 'Total']
@@ -195,7 +224,6 @@ def display (n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_ind
     dramas_disliked = dramas_disliked.split(', ')
     preferred_genres = preferred_genres.split(', ')
     preferred_network = preferred_network.split(', ')
-
     best = best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results)
     title = list(zip(best['Drama_Title'], best["Total"]))
     final = {}

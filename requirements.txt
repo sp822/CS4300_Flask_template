@@ -57,6 +57,6 @@ cycler==0.10.0
 decorator==4.2.1
 entrypoints==0.2.3
 html5lib==1.0.1
-scikit-learn==0.18
 pandas==0.24.2
 numpy==1.16
+matplotlib==3.0.3

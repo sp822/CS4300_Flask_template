@@ -1,5 +1,4 @@
 from __future__ import print_function
-import matplotlib
 # matplotlib.use('Agg')
 # import matplotlib.pyplot as plt
 #import requests
@@ -12,9 +11,9 @@ import numpy as np
 import pandas as pd
 from collections import Counter
 #import csv
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
+#import matplotlib
+#matplotlib.use('TkAgg')
+#import matplotlib.pyplot as plt
 #import seaborn as sns
 import math
 #import scipy

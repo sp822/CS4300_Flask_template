@@ -1,4 +1,7 @@
 from __future__ import print_function
+# import matplotlib
+# matplotlib.use('TkAgg')
+# import matplotlib.pyplot as plt
 #import requests
 import re
 import string
@@ -9,9 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 import pandas as pd
 #import csv
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
+
 import seaborn as sns
 #import scipy
 

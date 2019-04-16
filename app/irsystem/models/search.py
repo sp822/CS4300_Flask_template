@@ -107,14 +107,16 @@ def build_movie_sims_cos(n_mov, movie_index_to_name, input_doc_mat, movie_name_t
     Returns: Numpy Array
     """
     result = np.zeros((n_mov, n_mov))
-    for i in range(n_mov):
-        for j in range(n_mov):
+    for i in range(0, n_mov):
+        for j in range(i, n_mov):
             if i == j:
                 result[i,j] = 0
             else:
                 mov1 = movie_index_to_name[i]
                 mov2 = movie_index_to_name[j]
-                result[i,j] = input_get_sim_method(mov1, mov2, input_doc_mat, movie_name_to_index)
+                sim = input_get_sim_method(mov1, mov2, input_doc_mat, movie_name_to_index)
+                result[i][j] = sim
+                result[j][i] = sim
     return result
 
 movie_sims_cos = build_movie_sims_cos(num_movies, movie_index_to_name, doc_by_vocab, movie_name_to_index, get_sim)
@@ -153,6 +155,15 @@ def display_sim_matrix(sim_matrix, diag = False):
              hist_kws={'edgecolor':'black'},
              kde_kws={'linewidth': 4})
 
+#making inverse matrix for genre
+inv_matrix_genre = {}
+for index, value in data.iterrows():
+    gen = str(value['Genre'])
+    gen = preprocess_text(gen)
+    drama_genres = set()
+    drama_genres.update(gen.split())
+    
+    
 
 def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
     feature_list = ['Summary_Similarity', 'Genre_Similarity', 'Network_Similarity', 'Total']
@@ -160,28 +171,43 @@ def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_i
     genres = set()
     preferred_genres = [preprocess_text(value) for value in preferred_genres]
     genres.update(preferred_genres)
+    
+    feature_cnt = np.zeros((4))
+    
     for drama in dramas_enjoyed:
-        if drama in movie_name_to_index.keys():
-            index = movie_name_to_index[drama]
-            sim = movie_sims_cos[index,:]
-            result['Summary_Similarity']+= pd.Series(sim)
+        if drama != '':
+            print('e')
+            feature_cnt[0] = 1
+            if drama in movie_name_to_index.keys():
+                index = movie_name_to_index[drama]
+                sim = movie_sims_cos[index,:]
+                result['Summary_Similarity']+= pd.Series(sim)
 
     for drama in dramas_disliked:
-        if drama in movie_name_to_index.keys():
-            index = movie_name_to_index[drama]
-            sim = movie_sims_cos[index,:]
-            result['Summary_Similarity']-= pd.Series(sim)
+        if drama != '':
+            feature_cnt[1] = 1
+            if drama in movie_name_to_index.keys():
+                index = movie_name_to_index[drama]
+                sim = movie_sims_cos[index,:]
+                result['Summary_Similarity']-= pd.Series(sim)
 
-    for index, value in data.iterrows():
-        gen = str(value['Genre'])
-        gen = preprocess_text(gen)
-        drama_genres = set()
-        drama_genres.update(gen.split())
-        result.loc[index,'Genre_Similarity'] = len(genres.intersection(drama_genres))/len(genres.union(drama_genres))
-        if preferred_network == data.iloc[index]['Network']:
-            result['Network_Similarity']+=1
-    result['Total'] = result.sum(axis = 1)
-
+    if len(preferred_genres) != 0:
+        feature_cnt[2] = 1
+        print(len(preferred_genres))
+        for index, value in data.iterrows():
+            gen = str(value['Genre'])
+            gen = preprocess_text(gen)
+            drama_genres = set()
+            drama_genres.update(gen.split())
+            result.loc[index,'Genre_Similarity'] = len(genres.intersection(drama_genres))/len(genres.union(drama_genres))
+            if preferred_network!='' and  preferred_network == data.iloc[index]['Network']:
+                result['Network_Similarity']+=1
+                feature_cnt[3] = 1
+    
+    fcnt = 1 if sum(feature_cnt) ==  0 else sum(feature_cnt)
+    print(fcnt)
+    result['Total'] = result.sum(axis = 1)/fcnt
+    
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()

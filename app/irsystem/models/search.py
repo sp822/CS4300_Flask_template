@@ -72,7 +72,6 @@ def compute_idf(inv_idx, n_movies):
 def preprocess(data):
     for (index,value) in data['Summary'].items():
         value = preprocess_text(value)
-        value = stem(value)
         data.loc[index,'Summary'] = value
     return data
 

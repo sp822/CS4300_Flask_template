@@ -1,7 +1,7 @@
 from __future__ import print_function
-# import matplotlib
-# matplotlib.use('TkAgg')
-# import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 #import requests
 import re
 import string

@@ -9,6 +9,29 @@
             <p>Project Name: {{ name }}</p>
             <p>Student Name: ({{ netid }})</p>
         </div>
+        <?php 
+        if(isset($_Get['submit-btn'])) { ?>
+            <form class="form-inline global-search">
+                {% if not output.empty %}
+                <h1>{{output_message}}</h1>
+                {% for y in output %}
+                <br>
+                <div class= 'title'><h2>{{  y[y.index('Drama Title'): y.index(',')] }}</h2></div>
+                <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Total Similarity')] }}</p></div>
+                <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
+                <p></p>
+                <hr>
+            {% endfor %}
+        {% endif %}
+        </form>
+
+        <?php
+        } else {
+        
+        
+        
+        ?>
+
         <form class="global-search">
             <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
                 
@@ -37,22 +60,14 @@
                     <label for = "prefered_networks">Your Prefered Network:</label>
                 <input id="prefered_networks" type="text" name="prefered_networks" class="form-control" placeholder="Your Input">
             </div>  
-            <div> <button type="submit" class="btn btn-info"> Go! </button></div>
+            <div> <button type="submit" class="btn btn-info" name = 'submit-btn'> Go! </button></div>
            
         </form>
-        <form class="form-inline global-search">
-        {% if not output.empty %}
-            <h1>{{output_message}}</h1>
-            {% for y in output %}
-                <br>
-                <div class= 'title'><h2>{{  y[y.index('Drama Title'): y.index(',')] }}</h2></div>
-                <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Total Similarity')] }}</p></div>
-                <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
-                <p></p>
-                <hr>
-            {% endfor %}
-        {% endif %}
-        </form>
+
+        <?php 
+        }
+        ?>
+        
     </body>
 
 </html>

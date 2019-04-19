@@ -9,17 +9,7 @@ from operator import itemgetter
 import os
 import numpy as np
 import pandas as pd
-<<<<<<< HEAD
-<<<<<<< HEAD
-import csv
-
-cwd = os.getcwd()
-print(cwd)
-data = pd.read_csv(os.path.join(cwd,app,irsystem, models, Data-Set-Final.csv))
-=======
-=======
 from collections import Counter
->>>>>>> 102c7d5a01f727670bd6986148dad99fac7689bb
 #import csv
 #import matplotlib
 #matplotlib.use('TkAgg')
@@ -27,10 +17,7 @@ from collections import Counter
 #import seaborn as sns
 import math
 #import scipy
->>>>>>> 0a2434ec93a35517426bcf41bf82074cc7d1d159
 
-<<<<<<< HEAD
-=======
 path = os.path.join(os.getcwd(), "app", "irsystem", "models", "cleaneddata.csv")
 data = pd.read_csv(path)
 num_movies = len(data)
@@ -71,7 +58,6 @@ movie_name_to_index = {v: k for k, v in movie_index_to_name.items()}
 #              bins=int(180/5), color = 'darkblue',
 #              hist_kws={'edgecolor':'black'},
 #              kde_kws={'linewidth': 4})
->>>>>>> 102c7d5a01f727670bd6986148dad99fac7689bb
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')

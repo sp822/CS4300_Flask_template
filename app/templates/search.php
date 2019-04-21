@@ -9,7 +9,7 @@
             <p>Project Name: {{ name }}</p>
             <p>Student Name: ({{ netid }})</p>
         </div>
-        <?php 
+        <?php
         if(isset($_Get['submit-btn'])) { ?>
             <form class="form-inline global-search">
                 {% if not output.empty %}
@@ -27,17 +27,17 @@
 
         <?php
         } else {
-        
-        
-        
+
+
+
         ?>
 
         <form class="global-search">
             <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                
+
                 <font color=#EA4335>4300</font>
                 <font color=#FBBC05>K</font>
-                
+
                 <font color=#34A853>Drama</font>
                 <font color=#EA4335>Queen</font>
             </h1>
@@ -45,29 +45,29 @@
             <br><br>
 
             <div class="form-group">
-                <label for = "enjoyed">Shows That you Enjoyed:</label>
+                <label for = "enjoyed">Shows Enjoyed:</label>
                 <input id="enjoyed" type="text" name="enjoyed" class="form-control" placeholder="Your Input">
             </div>
             <div class="form-group">
-                    <label for = "disliked">Shows That you Disliked:</label>
+                    <label for = "disliked">Shows Disliked:</label>
                 <input id="disliked" type="text" name="disliked" class="form-control" placeholder="Your Input">
             </div>
             <div class="form-group">
-                    <label for = "prefered_genres">Your Prefered Genres:</label>
+                    <label for = "prefered_genres">Preferred Genres:</label>
                 <input id="prefered_genres" type="text" name="prefered_genres" class="form-control" placeholder="Your Input">
             </div>
             <div class="form-group">
-                    <label for = "prefered_networks">Your Prefered Network:</label>
+                    <label for = "prefered_networks">Preferred Network:</label>
                 <input id="prefered_networks" type="text" name="prefered_networks" class="form-control" placeholder="Your Input">
-            </div>  
+            </div>
             <div> <button type="submit" class="btn btn-info" name = 'submit-btn'> Go! </button></div>
-           
+
         </form>
 
-        <?php 
+        <?php
         }
         ?>
-        
+
     </body>
 
 </html>

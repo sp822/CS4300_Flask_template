@@ -201,4 +201,4 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
 
-print(display("The Mindy Project, Doctor Stranger, Doctors, House, Grey's Anatomy", "City Hunter, Game of Thrones, New Girl, Nikita", "medical, romance, comedy", "", "Park Shin-Hye","2010-2015", 10))
+print(display("Doctor Stranger, Big, King of High School Life Conduct, The Office", "Cheese in the Trap, Game of Thrones, New Girl, Nikita", "romance, comedy", "", "Park Shin-Hye","2010-2015", 10))

@@ -147,14 +147,58 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
     dramas_disliked = dramas_disliked.split(', ')
     preferred_genres = preferred_genres.split(', ')
     best = best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index,drama_sims_cos, data, drama_index_to_name, drama_name_to_index,  dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results)
-    title = list(zip(best['Drama_Title'], best["Total"]))
-    final = {}
-    for idx, x in enumerate(title):
-        title_name = x[0]
-        final.update({x[0]: ''})
-        summary = str(non_processed_data['Summary'].loc[drama_name_to_index_unprocess[title_name]])
+    result = list(zip(best['Drama_Title'], best["Total"]))
+    titles = {}
+    summaries = {}
+    genres = {}
+    ratings = {}
+    runtimes = {}
+    networks = {}
+    actors = {}
+    votes = {}
+    years = {}
+    for title, score in result:
+        idx = drama_name_to_index_unprocess[title]
+        summary = str(non_processed_data['Summary'].loc[idx])
         if summary != "nan":
-            final[title_name] += summary
-    return ['Drama Title: {},  Summary: {},  Total Similarity Score: {}'.format(x[0], final[x[0]], x[1]) for x in title]
+            summaries[title] = summary
+        else:
+            summaries[title] = ""
+        genre = str(non_processed_data['Genre'].loc[idx])
+        if genre != "nan":
+            genres[title] = genre
+        else:
+            genres[title] = ""
+        rating = str(non_processed_data['Rating'].loc[idx])
+        if rating != "nan":
+            ratings[title] = rating
+        else:
+            ratings[title] = ""
+        runtime = str(non_processed_data['Runtime'].loc[idx])
+        if runtime != "nan":
+            runtimes[title] = rating
+        else:
+            runtimes[title] = ""
+        network = str(non_processed_data['Network'].loc[idx])
+        if network != "nan":
+            networks[title] = network
+        else:
+            networks[title] = ""
+        actor = str(non_processed_data['Actors'].loc[idx])
+        if actor != "nan":
+            actors[title] = actor
+        else:
+            actors[title] = ""
+        vote = str(non_processed_data['Votes'].loc[idx])
+        if vote != "nan":
+            votes[title] = vote
+        else:
+            votes[title] = ""
+        year = str(data['Year'].loc[idx])
+        if year != "nan":
+            years[title] = year
+        else:
+            years[title] = ""
+    return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
 
-print(display("House, The Mindy Project", "The Office, Game of Thrones", "medical", "", "","2010-2015", 10))
+print(display("The Mindy Project, Doctor Stranger, Doctors, House, Grey's Anatomy", "City Hunter, Game of Thrones, New Girl, Nikita", "medical, romance, comedy", "", "Park Shin-Hye","2010-2015", 10))

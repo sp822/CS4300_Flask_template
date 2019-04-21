@@ -119,5 +119,5 @@ def display (n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_ind
     for x in title:
         title_name = x[0]
         final.update({x[0]: ''})
-        final[title_name] += data['Summary'][list(data['Title']).index(title_name)]
+        final[title_name] = data['Summary'][list(data['Title']).index(title_name)]
     return ['Drama Title: {},  Summary: {},  Total Similarity Score: {}'.format(x[0], final[x[0]], x[1]) for x in title]

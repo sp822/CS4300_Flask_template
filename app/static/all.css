@@ -1,7 +1,6 @@
 @media (min-width:400px){
     .global-search .form-group {
-        width: 80%;
-        margin: 0 15% 10px;
+        width: 90%;
         display: flex;
     }
     .global-search .form-group label {
@@ -9,5 +8,53 @@
     }
     .global-search .form-group input {
         flex-grow: 1
+    }
+    .first {
+        width: 90%
+    }
+    
+    #back2Top {
+        font-size: 50px;
+        position: fixed;
+        width: 40px;
+        font-size: 40px;
+        cursor: pointer;
+        color: red;
+        text-decoration: none;
+        bottom: 70px;
+        right: 7px;
+        display: none;
+    }
+
+    #back2Top:hover {
+        color: rgb(32, 148, 218);
+    }
+
+    
+    .info-container {
+        display: flex;
+        flex-direction: row;
+    }
+    .left-side {
+        flex: 1
+    }
+    .right-side {
+        margin: auto 10%;
+        max-width: 80%;
+        padding: 10px;
+        flex: 1;
+        
+    }
+    
+    .main-cointainer {
+        border: 2px solid navy;
+        box-shadow: 5px 10px;
+        border-radius: 25px;
+    }
+    
+    footer {
+        background-color: navy;
+        padding: 10px;
+        color: white;
     }
 }

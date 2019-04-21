@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="static/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/main.css"/>
+        <link rel="stylesheet" href="/static/all.css"/>
+        <script src="scripts/jquery-3.3.1.min.js" type = "text/javascript"></script>
+        <script type="text/javascript">
+            /*Scroll to top when arrow up clicked BEGIN*/
+            $(window).scroll(function() {
+                var height = $(window).scrollTop();
+                if (height > 100) {
+                    $('#back2Top').fadeIn();
+                } else {
+                     $('#back2Top').fadeOut();
+                 }
+            });
+            $(document).ready(function() {
+             $("#back2Top").click(function(event) {
+                event.preventDefault();
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+                return false;
+                });
+
+            });
+            /*Scroll to top when arrow up clicked END*/
+        </script>
+    </head>
+    <body>
+         
+            <form class="form-inline global-search">
+            <div> <button id ='new-search' type="submit" class="btn btn-info" name = 'new-search'> Make a new Search </button></div>
+            <!-- <a id = 'new-search' href=#>Make a New search</a> -->
+                
+                   {% if not output.empty %}
+                         <h1>{{output_message}}</h1>
+                         {% for y in output %}
+                     <br>
+                     <div class = 'main-cointainer'>
+                         <div class= 'title'><h2>{{  y[y.index(' ', 7): y.index(',')] }}</h2></div>
+                            <div class = "info-container">
+                                <div class = 'left-side'><img alt= "show_img"/></div>
+                                <div class = "right-side">
+                                    <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Total Similarity')] }}</p></div>
+                                    <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        {% endfor %}
+                    {% endif %}
+           </form>
+
+           <a id="back2Top" title="Back to top" href="#"> &#8679; </a>
+        
+
+        <!-- <a id="back2Top" title="Back to top" href="#">&Darr; </a> -->
+
+    <footer>   
+        <div>
+            <p>Project Name: {{ name }}</p>
+            <p>Student Name: ({{ netid }})</p>
+        </div>
+    </footer>
+
+    </body>
+
+</html>

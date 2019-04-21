@@ -23,9 +23,9 @@ path3 = os.path.join(os.getcwd(),"app", "irsystem", "models",'korean_data.csv')
 non_processed_data = pd.read_csv(path3)
 path4 = os.path.join(os.getcwd(),"app", "irsystem", "models",'genre_inclusion_matrix.npy')
 genre_inclusion_matrix  = np.load(path4)
-path5 = os.path.join(os.getcwd(),'actors_inclusion_matrix.npy')
+path5 = os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_inclusion_matrix.npy')
 actors_inclusion_matrix  = np.load(path5)
-path6 = os.path.join(os.getcwd(),'"app", "irsystem", "models",years_inclusion_matrix.npy')
+path6 = os.path.join(os.getcwd(),"app", "irsystem", "models", 'years_inclusion_matrix.npy')
 years_inclusion_matrix  = np.load(path6)
 non_processed_data = pd.read_csv(path3)
 drama_index_to_name = non_processed_data['Title'].to_dict()
@@ -33,19 +33,18 @@ process_dict = data['Title'].to_dict()
 drama_name_to_index = {v: k for k, v in process_dict.items()}
 drama_name_to_index_unprocess = {v: k for k, v in drama_index_to_name.items()}
 
-with open('genre_name_to_index.json') as fp:
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'genre_name_to_index.json')) as fp:
     genre_name_to_index = json.load(fp)
-with open('actors_name_to_index.json') as fp2:
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_name_to_index.json')) as fp2:
     actors_name_to_index = json.load(fp2)
-with open('years_name_to_index.json') as fp3:
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_name_to_index.json')) as fp3:
     years_name_to_index = json.load(fp3)
-with open('genres_dict.json') as fp:
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'genres_dict.json')) as fp:
     genre_dict = json.load(fp)
-with open('actors_dict.json') as fp2:
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json')) as fp2:
     actors_dict = json.load(fp2)
-with open('years_dict.json') as fp3:
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
-print(genre_dict)
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -89,9 +88,7 @@ def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, yea
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
     genres = set()
     preferred_genres = [preprocess_text(value) for value in preferred_genres]
-    print(preferred_genres)
     genres.update(preferred_genres)
-    print(genres)
     years = preferred_time_frame.split('-')
     start_year = int(years[0])
     end_year = int(years[1])

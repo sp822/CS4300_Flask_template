@@ -1,16 +1,26 @@
-import json 
 import os
-from operator import itemgetter
+import numpy as np
 import pandas as pd
+from collections import Counter
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+import math
+import json
 import re
-import string 
+from nltk.stem import PorterStemmer
 import nltk.classify.util
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import movie_reviews
 
-with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'korean_user_reviews.json')) as fp4:
+with open(os.path.join(os.getcwd(),'korean_user_reviews.json')) as fp4:
     reviews_dict = json.load(fp4)
 
+def map_network(network,x):
+    if x == network:
+        return 1
+    else:
+        return 0
 replace_no_space = re.compile("(\.)|(\;)|(\:)|(\!)|(\')|(\?)|(\,)|(\")|(\()|(\))|(\[)|(\])|(\d+)")
 replace_with_space =re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
 no_space = ""
@@ -44,14 +54,14 @@ classifier = NaiveBayesClassifier.train(features_train)
 
 def get_sentiment(datas):
     sentiment_dict = {}
-    for index in datas: 
+    for index in datas:
         if len(datas[index])==0:
             sentiment_dict[index] = [{'Reviews': 'N/A', 'Sentiment': 'Positive', 'Probability': 0.0}]
         for review in datas[index]:
             probdist = classifier.prob_classify(extract_features(review.split()))
             if index in sentiment_dict:
                 sentiment_dict[index].append({'Reviews': review, 'Sentiment': probdist.max(), 'Probability': round(probdist.prob(probdist.max()), 2)})
-            else: 
+            else:
                 sentiment_dict[index] = [{'Reviews': review, 'Sentiment': probdist.max(), 'Probability': round(probdist.prob(probdist.max()), 2)}]
     return sentiment_dict
 
@@ -69,3 +79,5 @@ def get_sentiment_score(sentiment_dict):
         sentiment_scores[index] = sum/len(sentiment_dict[index])
     return sentiment_scores
 sentiment_scores = get_sentiment_score(sentiment_dict)
+with open('sentiment_analysis.json', 'w') as fp:
+    json.dump(sentiment_scores, fp)

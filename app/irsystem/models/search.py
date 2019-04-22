@@ -45,6 +45,8 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
     actors_dict = json.load(fp2)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
+    sentiment_dict = json.load(fp4)
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -83,7 +85,7 @@ def map_network(network,x):
         return 0
 
 
-def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index, drama_sims_cos, data, drama_index_to_name, drama_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
+def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index, drama_sims_cos, data, drama_index_to_name, drama_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
 
     feature_list = ['Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity', 'Network_Similarity','Year_Similarity', 'Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
@@ -98,6 +100,8 @@ def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, yea
     d = {k:len(v) for k, v in actors_dict.items()}
     actors_len_df = pd.DataFrame.from_dict(d, orient='index')
     actors_len_df.columns = ['Length']
+    d2 = {int(k):float(v) for k, v in sentiment_dict.items()}
+    result['Sentiment_Analysis']= pd.DataFrame.from_dict(d2, orient='index')
     for drama in dramas_enjoyed:
         drama = drama.lower()
         drama = drama.strip()
@@ -133,7 +137,7 @@ def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, yea
         result['Year_Similarity'] = pd.concat([pd.Series(years_inclusion_matrix[:,index]), result['Year_Similarity']], axis=1).min(axis=1)
     result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(x, preferred_network))
     result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
-    result['Total'] = round(result['Summary_Similarity']*.6 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+    result['Total'] = round(result['Summary_Similarity']*.35 + result['Sentiment_Analysis']*.25 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -146,7 +150,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
     dramas_enjoyed = dramas_enjoyed.split(', ')
     dramas_disliked = dramas_disliked.split(', ')
     preferred_actors =  preferred_actors.split(', ')
-    best = best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index,drama_sims_cos, data, drama_index_to_name, drama_name_to_index,  dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results)
+    best = best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index,drama_sims_cos, data, drama_index_to_name, drama_name_to_index,  dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results)
+    print(best)
     result = list(zip(best['Drama_Title'], best["Total"]))
     titles = {}
     summaries = {}
@@ -200,5 +205,3 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
         else:
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
-
-# print(display("The Mindy Project, Doctor Stranger, Doctors, House, Grey's Anatomy", "City Hunter, Game of Thrones, New Girl, Nikita", "medical, romance, comedy", "", "Park Shin-Hye","2010-2015", 10))

@@ -4,7 +4,7 @@ from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models.search import *
 
 project_name = "KdramaQueen"
-net_id = "Adeyemi Oyemade, Shaima Parveen, Katie Yang, Sophie Zhao, Chris Elliott"
+net_id = "Adeyemi Oyemade (aao58), Shaima Parveen (sp822), Katie Yang (ky239), Sophie Zhao (sbz24), Chris Elliott (cne27)"
 genre_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models", "Genres.pkl"))
 genre_list = list(genre_list)
 genre_list.remove('NaN')

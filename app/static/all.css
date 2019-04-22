@@ -20,7 +20,7 @@
         transform: rotate(270deg);
         font-size: 40px;
         cursor: pointer;
-        color:rgb(206,230,240);
+        color:navy;
         cursor: pointer;
         text-decoration: none;
         bottom: 70px;
@@ -29,7 +29,7 @@
     }
 
     #back2Top:hover {
-        color: navy;
+        color: lightblue;
     }
 
     
@@ -88,13 +88,48 @@
         background-color: DodgerBlue !important; 
         color: #ffffff; 
       }
+      .sidebyside {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+      }
       .genre-container {
           display: flex;
           flex-direction: row;
-          flex-wrap: wrap
+          flex-wrap: wrap;
+          border: 2px solid navy;
+          flex: 1;
       }
       .genre-box {
           margin: 10px;
           flex-grow: 1;
       }
+      .network-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border: 2px solid navy;
+        flex: 1
+    }
+    .genre-box, .network-box {
+        margin: 10px;
+        flex-grow: 1;
+        max-width: 150px;
+    }
+
+    .network-container label, .genre-container label {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .more {
+        text-align: center;
+    }
+    #more-display {
+        text-align: center;
+        transform: rotate(90deg);
+        font-size: 30px;
+    }
+    
 }

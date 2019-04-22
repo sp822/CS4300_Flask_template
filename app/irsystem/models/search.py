@@ -171,6 +171,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             summaries[title] = ""
         genre = str(non_processed_data['Genre'].loc[idx])
         if genre != "nan":
+            genre = genre.strip('[]')
+            genre = genre.replace('"', '')
             genres[title] = genre
         else:
             genres[title] = ""

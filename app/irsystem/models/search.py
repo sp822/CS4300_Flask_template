@@ -149,7 +149,8 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
         result['Year_Similarity'] = pd.concat([pd.Series(years_inclusion_matrix[:,index]), result['Year_Similarity']], axis=1).min(axis=1)
     result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(x, preferred_network))
     result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
-    result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.25 + result['Sentiment_Analysis']*.25 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+    result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -184,6 +185,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             summaries[title] = ""
         genre = str(non_processed_data['Genre'].loc[idx])
         if genre != "nan":
+            genre = genre.strip('[]')
+            genre = genre.replace("'", "''")
             genres[title] = genre
         else:
             genres[title] = ""

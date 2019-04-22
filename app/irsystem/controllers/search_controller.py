@@ -1,4 +1,4 @@
-from . import *  
+from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models.search import *
@@ -33,12 +33,12 @@ def search():
 		preferred_time_frame.append(2019)
 
 	preferred_networks = []
-	for _ in network_list: 
+	for _ in network_list:
 		if request.args.get('_'):
 			preferred_genres.append(_)
 	preferred_actors = request.args.get('preferred_actors')
 
-	
+
 	if not dramas_enjoyed and not preferred_genres:
 		output = []
 		output_message = ''
@@ -46,7 +46,7 @@ def search():
 	else:
 		if preferred_genres:
 			output_message = "You searched: " + dramas_enjoyed + " with Genre " + preferred_genres
-		else: 
+		else:
 			output_message = "You searched: " + dramas_enjoyed
 		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networks, preferred_actors, preferred_time_frame, 5)
 

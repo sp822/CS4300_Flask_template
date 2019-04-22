@@ -99,7 +99,7 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     years = preferred_time_frame
     start_year = int(years[0])
     end_year = int(years[1])
-
+    embedding_bool = True
     preferred_actors_set = set()
     preferred_actors_set.update(preferred_actors)
     d = {k:len(v) for k, v in actors_dict.items()}
@@ -113,6 +113,8 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
+            if index > 1466:
+                embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']+= pd.Series(sim)
             if index < 1466:
@@ -124,6 +126,8 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
+            if index > 1466:
+                embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']-= pd.Series(sim)
             if index < 1466:
@@ -152,7 +156,10 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(x, preferred_network))
     if start_year != -1 and end_year != -1:
         result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
-    result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+    if embedding_bool = False:
+        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+    else:
+        result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
 
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]

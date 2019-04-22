@@ -1,13 +1,100 @@
 @media (min-width:400px){
     .global-search .form-group {
-        width: 80%;
-        margin: 0 15% 10px;
+        width: 90%;
         display: flex;
     }
     .global-search .form-group label {
-        flex-grow: 1
+        margin: 10px
     }
     .global-search .form-group input {
         flex-grow: 1
     }
+    .first {
+        width: 90%
+    }
+    
+    #back2Top {
+        font-size: 50px;
+        position: fixed;
+        width: 40px;
+        transform: rotate(270deg);
+        font-size: 40px;
+        cursor: pointer;
+        color:rgb(206,230,240);
+        cursor: pointer;
+        text-decoration: none;
+        bottom: 70px;
+        right: 7px;
+        display:none;
+    }
+
+    #back2Top:hover {
+        color: navy;
+    }
+
+    
+    .info-container {
+        display: flex;
+        flex-direction: row;
+    }
+    .left-side {
+        flex: 1
+    }
+    .right-side {
+        margin: auto 10%;
+        max-width: 80%;
+        padding: 10px;
+        flex: 1;
+        
+    }
+    
+    .main-cointainer {
+        border: 2px solid navy;
+        box-shadow: 5px 10px;
+        border-radius: 25px;
+    }
+    
+    footer {
+        background-color: navy;
+        padding: 10px;
+        color: white;
+    }
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        top: 100%;
+        left: 0;
+        right: 0;
+      }
+      
+      .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff; 
+        border-bottom: 1px solid #d4d4d4; 
+      }
+      
+      /*when hovering an item:*/
+      .autocomplete-items div:hover {
+        background-color: #e9e9e9; 
+      }
+      
+      /*when navigating through the items using the arrow keys:*/
+      .autocomplete-active {
+        background-color: DodgerBlue !important; 
+        color: #ffffff; 
+      }
+      .genre-container {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap
+      }
+      .genre-box {
+          margin: 10px;
+          flex-grow: 1;
+      }
 }

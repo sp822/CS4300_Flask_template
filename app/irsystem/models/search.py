@@ -113,7 +113,7 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
-            if index > 1466:
+            if index >= 1466:
                 embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']+= pd.Series(sim)
@@ -126,7 +126,7 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
-            if index > 1466:
+            if index >= 1466:
                 embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']-= pd.Series(sim)

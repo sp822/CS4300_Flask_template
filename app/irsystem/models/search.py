@@ -193,7 +193,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             genres[title] = genre
         else:
             genres[title] = ""
-        rating = str(non_processed_data['Rating'].loc[idx])
+        rating = str(data['Rating'].loc[idx])
         if rating != "nan":
             ratings[title] = rating
         else:

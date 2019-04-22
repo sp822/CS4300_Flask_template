@@ -3,8 +3,8 @@ from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models.search import *
 
-project_name = "KDramaQueen"
-net_id = "Shaima Parveen, Adeyemi Oyemade, Chris Elliot, Katie Yang, Sophie Zhao"
+project_name = "KdramaQueen"
+net_id = "Adeyemi Oyemade, Shaima Parveen, Katie Yang, Sophie Zhao, Chris Elliott"
 genre_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models", "Genres.pkl"))
 genre_list = list(genre_list)
 genre_list.remove('NaN')
@@ -37,6 +37,7 @@ def search():
 		if request.args.get('_'):
 			preferred_genres.append(_)
 	preferred_actors = request.args.get('preferred_actors')
+	num_results = 5
 
 
 	if not dramas_enjoyed and not preferred_genres:
@@ -44,21 +45,22 @@ def search():
 		output_message = ''
 		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
 	else:
+
 		if preferred_genres:
 			output_message = "You searched: " + dramas_enjoyed + " with Genre " + preferred_genres
 		else:
 			output_message = "You searched: " + dramas_enjoyed
-		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networks, preferred_actors, preferred_time_frame, 5)
-
+		if request.args.get('more-display'):
+			num_results += 5
+		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networks, preferred_actors, preferred_time_frame, num_results)
 		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
 	if request.args.get('new-search'):
 		return  render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
-	if request.args.get('more-display'):
-		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networks, preferred_actors, preferred_time_frame, 10)
-		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
-	if request.args.get("name"):
-		name = request.args.get("name")
-		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
+
+
+			# if request.args.get("name"):
+	# 	name = request.args.get("name")
+	# 	return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
 
 # def goback():
 # 	btnname = "Make a New Search"

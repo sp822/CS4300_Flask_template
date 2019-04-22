@@ -3,7 +3,7 @@
         <link rel="stylesheet" href="static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css"/>
         <link rel="stylesheet" href="/static/all.css"/>
-        <script src="scripts/jquery-3.3.1.min.js" type = "text/javascript"></script>
+        <script src="static/jquery-3.3.1.min.js" type = "text/javascript"></script>
         <script type="text/javascript">
             /*Scroll to top when arrow up clicked BEGIN*/
             $(window).scroll(function() {
@@ -38,10 +38,21 @@
                      <div class = 'main-cointainer'>
                          <div class= 'title'><h2>{{  y[y.index(' ', 7): y.index(',')] }}</h2></div>
                             <div class = "info-container">
-                                <div class = 'left-side'><img alt= "show_img"/></div>
+                                <div class = 'left-side'>
+                                    <a name = "img-click" href = "/?name={{ y[y.index(' ', 7): y.index(',')] }}"><img alt= "show_img"/></a>
+                                    {% if name %}
+                                        <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p></div>
+                                        <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Genre')] }}</p></div>
+                                    {% endif %}
+                                </div>
                                 <div class = "right-side">
-                                    <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Total Similarity')] }}</p></div>
-                                    <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
+                                        <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
+                                        <div class = 'actors'><p>{{  y[y.index('Actors') :y.index(', Votes')] }}</p></div>
+                                        <div class = 'year'><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
+                                        <div class = 'runtime'><p>{{  y[y.index('Runtime') :y.index(', Network')] }}</p></div>
+                                        <div class = 'votes'><p>{{  y[y.index('Votes') :y.index(', Years')] }}</p></div>
+                                        <div class = 'network'><p>{{  y[y.index('Network') :y.index(', Actors')] }}</p></div>
+                                        <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +61,7 @@
                     {% endif %}
            </form>
 
-           <a id="back2Top" title="Back to top" href="#"> &#8679; </a>
+           <a id="back2Top" title="Back to top" href="#"> &#10148; </a>
         
 
         <!-- <a id="back2Top" title="Back to top" href="#">&Darr; </a> -->

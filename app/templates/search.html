@@ -3,7 +3,8 @@
         <link rel="stylesheet" href="static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css"/>
         <link rel="stylesheet" href="/static/all.css"/>
-        <script>
+        <script src="static/jquery-3.3.1.min.js" type = "text/javascript"></script>
+        <script type="text/javascript">
 
             function autocomplete(inp, arr) {
             /*the autocomplete function takes two arguments,
@@ -102,13 +103,15 @@
             });
             }
             
-            // var titles = [{data["Title"]}];
+            var titles = {{titles_list}};
+            autocomplete(document.getElementById("enjoyed"), titles);
+            autocomplete(document.getElementById("disliked"), titles);
         
         </script>
         
     </head>
     <body>
-        <form class="global-search">
+        <form class="global-search" autocomplete="off">
             <h1 style="font-size: 55px; font-family:Futura; color: navy">
                 
                 4300 KDramaQueen
@@ -127,12 +130,33 @@
                 <input id="preferred_actors" type="text" name="preferred_actors" class="form-control" placeholder="Your Input">
 
                 <label for ='preferred_time_frame' >Time Frame:</label>
-                <input type="range" min="2010" max="2019" value="2010" step="1" class="slider" id="preferred_time_frame">
-        
+                <select name= "preferred_from"> 
+                    <option value="" selected disabled>From</option>
+                    {% for x in range(1938, 2020) %}
+                        <option value = {{x}}>{{x}}</option>
+                    {% endfor %}
+                </select>
+                <select name = "preferred_to"> 
+                        <option value="" selected disabled>To</option>
+                        {% if preferred_from %}
+                            {% for x in range(preferred_from, 2020) %}
+                            <option value = {{x}}>{{x}}</option>
+                            {% endfor %}
+                        {% else %}
+                        {% for x in range(1938, 2020) %}
+                        <option value = {{x}}>{{x}}</option>
+                            {% endfor %}
+                        {% endif %}
+                </select>
+                
             </div>
-            <div class="form-group">
-                    <label for = "prefered_genres">Your Prefered Genres:</label>
-                <input id="prefered_genres" type="text" name="prefered_genres" class="form-control" placeholder="Your Input">
+            <div class="form-group genre-container">
+                    {% for g in genre %}
+                    <div class='genre-box'>
+                        <input type = 'checkbox' id = "preferred_genres[]" name = {{g}}>
+                        <label for = {{g}}>{{g}}</label>   
+                    </div>             
+                    {% endfor %}
             </div>
                 
             <div class="form-group">

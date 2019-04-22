@@ -144,9 +144,7 @@ def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, yea
 def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
     dramas_enjoyed = dramas_enjoyed.split(', ')
     dramas_disliked = dramas_disliked.split(', ')
-    preferred_genres = preferred_genres.split(', ')
     preferred_actors =  preferred_actors.split(', ')
-    preferred_time_frame = preferred_time_frame.split('-')
     best = best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index,drama_sims_cos, data, drama_index_to_name, drama_name_to_index,  dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results)
     result = list(zip(best['Drama_Title'], best["Total"]))
     titles = {}

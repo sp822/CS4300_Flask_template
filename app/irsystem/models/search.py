@@ -14,6 +14,7 @@ import json
 from nltk.stem import PorterStemmer
 
 
+
 path = os.path.join(os.getcwd(),"app", "irsystem", "models", "cleaned_comprehensive_data.csv")
 data = pd.read_csv(path)
 num_dramas = len(data)
@@ -45,6 +46,9 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
     actors_dict = json.load(fp2)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
+    
+kdrama_embeddings = np.load('k_emb.npy')
+ustv_embeddings = np.load('a_emb.npy')
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -76,65 +80,12 @@ def preprocess_text(text):
     text = stem(text)
     return text
 
-<<<<<<< HEAD
-
-def preprocess_text(text):
-    text = str(text)
-    text = cleanhtml(text)
-    text = text.lower()
-    text = text.translate(str.maketrans('', '', string.punctuation))
-    text = text.strip()
-    return text
-
-def best_match(n_mov, movie_sims_cos, data, movie_index_to_name, movie_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, num_results):
-    feature_list = ['Summary_Similarity', 'Genre_Similarity', 'Network_Similarity', 'Total']
-    result = pd.DataFrame(0, index=np.arange(n_mov), columns=feature_list)
-    genres = set()
-    preferred_genres = [preprocess_text(value) for value in preferred_genres]
-    genres.update(preferred_genres)
-    
-    feature_cnt = np.zeros((4))
-    
-    for drama in dramas_enjoyed:
-        if drama != '':
-            print('e')
-            feature_cnt[0] = 1
-            if drama in movie_name_to_index.keys():
-                index = movie_name_to_index[drama]
-                sim = movie_sims_cos[index,:]
-                result['Summary_Similarity']+= pd.Series(sim)
-
-    for drama in dramas_disliked:
-        if drama != '':
-            feature_cnt[1] = 1
-            if drama in movie_name_to_index.keys():
-                index = movie_name_to_index[drama]
-                sim = movie_sims_cos[index,:]
-                result['Summary_Similarity']-= pd.Series(sim)
-
-    if len(preferred_genres) != 0:
-        feature_cnt[2] = 1
-        print(len(preferred_genres))
-        for index, value in data.iterrows():
-            gen = str(value['Genre'])
-            gen = preprocess_text(gen)
-            drama_genres = set()
-            drama_genres.update(gen.split())
-            result.loc[index,'Genre_Similarity'] = len(genres.intersection(drama_genres))/len(genres.union(drama_genres))
-            if preferred_network!='' and  preferred_network == data.iloc[index]['Network']:
-                result['Network_Similarity']+=1
-                feature_cnt[3] = 1
-    
-    fcnt = 1 if sum(feature_cnt) ==  0 else sum(feature_cnt)
-    print(fcnt)
-    result['Total'] = result.sum(axis = 1)/fcnt
-    
-=======
 def map_network(network,x):
     if x == network:
         return 1
     else:
         return 0
+
 
 def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index, drama_sims_cos, data, drama_index_to_name, drama_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
 
@@ -187,7 +138,6 @@ def best_match(actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, yea
     result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(x, preferred_network))
     result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
     result['Total'] = round(result['Summary_Similarity']*.6 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
->>>>>>> 33126a6acd511b56c546353eaf7b4edae30b837f
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()

@@ -12,7 +12,7 @@ titles_list = data['Title']
 
 network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
 'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
-'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki', "No Preference"]
+'EBS', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki', "No Preference"]
 
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():

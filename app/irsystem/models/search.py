@@ -85,9 +85,12 @@ def preprocess_text(text):
     return text
 
 def map_network(network,x):
-    if network == 'No Preference':
+    networks = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
+    'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
+    'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki']
+    if network == 'No Preference' or network == "":
         return 0
-    elif network in x:
+    elif network in x and network in networks:
         return 1
     else:
         return 0
@@ -155,7 +158,7 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     if str(end_year) in years_name_to_index.keys():
         index = years_name_to_index[str(end_year)]
         result['Year_Similarity'] = pd.concat([pd.Series(years_inclusion_matrix[:,index]), result['Year_Similarity']], axis=1).min(axis=1)
-    result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(x, preferred_network))
+    result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(preferred_network,x))
     if start_year != -1 and end_year != -1:
         result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
     if embedding_bool == False:
@@ -233,3 +236,5 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
         else:
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
+
+print(display("The Mindy Project", "", "", "", "", [1938, 2019],5))

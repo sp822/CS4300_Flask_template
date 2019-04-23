@@ -14,6 +14,7 @@ import json
 from nltk.stem import PorterStemmer
 
 
+
 path = os.path.join(os.getcwd(),"app", "irsystem", "models", "cleaned_comprehensive_data.csv")
 data = pd.read_csv(path)
 num_dramas = len(data)
@@ -45,8 +46,13 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
     actors_dict = json.load(fp2)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
+
+kdrama_sim_doc2vec = np.load('k_emb_sim_matrix.npy')
+ustv_sim_doc2vec = np.load('a_emb_sim_matrix.npy')
+
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
     sentiment_dict = json.load(fp4)
+
 
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -79,15 +85,16 @@ def preprocess_text(text):
     return text
 
 def map_network(network,x):
-    if x == network:
+    networks = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
+    'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
+    'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki']
+    if any(network == y for y in networks) and network in str(x):
         return 1
     else:
         return 0
 
-
 def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index, drama_sims_cos, data, drama_index_to_name, drama_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
-
-    feature_list = ['Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity', 'Network_Similarity','Year_Similarity', 'Sentiment_Analysis', 'Total']
+    feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity', 'Network_Similarity','Year_Similarity', 'Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
     genres = set()
     preferred_genres = [preprocess_text(value) for value in preferred_genres]
@@ -95,6 +102,7 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     years = preferred_time_frame
     start_year = int(years[0])
     end_year = int(years[1])
+    embedding_bool = True
     preferred_actors_set = set()
     preferred_actors_set.update(preferred_actors)
     d = {k:len(v) for k, v in actors_dict.items()}
@@ -102,20 +110,33 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     actors_len_df.columns = ['Length']
     d2 = {int(k):float(v) for k, v in sentiment_dict.items()}
     result['Sentiment_Analysis']= pd.DataFrame.from_dict(d2, orient='index')
+
     for drama in dramas_enjoyed:
         drama = drama.lower()
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
+            if index >= 1466:
+                embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']+= pd.Series(sim)
+            if index < 1466:
+                sim_doc = kdrama_sim_doc2vec[index]
+                result['Embedding_Similarity']+= pd.Series(sim_doc)
+
     for drama in dramas_disliked:
         drama = drama.lower()
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
+            if index >= 1466:
+                embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']-= pd.Series(sim)
+            if index < 1466:
+                sim_doc = kdrama_sim_doc2vec[index]
+                result['Embedding_Similarity']-= pd.Series(sim_doc)
+
     for genre in preferred_genres:
         if genre in genre_name_to_index.keys():
             index = genre_name_to_index[genre]
@@ -135,9 +156,14 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     if str(end_year) in years_name_to_index.keys():
         index = years_name_to_index[str(end_year)]
         result['Year_Similarity'] = pd.concat([pd.Series(years_inclusion_matrix[:,index]), result['Year_Similarity']], axis=1).min(axis=1)
-    result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(x, preferred_network))
-    result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
-    result['Total'] = round(result['Summary_Similarity']*.35 + result['Sentiment_Analysis']*.25 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+    result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(preferred_network,x))
+    if start_year != -1 and end_year != -1:
+        result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
+    if embedding_bool == False:
+        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+    else:
+        result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -145,6 +171,7 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     result.insert(loc=0, column='Drama_Title', value=best_dramas)
     result.reset_index()
     return result
+
 
 def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
     dramas_enjoyed = dramas_enjoyed.split(', ')
@@ -176,7 +203,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             genres[title] = genre
         else:
             genres[title] = ""
-        rating = str(non_processed_data['Rating'].loc[idx])
+        rating = str(data['Rating'].loc[idx])
         if rating != "nan":
             ratings[title] = rating
         else:
@@ -207,3 +234,5 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
         else:
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
+
+print(display("", "", "", "tvN", "", [1938, 2019],5))

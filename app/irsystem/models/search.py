@@ -88,9 +88,9 @@ def map_network(network,x):
     networks = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
     'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
     'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki']
-    if network == 'No Preference' or network == "":
+    if network not in networks:
         return 0
-    elif network in x and network in networks:
+    elif network in x:
         return 1
     else:
         return 0

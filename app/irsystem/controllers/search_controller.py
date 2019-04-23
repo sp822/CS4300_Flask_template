@@ -9,9 +9,6 @@ genre_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models"
 genre_list = list(genre_list)
 genre_list.remove('NaN')
 titles_list = data['Title']
-network_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models", "Networks.pkl"))
-network_list = list(network_list)
-network_list.remove(network_list[0])
 
 network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
 'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
@@ -32,8 +29,8 @@ def search():
 		preferred_time_frame.append(preferred_from)
 		preferred_time_frame.append(preferred_to)
 	else:
-		preferred_time_frame.append(1938)
-		preferred_time_frame.append(2019)
+		preferred_time_frame.append("1938")
+		preferred_time_frame.append("2019")
 
 	preferred_networks = []
 	for _ in network_list:

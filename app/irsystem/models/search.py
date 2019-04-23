@@ -179,15 +179,19 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
     dramas_enj = dramas_enjoyed.split(', ')
     dramas_dis = dramas_disliked.split(', ')
     preferred_acts =  preferred_actors.split(', ')
+    """
     print("dramas_enjoyed: " + dramas_enjoyed)
     print("dramas_disliked: " + dramas_disliked)
     print("preferred_genres: " + str(preferred_genres))
     print("preferred_network: " +preferred_network)
     print("preferred_actors: " + preferred_actors)
     print("preferred_time_frame: " + str(preferred_time_frame))
+    """
 
     best = best_match(dramas_enj, dramas_dis, preferred_genres, preferred_network, preferred_acts, preferred_time_frame, num_results)
+    """
     print(best)
+    """
     result = list(zip(best['Drama_Title'], best["Total"]))
     titles = {}
     summaries = {}
@@ -244,9 +248,11 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
         else:
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(100*score) + " %") for title, score in result]
+"""
 print(display("", "",["fantasy"],"No Preference","", [1938, 2019], 5))
 print(display("", "", "", "No Preference","", [1938, 2019], 5))
 print(display("the mindy project, grey's anatomy, house", "","","No Preference", "",[1938, 2019], 5))
 print(display("doctors, good doctor, doctor stranger", "", "","No Preference","", [1938, 2019], 5))
 print(display("", "","", "tvN", "", [1938, 2019], 5))
 print(display("", "","", "", "Shin-Hye Park", [1938, 2019], 5))
+"""

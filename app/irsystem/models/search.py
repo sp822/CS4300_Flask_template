@@ -178,7 +178,6 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
     dramas_disliked = dramas_disliked.split(', ')
     preferred_actors =  preferred_actors.split(', ')
     best = best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index,drama_sims_cos, data, drama_index_to_name, drama_name_to_index,  dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results)
-    print(best)
     result = list(zip(best['Drama_Title'], best["Total"]))
     titles = {}
     summaries = {}
@@ -234,5 +233,3 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
         else:
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
-
-print(display("", "", "", "tvN", "", [1938, 2019],5))

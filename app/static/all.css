@@ -1,4 +1,7 @@
 @media (min-width:400px){
+    body {
+        background-image: url('/static/Youwhocamefromthestars-faded.png') no-repeat center center fixed;
+    }
     .global-search .form-group {
         width: 90%;
         display: flex;

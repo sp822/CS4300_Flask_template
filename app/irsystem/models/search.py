@@ -88,8 +88,7 @@ def map_network(network,x):
     networks = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
     'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
     'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki']
-
-    if any(network == y for y in networks) and network in x:
+    if any(network == y for y in networks) and network in str(x):
         return 1
     else:
         return 0
@@ -236,4 +235,4 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             years[title] = ""
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
 
-print(display("The Mindy Project", "", "", "", "", [1938, 2019],5))
+print(display("", "", "", "tvN", "", [1938, 2019],5))

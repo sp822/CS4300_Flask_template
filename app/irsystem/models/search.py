@@ -85,7 +85,9 @@ def preprocess_text(text):
     return text
 
 def map_network(network,x):
-    if x == network:
+    if network == 'No Preference':
+        return 0
+    elif network in x:
         return 1
     else:
         return 0

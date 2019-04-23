@@ -9,7 +9,7 @@ genre_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models"
 genre_list = list(genre_list)
 genre_list.remove('NaN')
 titles_list = data['Title']
-networks = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
+network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
 'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
 'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki', "No Preference"]
 

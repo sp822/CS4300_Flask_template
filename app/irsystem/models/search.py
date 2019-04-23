@@ -145,6 +145,7 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_netw
         if actor in actors_name_to_index.keys():
             index = actors_name_to_index[actor]
             result['Actor_Similarity']+= actors_inclusion_matrix[:,index]
+            print(sum(result['Actor_Similarity']))
     actors_len_df['Length'] =  actors_len_df['Length'] + len(preferred_actors)
     actors_len_df['Length'] = actors_len_df['Length'].subtract(result['Actor_Similarity'], fill_value = 0)
     actor_sim2=result['Actor_Similarity']
@@ -160,10 +161,10 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_netw
     if start_year != -1 and end_year != -1:
         result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
     if embedding_bool == False:
-        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
+        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.05 + result['Actor_Similarity']*.15 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
     else:
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max()+1)
-        result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
+        result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.05 + result['Actor_Similarity']*.15 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
     result['Total'] = result['Total']/(result['Total']).max()
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]

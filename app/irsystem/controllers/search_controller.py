@@ -13,6 +13,9 @@ network_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "model
 network_list = list(network_list)
 network_list.remove(network_list[0])
 
+network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
+'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
+'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki', "No Preference"]
 
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():

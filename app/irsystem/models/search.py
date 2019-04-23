@@ -93,12 +93,13 @@ def map_network(network,x):
     else:
         return 0
 
-def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index, drama_sims_cos, data, drama_index_to_name, drama_name_to_index, dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
+def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
     feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity', 'Network_Similarity','Year_Similarity', 'Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
     genres = set()
     preferred_genres = [preprocess_text(value) for value in preferred_genres]
-    genres.update(preferred_genres)
+    for genre in preferred_genres:
+        genres.update(preferred_genres)
     years = preferred_time_frame
     start_year = int(years[0])
     end_year = int(years[1])
@@ -110,7 +111,6 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     actors_len_df.columns = ['Length']
     d2 = {int(k):float(v) for k, v in sentiment_dict.items()}
     result['Sentiment_Analysis']= pd.DataFrame.from_dict(d2, orient='index')
-
     for drama in dramas_enjoyed:
         drama = drama.lower()
         drama = drama.strip()
@@ -160,10 +160,11 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
     if start_year != -1 and end_year != -1:
         result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
     if embedding_bool == False:
-        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
+        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
     else:
-        result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,5)
-
+        result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max()+1)
+        result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.1 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
+    result['Total'] = result['Total']/(result['Total']).max()
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -174,10 +175,18 @@ def best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclu
 
 
 def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results):
-    dramas_enjoyed = dramas_enjoyed.split(', ')
-    dramas_disliked = dramas_disliked.split(', ')
-    preferred_actors =  preferred_actors.split(', ')
-    best = best_match(sentiment_dict, actors_dict, genre_inclusion_matrix, actors_inclusion_matrix, years_inclusion_matrix, genre_name_to_index, actors_name_to_index, years_name_to_index,drama_sims_cos, data, drama_index_to_name, drama_name_to_index,  dramas_enjoyed, dramas_disliked, preferred_genres, preferred_network, preferred_actors, preferred_time_frame, num_results)
+    dramas_enj = dramas_enjoyed.split(', ')
+    dramas_dis = dramas_disliked.split(', ')
+    preferred_acts =  preferred_actors.split(', ')
+    print("dramas_enjoyed: " + dramas_enjoyed)
+    print("dramas_disliked: " + dramas_disliked)
+    print("preferred_genres: " + str(preferred_genres))
+    print("preferred_network: " +preferred_network)
+    print("preferred_actors: " + preferred_actors)
+    print("preferred_time_frame: " + str(preferred_time_frame))
+
+    best = best_match(dramas_enj, dramas_dis, preferred_genres, preferred_network, preferred_acts, preferred_time_frame, num_results)
+    print(best)
     result = list(zip(best['Drama_Title'], best["Total"]))
     titles = {}
     summaries = {}
@@ -188,6 +197,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
     actors = {}
     votes = {}
     years = {}
+
     for title, score in result:
         idx = drama_name_to_index_unprocess[title]
         summary = str(non_processed_data['Summary'].loc[idx])
@@ -232,4 +242,10 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             years[title] = year
         else:
             years[title] = ""
-    return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], score) for title, score in result]
+    return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(100*score) + " %") for title, score in result]
+print(display("", "",["fantasy"],"No Preference","", [1938, 2019], 5))
+print(display("", "", "", "No Preference","", [1938, 2019], 5))
+print(display("the mindy project, grey's anatomy, house", "","","No Preference", "",[1938, 2019], 5))
+print(display("doctors, good doctor, doctor stranger", "", "","No Preference","", [1938, 2019], 5))
+print(display("", "","", "tvN", "", [1938, 2019], 5))
+print(display("", "","", "", "Shin-Hye Park", [1938, 2019], 5))

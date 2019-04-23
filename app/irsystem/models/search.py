@@ -89,7 +89,7 @@ def map_network(network,x):
     'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
     'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki']
 
-    if any(network == x for x in networks) and network in x:
+    if any(network == y for y in networks) and network in x:
         return 1
     else:
         return 0

@@ -14,28 +14,28 @@
                      $('#back2Top').fadeOut();
                  }
             });
-            var bgImageArray = ["/static/boysoverflowers-faded.png", "/static/pinocchio-faded.png", "/static/Goong-faded.png", "/static/SurplusPrincess-faded.png", "/static/Youwhocamefromthestars-faded.png" ];
-            var	base = "";
-            var	secs = 5;
-            function backgroundSequence() {
-                var k = 0;
-                for (var i = 0; i < bgImageArray.length; i++) {
-                    setTimeout(function(){
-                        document.body.style.background = 'url('+bgImageArray[k]+') no-repeat center center fixed';
-                        document.body.style.backgroundSize ="cover";
-                        if ((k+1) == bgImageArray.length) {
-                            setTimeout(function() {
-                                backgroundSequence(); }, (secs * 1000));
-                        } 
-                        else { 		
-                            k++; 
-                        }
-                    }, (secs * 1000) * i) ;
-                } 
-            }
+            // var bgImageArray = ["/static/boysoverflowers-faded.png", "/static/pinocchio-faded.png", "/static/Goong-faded.png", "/static/SurplusPrincess-faded.png", "/static/Youwhocamefromthestars-faded.png" ];
+            // var	base = "";
+            // var	secs = 5;
+            // function backgroundSequence() {
+            //     var k = 0;
+            //     for (var i = 0; i < bgImageArray.length; i++) {
+            //         setTimeout(function(){
+            //             document.body.style.background = 'url('+bgImageArray[k]+') no-repeat center center fixed';
+            //             document.body.style.backgroundSize ="cover";
+            //             if ((k+1) == bgImageArray.length) {
+            //                 setTimeout(function() {
+            //                     backgroundSequence(); }, (secs * 1000));
+            //             } 
+            //             else { 		
+            //                 k++; 
+            //             }
+            //         }, (secs * 1000) * i) ;
+            //     } 
+            // }
 
             $(document).ready(function() {
-            backgroundSequence();
+            // backgroundSequence();
              $("#back2Top").click(function(event) {
                 event.preventDefault();
                 $("html, body").animate({ scrollTop: 0 }, "slow");

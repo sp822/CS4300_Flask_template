@@ -209,44 +209,44 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
         if summary != "nan":
             summaries[title] = summary
         else:
-            summaries[title] = ""
+            summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])
         if genre != "nan":
             genre = genre.strip('[]')
             genre = genre.replace("'", "")
             genres[title] = genre
         else:
-            genres[title] = ""
+            genres[title] = "No genre information is available."
         rating = str(data['Rating'].loc[idx])
         if rating != "nan":
             ratings[title] = rating
         else:
-            ratings[title] = ""
+            ratings[title] = "No rating information is available."
         runtime = str(non_processed_data['Runtime'].loc[idx])
         if runtime != "nan":
             runtimes[title] = rating
         else:
-            runtimes[title] = ""
+            runtimes[title] = "No runtime information is available."
         network = str(non_processed_data['Network'].loc[idx])
         if network != "nan":
             networks[title] = network
         else:
-            networks[title] = ""
+            networks[title] = "No network information is available."
         actor = str(non_processed_data['Actors'].loc[idx])
         if actor != "nan":
             actors[title] = actor
         else:
-            actors[title] = ""
+            actors[title] = "No actor information is available."
         vote = str(non_processed_data['Votes'].loc[idx])
         if vote != "nan":
             votes[title] = vote
         else:
-            votes[title] = ""
+            votes[title] = "No votes information is available."
         year = str(data['Year'].loc[idx])
         if year != "nan":
             years[title] = year
         else:
-            years[title] = ""
+            years[title] = "No timeframe information is available."
     return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(round(100*score,4)) + " %") for title, score in result]
 """
 print(display("", "",["fantasy"],"No Preference","", [1938, 2019], 5))

@@ -1,10 +1,14 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css"/>
+        <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
         <link rel="stylesheet" href="/static/all.css"/>
+        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
         <script src="static/jquery-3.3.1.min.js" type = "text/javascript"></script>
         <script type="text/javascript" src="static/typeahead.bundle.js"></script>
+        
         
     </head>
     <script type="text/javascript">        
@@ -41,6 +45,10 @@
         });
     </script>
     <body>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+			<script src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+        
         <form class="global-search" autocomplete="off">
             <h1 style="font-size: 55px; font-family:Futura; color: navy">
                 
@@ -58,14 +66,34 @@
             <div class="form-group">
                 <label for = "preferred_actors"> Preferred Actors:</label>
                 <input id="preferred_actors" type="text" name="preferred_actors" class="form-control mdb-autocomplete" placeholder="Your Input">
-
+                <label for = "preferred_genres">Genres</label>
+                <input id="preferred_genres" type="text" name="preferred_genres" class="form-control mdb-autocomplete" placeholder="Please Enter Your preferred Genres">
+                        
+            </div>
+                               
+            </div>
+            <div class = "sidebyside">
+                <div class = 'pullabit'>
+                <label for = "preferred_networks">Your Preferred Network</label>
+                    <select name = "preferred_networks">
+                        <option value="" selected disabled>Select a Network</option>
+                            {% for n in networks %}
+                            <div class='network-box'>
+                                <option value = "{{n}}">{{n}}</option>  
+                            </div>             
+                            {% endfor %}
+                        
+                    </select>
+                </div>
+                <div class = 'pullabit'>
                 <label for ='preferred_time_frame' >Time Frame:</label>
-                <select name= "preferred_from"> 
+                <select  name= "preferred_from"> 
                     <option value="" selected disabled>From</option>
                     {% for x in range(1938, 2020) %}
                         <option value = {{x}}>{{x}}</option>
                     {% endfor %}
                 </select>
+                
                 <select name = "preferred_to"> 
                         <option value="" selected disabled>To</option>
                         {% if preferred_from %}
@@ -78,33 +106,15 @@
                             {% endfor %}
                         {% endif %}
                 </select>
-                
-            </div>
-            <div class= 'sidebyside'>
-                <div class="form-group network-container">
-                        <label for = "prefered_networks">Your Preferred Network</label>
-                                {% for n in networks %}
-                                <div class='network-box'>
-                                    <input type = 'checkbox' id = "preferred_network" name = "{{n}}">
-                                    <label for = "{{n}}">{{n}}</label>   
-                                </div>             
-                                {% endfor %}
-                        </div> 
 
-                <div class="form-group genre-container">
-                        <label for = "preferred_genres">Genres</label>
-                        {% for g in genre %}
-                        <div class='genre-box'>
-                            <input type = 'checkbox' id = "preferred_genres" name = {{g}}>
-                            <label for = {{g}}>{{g}}</label>   
-                        </div>             
-                        {% endfor %}
-                </div>
+            </div>
             </div>
            
             <div> <button type="submit" class="btn btn-info" name = 'submit-btn'> Go! </button></div>
            
         </form>
+
+        
 
         <footer>   
             <p>Project Name: {{ name }}</p>

@@ -247,7 +247,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             years[title] = year
         else:
             years[title] = "No timeframe information is available."
-    return ['{},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(round(100*score,4)) + " %") for title, score in result]
+    return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(round(100*score,4)) + " %") for title, score in result]
 """
 print(display("", "",["fantasy"],"No Preference","", [1938, 2019], 5))
 print(display("", "", "", "No Preference","", [1938, 2019], 5))

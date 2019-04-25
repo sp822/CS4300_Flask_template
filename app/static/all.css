@@ -1,12 +1,21 @@
 @media (min-width:400px){
-    body {
-        background-image: url('/static/Youwhocamefromthestars-faded.png');
+    #searchForm {
+        background-image: url('/static/background.png');
         background-size: cover;
         
     }
     .global-search {
-        margin-bottom:10%;
+        margin-top: 15%;
     }
+
+    #resultsform body {
+        background-image: none;
+        background-color: lightblue;
+    }
+    #resultsform .global-search {
+        margin-top: auto;
+    }
+
     .global-search .form-group {
         width: 90%;
         display: flex;
@@ -141,5 +150,8 @@
     img {
         width: 300px;
         height: 350px;
+    }
+    img:hover {
+        opacity: 0.4;
     }
 }

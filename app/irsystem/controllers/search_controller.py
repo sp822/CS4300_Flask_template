@@ -37,19 +37,16 @@ def search():
 	clicked_img = request.args.get("img-click")
 	num_results = 9
 
-
-	if not dramas_enjoyed and not dramas_disliked and not preferred_genres and not preferred_actors and not preferred_networks and not preferred_time_frame:
+	
+	if not dramas_enjoyed and not dramas_disliked and not preferred_genres and not preferred_actors and not preferred_networks:
 		output = []
 		output_message = ''
 		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	else:
-
-		if preferred_genres:
-			output_message = "You searched: " + dramas_enjoyed + " with Genre " + preferred_genres
+		if preferred_networks == None:
+			output_message = "So you like {}, dislike {}, like the Genre(s) {} and actor(s) {}, from {}, to {}.". format(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame[0], preferred_time_frame[1],)
 		else:
-			output_message = "You searched: " + dramas_enjoyed
-		if request.args.get('more-display'):
-			num_results += 5
+			output_message = "So you like {}, dislike {}, like the Genre(s) {} and actor(s) {}, from {}, to {}, with this network {}.".format(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame[0], preferred_time_frame[1], preferred_networks)			
 		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networks, preferred_actors, preferred_time_frame, num_results)
 		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	if request.args.get('new-search'):
@@ -57,6 +54,3 @@ def search():
 	# 	name = request.args.get("name")
 	# 	return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
 
-# def goback():
-# 	btnname = "Make a New Search"
-# 	return render_template('search.html')

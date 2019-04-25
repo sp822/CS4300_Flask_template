@@ -136,5 +136,25 @@
         transform: rotate(90deg);
         font-size: 30px;
     }
-    
+    .gallary_class {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .gallary_img {
+        max-width: 30%;
+        flex-grow: 1;
+        margin: 10px;
+        
+    }
+    .gallary_img h2{
+        max-width: 30%;
+    }
+    .gallary_class h1{
+        width: 100%;
+        Display: block;
+    }
+    .hidden {
+        display: none;
+    }
 }

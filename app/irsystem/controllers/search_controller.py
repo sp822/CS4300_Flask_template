@@ -14,6 +14,8 @@ network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 
 'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
 'EBS', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki', "No Preference"]
 
+
+
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
 	dramas_enjoyed = request.args.get("enjoyed")
@@ -37,13 +39,14 @@ def search():
 		if request.args.get('_'):
 			preferred_genres.append(_)
 	preferred_actors = request.args.get('preferred_actors')
-	num_results = 5
+	clicked_img = request.args.get("img-click")
+	num_results = 9
 
 
 	if not dramas_enjoyed and not preferred_genres:
 		output = []
 		output_message = ''
-		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
+		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	else:
 
 		if preferred_genres:
@@ -53,12 +56,9 @@ def search():
 		if request.args.get('more-display'):
 			num_results += 5
 		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networks, preferred_actors, preferred_time_frame, num_results)
-		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
+		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	if request.args.get('new-search'):
-		return  render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
-
-
-			# if request.args.get("name"):
+		return  render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list,  clicked_img = clicked_img, networks = network_list, output=output)
 	# 	name = request.args.get("name")
 	# 	return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
 

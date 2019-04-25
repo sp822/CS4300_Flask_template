@@ -33,6 +33,8 @@
             //         }, (secs * 1000) * i) ;
             //     } 
             // }
+           
+            
 
             $(document).ready(function() {
             // backgroundSequence();
@@ -41,6 +43,23 @@
                 $("html, body").animate({ scrollTop: 0 }, "slow");
                 return false;
                 });
+                
+                $(".img-click").click(function(event){
+                    var x = $(this).attr("href");
+                    console.log(x);
+                    if (document.querySelector(x).classList.contains('hidden')) {
+                        $(x).removeClass("hidden");
+                        $(this).addClass("hidden");
+                    }else {
+                        $('.dis').removeClass("hidden");
+                        $(x).addClass("hidden");
+                    }
+
+                });
+
+                // $("#more-display").click(function(event){
+                //     var numresult
+                //  });
 
             });
             /*Scroll to top when arrow up clicked END*/
@@ -48,38 +67,42 @@
     </head>
     <body>
          
-            <form class="form-inline global-search">
+            <form class="resultsform form-inline global-search">
             <div> <button id ='new-search' type="submit" class="btn btn-info" name = 'new-search'> Make a new Search </button></div>
             <!-- <a id = 'new-search' href=#>Make a New search</a> -->
-                
+                 <div class = "gallary_class">
                    {% if not output.empty %}
                          <h1>{{output_message}}</h1>
+                
                          {% for y in output %}
                      <br>
-                     <div class = 'main-cointainer'>
-                         <div class= 'title'><h2>{{  y[y.index(' ', 7): y.index(',')] }}</h2></div>
+                    <div class = "gallaryimg">
+                        <div class= 'title'><h2>{{  y[: y.index(',')] }}</h2></div>
+                        <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(' ')-1] }}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                    </div>
+                     <div class = "main-cointainer hidden" id = "{{ y[: y.find(' ')-1] }}">
+                         <div class= 'title'><h2>{{  y[: y.index(',')] }}</h2></div>
                             <div class = "info-container">
                                 <div class = 'left-side'>
-                                    <a name = "img-click" href = "/?name={{ y[y.index(' ', 7): y.index(',')] }}"><img alt= "show_img"/></a>
-                                    {% if name %}
-                                        <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p></div>
-                                        <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Genre')] }}</p></div>
-                                    {% endif %}
+                                    <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(' ')-1] }}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                                        <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
+                                        <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
+                                        <div class = 'network'><p>{{  y[y.index('Network') :y.index(', Actors')] }}</p></div>
+                                        
                                 </div>
                                 <div class = "right-side">
-                                        <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
+                                        <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Genre')] }}</p></div>
                                         <div class = 'actors'><p>{{  y[y.index('Actors') :y.index(', Votes')] }}</p></div>
-                                        <div class = 'year'><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
                                         <div class = 'runtime'><p>{{  y[y.index('Runtime') :y.index(', Network')] }}</p></div>
                                         <div class = 'votes'><p>{{  y[y.index('Votes') :y.index(', Years')] }}</p></div>
-                                        <div class = 'network'><p>{{  y[y.index('Network') :y.index(', Actors')] }}</p></div>
                                         <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                         {% endfor %}
+                    
                     {% endif %}
+                </div>
                 <div class= "more"> <button id ='more-display' type="submit" class="btn btn-info" name = 'more-display'> &#x27A7; </button></div>
                 
            </form>

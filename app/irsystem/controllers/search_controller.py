@@ -38,7 +38,7 @@ def search():
 	num_results = 9
 
 
-	if not dramas_enjoyed and not dramas_disliked and not preferred_genres and not preferred_actors and not preferred_networks and not preferred_time_frame:
+	if not dramas_enjoyed and not preferred_genres:
 		output = []
 		output_message = ''
 		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)

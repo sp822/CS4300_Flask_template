@@ -165,7 +165,6 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_netw
     else:
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max()+1)
         result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.05 + result['Actor_Similarity']*.15 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
-    result['Total'] = result['Total']/(result['Total']).max()
     result = result.sort_values(by='Total', ascending=False)
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -248,7 +247,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
             years[title] = year
         else:
             years[title] = "No timeframe information is available."
-    return ['Drama Title: {},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(round(100*score,4)) + " %") for title, score in result]
+    return ['{},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Network: {}, Actors: {}, Votes: {}, Years: {}, Total Similarity Score: {}'.format(title, summaries[title], genres[title], ratings[title], runtimes[title], networks[title], actors[title], votes[title], years[title], str(round(100*score,4)) + " %") for title, score in result]
 """
 print(display("", "",["fantasy"],"No Preference","", [1938, 2019], 5))
 print(display("", "", "", "No Preference","", [1938, 2019], 5))

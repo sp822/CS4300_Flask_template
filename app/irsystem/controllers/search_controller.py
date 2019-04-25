@@ -37,13 +37,8 @@ def search():
 	clicked_img = request.args.get("img-click")
 	num_results = 9
 
-<<<<<<< HEAD
 	
 	if not dramas_enjoyed and not dramas_disliked and not preferred_genres and not preferred_actors and not preferred_networks:
-=======
-
-	if not dramas_enjoyed and not preferred_genres:
->>>>>>> 57ee49113ca8a143ee5952c8b63b67c552cc1fcb
 		output = []
 		output_message = ''
 		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)

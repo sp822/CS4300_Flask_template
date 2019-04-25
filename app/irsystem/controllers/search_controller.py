@@ -2,6 +2,7 @@ from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models.search import *
+import re
 
 project_name = "KdramaQueen"
 net_id = "Adeyemi Oyemade (aao58), Shaima Parveen (sp822), Katie Yang (ky239), Sophie Zhao (sbz24), Chris Elliott (cne27)"
@@ -20,10 +21,7 @@ network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 
 def search():
 	dramas_enjoyed = request.args.get("enjoyed")
 	dramas_disliked = request.args.get('disliked')
-	preferred_genres = []
-	for _ in genre_list:
-		if request.args.get('_'):
-			preferred_genres.append(_)
+	preferred_genres =request.args.get("preferred_genres")
 	preferred_from  = request.args.get("preferred_from")
 	preferred_to = request.args.get("preferred_to")
 	preferred_time_frame = []
@@ -34,10 +32,7 @@ def search():
 		preferred_time_frame.append("1938")
 		preferred_time_frame.append("2019")
 
-	preferred_networks = []
-	for _ in network_list:
-		if request.args.get('_'):
-			preferred_genres.append(_)
+	preferred_networks = request.args.get("preferred_networks")
 	preferred_actors = request.args.get('preferred_actors')
 	clicked_img = request.args.get("img-click")
 	num_results = 9

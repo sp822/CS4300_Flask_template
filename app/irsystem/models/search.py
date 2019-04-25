@@ -179,6 +179,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_networ
     dramas_enj = dramas_enjoyed.split(', ')
     dramas_dis = dramas_disliked.split(', ')
     preferred_acts =  preferred_actors.split(', ')
+    preferred_genres = preferred_genres.split(', ')
     """
     print("dramas_enjoyed: " + dramas_enjoyed)
     print("dramas_disliked: " + dramas_disliked)

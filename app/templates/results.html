@@ -50,6 +50,7 @@
                     if (document.querySelector(x).classList.contains('hidden')) {
                         $(x).removeClass("hidden");
                         $(this).addClass("hidden");
+                        $('#titleh').addClass('hidden');
                     }else {
                         $('.dis').removeClass("hidden");
                         $(x).addClass("hidden");
@@ -77,14 +78,15 @@
                          {% for y in output %}
                      <br>
                     <div class = "gallaryimg">
-                        <div class= 'title'><h2>{{  y[: y.index(',')] }}</h2></div>
-                        <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(' ')-1] }}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                        <div class= 'titleh'><h2>{{  y[: y.index(',')] }}</h2>
+                            <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                        </div>
                     </div>
-                     <div class = "main-cointainer hidden" id = "{{ y[: y.find(' ')-1] }}">
+                     <div class = "main-cointainer hidden" id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}">
                          <div class= 'title'><h2>{{  y[: y.index(',')] }}</h2></div>
                             <div class = "info-container">
                                 <div class = 'left-side'>
-                                    <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(' ')-1] }}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                                    <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
                                         <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
                                         <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
                                         <div class = 'network'><p>{{  y[y.index('Network') :y.index(', Actors')] }}</p></div>

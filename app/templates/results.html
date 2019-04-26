@@ -80,15 +80,10 @@
                      <br>
                     <div class = "gallaryimg">
                         <div class= 'titleh'><h2>{{  y[: y.index(',')] }}</h2>
-<<<<<<< HEAD
                             <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/></a>
                             <div class = 'Similarity'><p>{{  y[y.index('Total Similarity') : y.index(', Sentiment')] }}</p></div>   
                             <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
 
-=======
-                            <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
-                            <div class = 'titleh score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
->>>>>>> 64e50cce727b2277291333d20c52f0e8972c51f0
                         </div>
                     </div>
                      <div class = "main-cointainer hidden" id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}">

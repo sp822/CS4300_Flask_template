@@ -134,14 +134,14 @@
             });
             } 
         
-        var titles = "{{titles}}";
+        var titles = "{{genre}}";
 
         
 
 
 
         $(document).ready(function() {
-            // autocomplete(document.getElementById("enjoyed"), titles);
+           autocomplete(document.getElementById("preferred_genres"), titles);
             // backgroundSequence()
         });
     </script>
@@ -176,22 +176,16 @@
                 <label for ='preferred_time_frame' >Time Frame:</label>
                 <select  name= "preferred_from"> 
                     <option value="" selected disabled>From</option>
-                    {% for x in range(1938, 2020) %}
+                    {% for x in range(1958, 2020) %}
                         <option value = {{x}}>{{x}}</option>
                     {% endfor %}
                 </select>
                 
                 <select name = "preferred_to"> 
                         <option value="" selected disabled>To</option>
-                        {% if preferred_from %}
-                            {% for x in range(preferred_from, 2020) %}
-                            <option value = {{x}}>{{x}}</option>
-                            {% endfor %}
-                        {% else %}
-                        {% for x in range(1938, 2020) %}
+                        {% for x in range(1958, 2020) %}
                         <option value = {{x}}>{{x}}</option>
                             {% endfor %}
-                        {% endif %}
                 </select>
             </div>
             <div> <button type="submit" class="btn btn-info" name = 'submit-btn'> Go! </button></div>

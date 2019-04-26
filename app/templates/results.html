@@ -80,7 +80,7 @@
                      <br>
                     <div class = "gallaryimg">
                         <div class= 'titleh'><h2>{{  y[: y.index(',')] }}</h2>
-                            <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                            <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/></a>
                             <div class = 'Similarity'><p>{{  y[y.index('Total Similarity') : y.index(', Sentiment')] }}</p></div>   
                             <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
 
@@ -90,7 +90,7 @@
                          <div class= 'title'><h2>{{  y[: y.index(',')] }}</h2></div>
                             <div class = "info-container">
                                 <div class = 'left-side'>
-                                    <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                                    <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/></a>
                                         <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
                                         <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
                                         
@@ -109,7 +109,7 @@
                         {% endfor %}
                     
                     {% endif %}
-                 <div class= "more"> <button id ='more-display' type="submit" class="btn btn-info" name = 'more-display'> &#x27A7; </button></div>
+                 <div class= "more"> <button id ='more-display' type="submit" class="btn titleh" name = 'more-display'> &#x27A7; </button></div>
 
                 </div>
                 

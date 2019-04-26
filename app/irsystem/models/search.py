@@ -130,11 +130,12 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]
-    for idx, res in result.iterrows():
-        mat = years_inclusion_matrix[idx, index1:index2]
-        mat2 = years_inclusion_matrix[idx, :]
-        if sum(mat) == 0 and sum(mat2)!=0:
-            result = result[result.index != idx]
+    if not(str(start_year) == "1958" and str(end_year) == "2019"):
+        for idx, res in result.iterrows():
+            mat = years_inclusion_matrix[idx, index1:index2]
+            mat2 = years_inclusion_matrix[idx, :]
+            if sum(mat) == 0:
+                result = result[result.index != idx]
     result = result[:num_results]
     indices =  result.index.tolist()
     best_dramas = pd.Series([drama_index_to_name[index] for index in indices],index = result.index)
@@ -256,5 +257,8 @@ display("the mindy project, grey's anatomy, house", "","", "",[1958, 2019], 5)
 display("doctors, good doctor, doctor stranger", "", "","", [1958, 2019], 5)
 display("game of thrones, nikita, teen wolf", "", "","", [1958, 2019], 5)
 
-display("", "","", "Shin-Hye Park", [1958, 2019], 5)
-display("", "","", "Minho Choi", [1958, 2019], 5)
+display("","the mindy project, grey's anatomy, house","", "",[1958, 2019], 5)
+display("","doctors, good doctor, doctor stranger", "","", [1958, 2019], 5)
+display("","game of thrones, nikita, teen wolf", "","", [1958, 2019], 5)
+display("","", "", "Shin-Hye Park", [1958, 2019], 5)
+display("","", "", "Minho Choi", [1958, 2019], 5)

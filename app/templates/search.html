@@ -173,6 +173,18 @@
             </div>
             <div class = "sidebyside">
                 <div class = 'pullabit'>
+                <label for = "preferred_networks">Your Preferred Network</label>
+                    <select name = "preferred_networks">
+                        <option value="" selected disabled>Select a Network</option>
+                            {% for n in networks %}
+                            <div class='network-box'>
+                                <option value = "{{n}}">{{n}}</option>  
+                            </div>             
+                            {% endfor %}
+                        
+                    </select>
+                </div>
+                <div class = 'pullabit'>
                 <label for ='preferred_time_frame' >Time Frame:</label>
                 <select  name= "preferred_from"> 
                     <option value="" selected disabled>From</option>

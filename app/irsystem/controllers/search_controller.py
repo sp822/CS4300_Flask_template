@@ -6,10 +6,12 @@ import re
 
 project_name = "KdramaQueen"
 net_id = "Adeyemi Oyemade (aao58), Shaima Parveen (sp822), Katie Yang (ky239), Sophie Zhao (sbz24), Chris Elliott (cne27)"
+
 genre_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models", "Genres.pkl"))
 genre_list = list(genre_list)
 genre_list.remove('NaN')
-titles_list = list(data['Title'])
+
+titles_list = pd.read_pickle(os.path.join(os.getcwd(),"app", "irsystem", "models", "Titles.pkl"))
 
 network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
 'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',

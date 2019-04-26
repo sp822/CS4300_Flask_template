@@ -47,8 +47,7 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
 
-kdrama_sim_doc2vec = np.load('k_emb_sim_matrix.npy')
-ustv_sim_doc2vec = np.load('a_emb_sim_matrix.npy')
+emb_sim_matrix = np.load('emb_sim_matrix_1.npy')
 
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
     sentiment_dict = json.load(fp4)
@@ -116,26 +115,20 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_netw
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
-            if index >= 1466:
-                embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']+= pd.Series(sim)
-            if index < 1466:
-                sim_doc = kdrama_sim_doc2vec[index]
-                result['Embedding_Similarity']+= pd.Series(sim_doc)
+            sim_doc = emb_sim_matrix[index]
+            result['Embedding_Similarity']+= pd.Series(sim_doc)
 
     for drama in dramas_disliked:
         drama = drama.lower()
         drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
-            if index >= 1466:
-                embedding_bool = False
             sim = drama_sims_cos[index,:1466]
             result['Summary_Similarity']-= pd.Series(sim)
-            if index < 1466:
-                sim_doc = kdrama_sim_doc2vec[index]
-                result['Embedding_Similarity']-= pd.Series(sim_doc)
+            sim_doc = emb_sim_matrix[index]
+            result['Embedding_Similarity']-= pd.Series(sim_doc)
 
     for genre in preferred_genres:
         if genre in genre_name_to_index.keys():
@@ -160,8 +153,6 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_netw
     result['Network_Similarity'] = data['Network'].apply(lambda x: map_network(preferred_network,x))
     if start_year != -1 and end_year != -1:
         result['Year_Similarity'] = 1 - result['Year_Similarity']/(result['Year_Similarity'].max()+1)
-    if embedding_bool == False:
-        result['Total'] = round(result['Summary_Similarity']*.5 + result['Sentiment_Analysis']*.05 + result['Actor_Similarity']*.15 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)
     else:
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max()+1)
         result['Total'] = round(result['Embedding_Similarity']*.10 + result['Summary_Similarity']*.4 + result['Sentiment_Analysis']*.05 + result['Actor_Similarity']*.15 + result['Year_Similarity']*.05 + result['Genre_Similarity']*.2 + result['Network_Similarity']*.05,4)

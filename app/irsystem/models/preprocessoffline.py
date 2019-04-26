@@ -110,7 +110,10 @@ def preprocess(data, summary_dict):
         if year != 'nan' and year:
             year = year[:-2]
             if len(year) > 4:
-                year_list = [int(year[:4]),int(year[4:])]
+                start = int(year[:4])
+                end = int(year[4:])
+                for i in range(start,end+1,1):
+                    year_list.append(i)
                 year = year[:4] + ', ' + year[4:]
             else:
                 year_list = [int(year[:4])]
@@ -167,18 +170,17 @@ def inclusion_matrix(dictionary):
                 matrix[int(index2),index] = 0
     return (matrix, unique_name_to_index)
 
-def year_inclusion_matrix(dictionary):
-    unique = range(1938,2020,1)
-    unique_index_to_name = dict(enumerate(unique))
+def year_inclusion_matrix(year_dict):
+    unique = range(1958,2020,1)
+    unique_index_to_name = dict(enumerate(list(unique)))
     unique_name_to_index = {v: k for k, v in unique_index_to_name.items()}
-    matrix = np.zeros((len(dictionary.keys()), len(unique)))
-    for year in range(1938,2020,1):
-        index = year-1938
-        for index2 in dictionary.keys():
-            value = dictionary[index2]
-            year_dist = [abs(v - year) for v in value]
-            if len(year_dist) != 0:
-                matrix[int(index2),index] = min(year_dist)
+    matrix = np.zeros((len(year_dict.keys()), len(unique)))
+    for index, year in unique_index_to_name.items():
+        for index2,value in year_dict.items():
+            if year in value:
+                matrix[int(index2),int(index)] = 1
+            else:
+                matrix[int(index2),int(index)] = 0
     return (matrix, unique_name_to_index)
 
 
@@ -223,7 +225,6 @@ def build_drama_sims_cos(n_drama, drama_index_to_name, input_doc_mat, drama_name
                 drama2 = drama_index_to_name[j]
                 result[i,j] = input_get_sim_method(drama1, drama2, input_doc_mat, drama_name_to_index)
     return result
-
 korean_data = pd.read_csv(os.path.join("korean_data.csv"))
 n_dramas_korean = len(korean_data)
 with open('korean_summaries.json') as f:
@@ -282,4 +283,4 @@ doc_by_vocab = build_tfidf_matrix(reg_index, num_dramas,vocab_to_index, idf_dict
 drama_index_to_name = comprehensive_data['Title'].to_dict()
 drama_name_to_index = {v: k for k, v in drama_index_to_name.items()}
 drama_sims_cos = build_drama_sims_cos(num_dramas, drama_index_to_name, doc_by_vocab, drama_name_to_index, get_sim)
-np.save(file = os.path.join('cosine_matrix.npy'), arr = drama_sims_cos)
+np.save(file = os.path.join('cosine_matrix.npy'), arr = drama_sims_cos)"""

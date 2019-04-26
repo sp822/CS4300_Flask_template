@@ -1,0 +1,6 @@
+,Title,Summary,Genre,Rating,Runtime,Actors,Network,Votes,Year,Similarity_Score,Sentiment_Score
+0,Toji / Land,>,"['drama', 'romantic']",6.5,35 min,"Je-hoon Lee, Soo-bin Chae, Dong-geon Lee, Ji-Soo Kim",,190.0,2018,0.071,1.0
+1,Gongjooeui Namja / The Princess’ Man,nan,"['historical', 'romantic']",8.4,nan,"Chae-won Moon, Shi-hoo Park, Jong-ho Song, Soo-hyun Hong",KBS,370.0,2011,0.0032,0.9450000000000001
+2,Goong (Gung),nan,"['comedy', 'romantic']",6.1,122 min,"Dae-seung Kim, Yeo-jeong Jo, Dong-wook Kim, Min-Joon Kim, Ji-Young Park",MBC,1221.0,2012,0.0021,1.0
+3,Geumjjokgateun Nae Saekki / My Lovely Family,>,['NaN'],nan,nan,nan,,nan,nan,-0.0009,0.0
+4,Sa mak ui Saem / Desert Spring,>,['romantic'],nan,nan,nan,MBC,nan,nan,-0.0009,0.0

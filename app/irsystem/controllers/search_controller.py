@@ -51,6 +51,6 @@ def search():
 		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	if request.args.get('new-search'):
 		return  render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list,  clicked_img = clicked_img, networks = network_list, output=output)
-	# 	name = request.args.get("name")
+	# if request.args.get('more-display')
 	# 	return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
 

@@ -50,10 +50,11 @@
                     if (document.querySelector(x).classList.contains('hidden')) {
                         $(x).removeClass("hidden");
                         $(this).addClass("hidden");
-                        $('#titleh').addClass('hidden');
+                        $('.titleh').addClass('hidden');
                     }else {
                         $('.dis').removeClass("hidden");
                         $(x).addClass("hidden");
+                        $('.titleh').removeClass('hidden');
                     }
 
                 });
@@ -80,6 +81,7 @@
                     <div class = "gallaryimg">
                         <div class= 'titleh'><h2>{{  y[: y.index(',')] }}</h2>
                             <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "{{ y[: y.index(',')] }}"/></a>
+                            <div class = 'titleh score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
                         </div>
                     </div>
                      <div class = "main-cointainer hidden" id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}">
@@ -104,8 +106,9 @@
                         {% endfor %}
                     
                     {% endif %}
+                 <div class= "more"> <button id ='more-display' type="submit" class="btn btn-info" name = 'more-display'> &#x27A7; </button></div>
+
                 </div>
-                <div class= "more"> <button id ='more-display' type="submit" class="btn btn-info" name = 'more-display'> &#x27A7; </button></div>
                 
            </form>
 

@@ -3,10 +3,11 @@
     #searchForm {
         background-image: url('/static/background.png');
         background-size: cover;
+        height:50%;
         
     }
     .global-search {
-        margin-top: 15%;
+        margin-top: 30%;
     }
 
     #resultsform {
@@ -121,12 +122,13 @@
       }
 
     .sidebyside {
-        margin: 20px;
+        display: flex;
+        flex-direction: row;
 
     }
-    .pullabit {
-        margin: 30px;
-        display: inline-block;
+    .sidebyside div {
+        margin: 15px;
+        flex: 1;
     }
     .pullabit select:first-child {
         width: 200px;
@@ -170,5 +172,8 @@
     }
     .titleh h2 {
         font-size: 100%;
+    }
+    .btn-info {
+        width: 30%;
     }
 }

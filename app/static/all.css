@@ -1,5 +1,4 @@
 @media (min-width:400px){
-    
     #searchForm {
         background-image: url('/static/background.png');
         background-size: cover;
@@ -10,7 +9,7 @@
         margin-top: 30%;
     }
 
-    #resultsform {
+    #resultsform body {
         background-image: none;
         background-color: lightblue;
     }

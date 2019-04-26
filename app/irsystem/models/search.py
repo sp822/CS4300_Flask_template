@@ -126,13 +126,14 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
             result['Actor_Similarity']+= actors_inclusion_matrix[:,index]
     result['Actor_Similarity'] = result['Actor_Similarity']/(result['Actor_Similarity'].max()+1)
     result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max()+1)
-    result['Total'] = round(result['Embedding_Similarity']*.2 + result['Summary_Similarity']*.3 + result['Sentiment_Analysis']*.15 + result['Actor_Similarity']*.15 + result['Genre_Similarity']*.15,4)
+    result['Total'] = round(result['Embedding_Similarity']*.2 + result['Summary_Similarity']*.35 + result['Sentiment_Analysis']*.1 + result['Actor_Similarity']*.15 + result['Genre_Similarity']*.15,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]
     for idx, res in result.iterrows():
         mat = years_inclusion_matrix[idx, index1:index2]
-        if sum(mat) == 0:
+        mat2 = years_inclusion_matrix[idx, :]
+        if sum(mat) == 0 and sum(mat2)!=0:
             result = result[result.index != idx]
     result = result[:num_results]
     indices =  result.index.tolist()
@@ -212,9 +213,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
             actors[title] = "No actor information is available."
         network_loc = str(non_processed_data['Network'].loc[idx])
         network = ""
-        for net in network:
-            print(net)
-            print(network_loc)
+        for net in network_list:
             if net in network_loc:
                 network = network + net + ", "
         if len(network) > 0:

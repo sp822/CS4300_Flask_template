@@ -95,15 +95,15 @@
                             <div class = "info-container">
                                 <div class = 'left-side'>
                                     <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/></a>
-                                        <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
-                                        <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
+                                        <div class = 'rating'><p><strong> Rating: </strong>{{  y[y.find('Rating')+7 :  y.index(', Runtime')] }}<strong> Year: </strong>{{  y[y.find('Year')+6 :y.index(', Total')] }}</p></div>
+                                        <div class = 'genre'><p><strong> Genres: </strong>{{  y[y.find('Genre:')+6 : y.index(', Rating')] }}</p></div>
                                 </div>
                                 <div class = "right-side">
-                                        <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Genre')] }}</p></div>
-                                        <div class = 'actors'><p>{{  y[y.index('Actors') :y.index(', Votes')] }}</p></div>
-                                        <div class = 'runtime'><p>{{  y[y.index('Runtime') :y.index(', Actors')] }}</p></div>
-                                        <div class = 'votes'><p>{{  y[y.index('Votes') :y.index(', Years')] }}</p></div>
-                                        <div class = 'Similarity'><p>{{  y[y.index('Total Similarity') : y.index(', Sentiment')] }}</p></div>
+                                        <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary')+8: y.index(',  Genre')] }}</p></div>
+                                        <div class = 'actors'><p><strong> Actors: </strong>{{  y[y.find('Actors')+ 7 :y.index(', Votes')] }}</p></div>
+                                        <div class = 'runtime'><p><strong> Runtime: </strong>{{  y[y.find('Runtime')+ 8 :y.index(', Actors')] }}</p></div>
+                                        <div class = 'votes'><p><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p></div>
+                                        <div class = 'Similarity'><p><strong> Total Similarity: </strong>{{  y[y.index('Total Similarity')+17 : y.index(', Sentiment')] }}</p></div>
                                         <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
                                 </div>
                             </div>

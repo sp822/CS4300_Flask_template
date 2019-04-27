@@ -288,8 +288,6 @@ with open('actors_name_to_index.json', 'w') as fp2:
 with open('years_name_to_index.json', 'w') as fp3:
     json.dump(years_name_to_index, fp3)
 korean_data['Actors'] = korean_df['Actors']
-korean_data.to_csv(os.path.join('korean_data.csv'))
-"""
 korean_data.to_csv(os.path.join('cleaned_korean_data.csv'))
 
 american_data = pd.read_csv(os.path.join("American_data.csv"))
@@ -314,4 +312,4 @@ doc_by_vocab = build_tfidf_matrix(reg_index, num_dramas,vocab_to_index, idf_dict
 drama_index_to_name = comprehensive_data['Title'].to_dict()
 drama_name_to_index = {v: k for k, v in drama_index_to_name.items()}
 drama_sims_cos = build_drama_sims_cos(num_dramas, drama_index_to_name, doc_by_vocab, drama_name_to_index, get_sim)
-np.save(file = os.path.join('cosine_matrix.npy'), arr = drama_sims_cos)"""
+np.save(file = os.path.join('cosine_matrix.npy'), arr = drama_sims_cos)

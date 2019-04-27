@@ -124,8 +124,10 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         if actor in actors_name_to_index.keys():
             index = actors_name_to_index[actor]
             result['Actor_Similarity']+= actors_inclusion_matrix[:,index]
-    result['Actor_Similarity'] = result['Actor_Similarity']/(result['Actor_Similarity'].max()+1)
-    result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max()+1)
+    if result['Actor_Similarity'].max() !=0:
+        result['Actor_Similarity'] = result['Actor_Similarity']/(result['Actor_Similarity'].max())
+    if result['Embedding_Similarity'].max()!=0:
+        result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
     result['Total'] = round(result['Embedding_Similarity']*.3 + result['Summary_Similarity']*.4 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.2,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]

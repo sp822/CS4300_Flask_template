@@ -156,10 +156,10 @@
         overflow-x: scroll;
     }
     .ui-menu-item {
-        max-width: 375px !important;
+        max-width: 373px !important;
     }
     .ui-autocomplete { 
-        height: 200px !important;
+        height: 150px !important;
         overflow-y: scroll !important; 
         overflow-x: hidden !important;
     }

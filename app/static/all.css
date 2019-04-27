@@ -3,11 +3,10 @@
     #searchForm {
         background-image: url('/static/background.png');
         background-size: cover;
-        height:50%;
         
     }
     .global-search {
-        margin-top: 30%;
+        margin-top: 20%;
     }
 
     #resultsform {
@@ -19,14 +18,30 @@
     }
 
     .global-search .form-group {
-        width: 90%;
+        width: 80%;
         display: flex;
+        align-items: flex-end;
+        flex-direction: row;
     }
-    .global-search .form-group label {
-        margin: 10px
+    .global-search .form-group div {
+        flex-grow: 1;
+        text-align: left;
+        display: flex;
+        align-items: flex-end;
+
     }
-    .global-search .form-group input {
-        flex-grow: 1
+    .global-search .form-group div:last-child {
+        margin-left: 10px;
+    }
+
+    .global-search .form-group div label {
+        min-width: 140px;
+        flex-grow: .5;
+    }
+    .global-search .form-group div input {
+        flex-grow: 1;
+    
+        
     }
     .first {
         width: 90%
@@ -80,47 +95,7 @@
         color: white;
         bottom: 0%;
     }
-    .autocomplete {
-        /*the container must be positioned relative:*/
-        position: relative;
-        display: inline-block;
-      }
-      input {
-        border: 1px solid transparent;
-        background-color: #f1f1f1;
-        padding: 10px;
-        font-size: 16px;
-      }
-      input[type=text] {
-        background-color: #f1f1f1;
-        width: 100%;
-      }
-      input[type=submit] {
-        background-color: DodgerBlue;
-        color: #fff;
-      }
-      .autocomplete-items {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        border-bottom: none;
-        border-top: none;
-      }
-      .autocomplete-items div {
-        padding: 10px;
-        cursor: pointer;
-        background-color: #fff;
-        border-bottom: 1px solid #d4d4d4;
-      }
-      .autocomplete-items div:hover {
-        /*when hovering an item:*/
-        background-color: #e9e9e9;
-      }
-      .autocomplete-active {
-        /*when navigating through the items using the arrow keys:*/
-        background-color: DodgerBlue !important;
-        color: #ffffff;
-      }
-
+    
     .sidebyside {
         display: flex;
         flex-direction: row;
@@ -175,5 +150,12 @@
     }
     .btn-info {
         width: 30%;
+    }
+    .tokenfield {
+        text-align: left;
+        width: 400px !important;
+    }
+    .ui-menu-item {
+        max-width: 395px !important;
     }
 }

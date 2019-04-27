@@ -1,6 +1,6 @@
 ,Title,Summary,Genre,Rating,Runtime,Actors,Network,Votes,Year,Similarity_Score,Sentiment_Score
-0,Toji / Land,>,"['drama', 'romantic']",6.5,35 min,"Je-hoon Lee, Soo-bin Chae, Dong-geon Lee, Ji-Soo Kim",,190.0,2018,0.071,1.0
-1,Gongjooeui Namja / The Princess’ Man,nan,"['historical', 'romantic']",8.4,nan,"Chae-won Moon, Shi-hoo Park, Jong-ho Song, Soo-hyun Hong",KBS,370.0,2011,0.0032,0.9450000000000001
-2,Goong (Gung),nan,"['comedy', 'romantic']",6.1,122 min,"Dae-seung Kim, Yeo-jeong Jo, Dong-wook Kim, Min-Joon Kim, Ji-Young Park",MBC,1221.0,2012,0.0021,1.0
-3,Geumjjokgateun Nae Saekki / My Lovely Family,>,['NaN'],nan,nan,nan,,nan,nan,-0.0009,0.0
+0,Toji / Land,>,"['drama', 'romantic']",6.5,35 min,nan,,190.0,2018,0.071,1.0
+1,Gongjooeui Namja / The Princess’ Man,nan,"['historical', 'romantic']",8.4,nan,nan,KBS,370.0,2011,0.0032,0.9450000000000001
+2,Goong (Gung),nan,"['comedy', 'romantic']",6.1,122 min,nan,MBC,1221.0,2012,0.0021,1.0
+3,Geumjjokgateun Nae Saekki / My Lovely Family,>,['NaN'],nan,nan,"Bang Joon Seo, Choi Ji Won, Da Som, Han Yeo Wool, Im Chae Won, Jun Mi Sun, Kim Jae Kyung, Lee Do Yun (2006), Lee Yoon Mi, Min Ah, Nam Ji Hyun, Nam Neung Mi, Oh Mi Yun, Park Jung Soo, Shin Ae Ra, Shin Bo Ra, Shin So Mi, Song Ji Eun (1990), Wang Ji Won, Yoo Ra, Ahn Jae Min, Baek Il Sub, Choi Ha Ho, Jang Hyun Sung , Jin Woon, Joo Young Ho, Jung Wook (1973), K.Will, Kang Soo Han, Lee Chang Hoon (1966), Lee Eun Soo, Min Chan Ki, Park Shi Jin, Park Sung Kwang, Park Young Ji",,nan,nan,-0.0009,0.0
 4,Sa mak ui Saem / Desert Spring,>,['romantic'],nan,nan,nan,MBC,nan,nan,-0.0009,0.0

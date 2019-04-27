@@ -75,7 +75,7 @@ def compute_idf(inv_idx, n_dramas):
         idf_dict[word] = math.log(n_dramas/(1+DF),2)
     return idf_dict
 
-def preprocess(data, summary_dict):
+def preprocess(data, summary_dict, actors):
     """ Preprocesses data frame and adds new summary information.
     """
     new_data = data
@@ -83,6 +83,32 @@ def preprocess(data, summary_dict):
     actors_dict = {}
     genres_dict = {}
     years_dict = {}
+    actor_col = {}
+    actors.columns = ["Actor_Name", "Drama"]
+    title_series = data['Title']
+    for (index,row) in actors.iterrows():
+        value = row["Drama"]
+        value = str(value).strip("[]")
+        value = value.split("', '")
+        value = [v.replace("'", "").strip() for v in value]
+        for drama in value:
+            if drama in title_series.values:
+                idx1 = title_series.str.contains(str(drama), regex=True)
+                idx = [i for i in idx1.index if idx1[i]]
+                for i in idx:
+                    if i in actor_col.keys():
+                        actor_col[i] += str(row["Actor_Name"]) + ", "
+                    else:
+                        actor_col[i] = str(row["Actor_Name"]) + ", "
+    actor_col_new = actor_col
+    for (idx, row) in actor_col.items():
+        if len(actor_col[idx]) > 0:
+            actor_str = str(actor_col[idx])[:-2]
+            actor_col_new[idx] = actor_str
+        print(actor_col_new[idx])
+    new_data['Actors']= pd.DataFrame.from_dict(actor_col_new, orient='index')
+    data['Actors']= pd.DataFrame.from_dict(actor_col_new, orient='index')
+    print(data['Actors'])
     for (index,value) in data.iterrows():
         rating = value['Rating']
         if not math.isnan(rating):
@@ -225,12 +251,13 @@ def build_drama_sims_cos(n_drama, drama_index_to_name, input_doc_mat, drama_name
                 drama2 = drama_index_to_name[j]
                 result[i,j] = input_get_sim_method(drama1, drama2, input_doc_mat, drama_name_to_index)
     return result
+actors = pd.read_csv(os.path.join("actors.csv"))
 korean_data = pd.read_csv(os.path.join("korean_data.csv"))
 n_dramas_korean = len(korean_data)
 with open('korean_summaries.json') as f:
     korean_summaries = json.load(f)
-korean_packed = preprocess(korean_data, korean_summaries)
-korean_data = korean_packed[0]
+korean_packed = preprocess(korean_data, korean_summaries, actors)
+korean_df = korean_packed[0]
 genres_dict = korean_packed[1]
 actors_dict = korean_packed[2]
 years_dict = korean_packed[3]
@@ -260,7 +287,11 @@ with open('actors_name_to_index.json', 'w') as fp2:
     json.dump(actors_name_to_index, fp2)
 with open('years_name_to_index.json', 'w') as fp3:
     json.dump(years_name_to_index, fp3)
+korean_data['Actors'] = korean_df['Actors']
+korean_data.to_csv(os.path.join('korean_data.csv'))
+"""
 korean_data.to_csv(os.path.join('cleaned_korean_data.csv'))
+
 american_data = pd.read_csv(os.path.join("American_data.csv"))
 n_dramas_american = len(american_data)
 with open('American_summaries.json') as f:

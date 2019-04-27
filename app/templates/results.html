@@ -3,7 +3,11 @@
         <link rel="stylesheet" href="static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css"/>
         <link rel="stylesheet" href="/static/all.css"/>
+        <link href="/static/sliptree-bootstrap-tokenfield-9c06df4/dist/css/bootstrap-tokenfield.min.css" rel="stylesheet" type="text/css">
         <script src="static/jquery-3.3.1.min.js" type = "text/javascript"></script>
+        <script type="text/javascript" src="/static/sliptree-bootstrap-tokenfield-9c06df4/dist/bootstrap-tokenfield.min.js"></script>
+        <script type="text/javascript" src="/static/bootstrap3-typeahead.min.js"></script>
+
         <script type="text/javascript">
             /*Scroll to top when arrow up clicked BEGIN*/
             $(window).scroll(function() {
@@ -93,15 +97,14 @@
                                     <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/></a>
                                         <div class = 'rating'><p>{{  y[y.index('Rating') :  y.index(', Runtime')] }}</p><p>{{  y[y.index('Year') :y.index(', Total')] }}</p></div>
                                         <div class = 'genre'><p>{{  y[y.index('Genre:') : y.index(', Rating')] }}</p></div>
-                                        <div class = 'network'><p>{{  y[y.index('Network') :y.index(', Actors')] }}</p></div>
-                                        
                                 </div>
                                 <div class = "right-side">
                                         <div class = 'Summary'><p>{{  y[y.index('Summary'): y.index(',  Genre')] }}</p></div>
                                         <div class = 'actors'><p>{{  y[y.index('Actors') :y.index(', Votes')] }}</p></div>
-                                        <div class = 'runtime'><p>{{  y[y.index('Runtime') :y.index(', Network')] }}</p></div>
+                                        <div class = 'runtime'><p>{{  y[y.index('Runtime') :y.index(', Actors')] }}</p></div>
                                         <div class = 'votes'><p>{{  y[y.index('Votes') :y.index(', Years')] }}</p></div>
-                                        <div class = 'score'><p>{{  y[y.index('Total Similarity') :] }}</p></div>
+                                        <div class = 'Similarity'><p>{{  y[y.index('Total Similarity') : y.index(', Sentiment')] }}</p></div>   
+                                        <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
                                 </div>
                             </div>
                         </div>

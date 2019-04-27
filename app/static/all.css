@@ -159,7 +159,7 @@
         max-width: 373px !important;
     }
     .ui-autocomplete { 
-        height: 150px !important;
+        max-height: 150px !important;
         overflow-y: scroll !important; 
         overflow-x: hidden !important;
     }

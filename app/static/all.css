@@ -24,7 +24,6 @@
         flex-direction: row;
     }
     .global-search .form-group div {
-        flex-grow: 1;
         text-align: left;
         display: flex;
         align-items: flex-end;
@@ -154,8 +153,14 @@
     .tokenfield {
         text-align: left;
         width: 400px !important;
+        overflow-x: scroll;
     }
     .ui-menu-item {
-        max-width: 395px !important;
+        max-width: 375px !important;
+    }
+    .ui-autocomplete { 
+        height: 200px !important;
+        overflow-y: scroll !important; 
+        overflow-x: hidden !important;
     }
 }

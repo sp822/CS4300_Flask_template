@@ -60,6 +60,13 @@
                         $(x).addClass("hidden");
                         $('.titleh').removeClass('hidden');
                     }
+                });
+                $(".score").click(function(event){
+                    var x = document.getElementsByClassName("scoreh");
+                    if (x.hasClass('hidden')) {
+                        $('#scoreh').removeClass('hidden');
+                        $('#infoh').addClass('hidden');
+                    }
 
                 });
 
@@ -86,7 +93,7 @@
                         <div class= 'titleh'><h2>{{  y[: y.index(',')] }}</h2>
                             <a class = "img-click dis" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/></a>
                             <div class = 'Similarity'><p>{{  y[y.index('Total Similarity') : y.index(', Sentiment')] }}</p></div>
-                            <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
+
 
                         </div>
                     </div>
@@ -99,12 +106,26 @@
                                         <div class = 'genre'><p><strong> Genres: </strong>{{  y[y.find('Genre:')+6 : y.index(', Rating')] }}</p></div>
                                 </div>
                                 <div class = "right-side">
-                                        <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary')+8: y.index(',  Genre')] }}</p></div>
-                                        <div class = 'actors'><p><strong> Actors: </strong>{{  y[y.find('Actors')+ 7 :y.index(', Votes')] }}</p></div>
-                                        <div class = 'runtime'><p><strong> Runtime: </strong>{{  y[y.find('Runtime')+ 8 :y.index(', Actors')] }}</p></div>
-                                        <div class = 'votes'><p><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p></div>
-                                        <div class = 'Similarity'><p><strong> Total Similarity: </strong>{{  y[y.index('Total Similarity')+17 : y.index(', Sentiment')] }}</p></div>
-                                        <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
+                                    <div class= min-nav>
+                                        <nav>
+                                            <ul>
+                                                <li><a href="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}">Info</a></li>
+                                                <li><a class = "score" href="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '')}}">Scores</a></li>
+
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                        <div class = "infoh">
+                                            <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary')+8: y.index(',  Genre')] }}</p></div>
+                                            <div class = 'actors'><p><strong> Actors: </strong>{{  y[y.find('Actors')+ 7 :y.index(', Votes')] }}</p></div>
+                                            <div class = 'runtime'><p><strong> Runtime: </strong>{{  y[y.find('Runtime')+ 8 :y.index(', Actors')] }}</p></div>
+                                            <div class = 'votes'><p><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p></div>
+                                        </div>
+                                        <div class = "scoreh hidden">
+                                            <div class = 'Similarity'><p><strong> Total Similarity: </strong>{{  y[y.index('Total Similarity')+17 : y.index(', Sentiment')] }}</p></div>
+                                            <div class = 'Sentiment'><p>{{  y[y.index('Sentiment') :] }}</p></div>
+                                        </div>
+                                       
                                 </div>
                             </div>
                         </div>

@@ -144,9 +144,11 @@
     img:hover {
         opacity: 0.4;
     }
+
     .titleh h2 {
         font-size: 100%;
     }
+    
     .btn-info {
         width: 30%;
     }
@@ -166,5 +168,28 @@
     nav li {
         text-decoration: none;
         display: inline-block;
+    }
+    .right-side {
+        height: 100%;
+    }
+    nav {
+        display: block;
+        max-height: 10%;
+        right: 20x;
+        top: 230px;
+    }
+    .left-side h2 {
+        padding-bottom: 30px;
+    }
+    .right-side {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .right-side .mini-nav {
+        flex:1 
+    }
+    .right-side .display_info {
+        flex: 1
     }
 }

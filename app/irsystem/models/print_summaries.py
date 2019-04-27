@@ -15,6 +15,7 @@ for idx, row in summaries.items():
     if str(row)[:1] == summary_starter:
         row = "nan"
     row = str(row).replace("amp;", "")
+    row = row.split("Cast", 1)[0]
     summary_col[idx] = row
 data["Summary"] = pd.DataFrame.from_dict(summary_col, orient='index')
 data.to_csv(os.path.join('korean_data.csv'))

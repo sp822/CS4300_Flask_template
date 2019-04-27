@@ -153,7 +153,7 @@
     .tokenfield {
         text-align: left;
         width: 400px !important;
-        overflow-x: scroll;
+        overflow-x: hidden;
     }
     .ui-menu-item {
         max-width: 373px !important;
@@ -162,5 +162,9 @@
         max-height: 150px !important;
         overflow-y: scroll !important; 
         overflow-x: hidden !important;
+    }
+    nav li {
+        text-decoration: none;
+        display: inline-block;
     }
 }

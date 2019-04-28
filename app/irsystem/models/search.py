@@ -96,6 +96,9 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     embedding_bool = True
     preferred_actors_set = set()
     preferred_actors_set.update(preferred_actors)
+    length = {int(idx):len(str(value).split(", ")) for idx, value in non_processed_data["Actors"].items()}
+    s = pd.Series(length)
+    length_arr = s.values
     d2 = {int(k):float(v) for k, v in sentiment_dict.items()}
     result['Sentiment_Analysis']= pd.DataFrame.from_dict(d2, orient='index')
     for drama in dramas_enjoyed:
@@ -122,12 +125,15 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         if genre in genre_name_to_index.keys():
             index = genre_name_to_index[genre]
             result['Genre_Similarity']= genre_inclusion_matrix[:,index]
+    actor_sim = np.zeros((1466,))
     for actor in preferred_actors:
         if actor in actors_name_to_index.keys():
             index = actors_name_to_index[actor]
-            result['Actor_Similarity']+= actors_inclusion_matrix[:,index]
-    if result['Actor_Similarity'].max() !=0:
-        result['Actor_Similarity'] = result['Actor_Similarity']/(result['Actor_Similarity'].max())
+            actor_sim+= actors_inclusion_matrix[:,index]
+    actor_union = length_arr - actor_sim
+    actor_union+=len(preferred_actors)
+    actor_sim = actor_sim/(actor_union+1)
+    result['Actor_Similarity'] = actor_sim
     if result['Embedding_Similarity'].max()!=0:
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
     result['Total'] = round(result['Embedding_Similarity']*.3 + result['Summary_Similarity']*.4 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.2,4)
@@ -163,9 +169,9 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     """
 
     best = best_match(dramas_enj, dramas_dis, preferred_genres, preferred_acts, preferred_time_frame, num_results)
-    """
+
     print(best)
-    """
+
     network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 'Netflix', 'KBS', 'MBC', 'DramaX', 'MBN', 'Oksusu',
     'UMAX', 'O’live', 'CGV', 'TBS', 'Sohu TV', 'Tooniverse', 'DRAMAcube', 'KBSN', 'E-Channel', 'Fuji TV', 'OCN', 'Yunsae University',
     'EBS', 'tvN', 'DramaH','Onstyle', 'CSTV', 'jTBC', 'Viki']
@@ -271,7 +277,9 @@ display("game of thrones, nikita, teen wolf", "", "","", [1958, 2019], 5)
 display("","the mindy project, grey's anatomy, house","", "",[1958, 2019], 5)
 display("","doctors, good doctor, doctor stranger", "","", [1958, 2019], 5)
 display("","game of thrones, nikita, teen wolf", "","", [1958, 2019], 5)
+"""
 display("","", "", "Park Shin Hye", [1958, 2019], 5)
 display("","", "", "Lee Min Ho", [1958, 2019], 5)
+"""
 display("","", "", "Lee Min Ho, Park Shin Hye", [1958, 2019], 5)
 """

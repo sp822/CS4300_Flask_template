@@ -53,7 +53,7 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analys
     sentiment_dict = json.load(fp4)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sentiment.json')) as fp5:
     reviews_sentiment_dict = json.load(fp5)
-'''j = [0]'''
+j = [0]
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
     cleantext = re.sub(clean, '', raw_html)
@@ -134,9 +134,17 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     actor_union+=len(preferred_actors)
     actor_sim = actor_sim/(actor_union+1)
     result['Actor_Similarity'] = actor_sim
-    if result['Embedding_Similarity'].max()!=0:
+    min_summary = result['Summary_Similarity'].min()
+    min_embedding = result['Embedding_Similarity'].min()
+    if min_summary < 0:
+        result['Summary_Similarity'] = result['Summary_Similarity'] + min_summary*-1
+    if min_embedding < 0:
+        result['Embedding_Similarity'] = result['Embedding_Similarity'] + min_embedding*-1
+    if result['Embedding_Similarity'].max() != 0 and result['Embedding_Similarity'].max() > 1:
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
-    result['Total'] = round(result['Embedding_Similarity']*.3 + result['Summary_Similarity']*.4 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.2,4)
+    if result['Summary_Similarity'].max() > 1:
+        result['Summary_Similarity'] = result['Summary_Similarity']/(result['Summary_Similarity'].max())
+    result['Total'] = round(result['Embedding_Similarity']*.2 + result['Summary_Similarity']*.5 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.2,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]
@@ -187,19 +195,19 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     networks = {}
     sentiment_output = {}
     sentiment_reviews_output = {}
-    """feature_list = ['Title','Summary','Genre', 'Rating', 'Runtime','Actors', 'Network', 'Votes', 'Year','Similarity_Score', 'Sentiment_Score']
-    result_exp = pd.DataFrame(None, index=np.arange(num_results), columns=feature_list)"""
+    feature_list = ['Title','Summary','Genre', 'Rating', 'Runtime','Actors', 'Network', 'Votes', 'Year','Similarity_Score', 'Sentiment_Score']
+    result_exp = pd.DataFrame(None, index=np.arange(num_results), columns=feature_list)
     i = 0
     for title, score, sentiment_score,_,_,_,_ in result:
         idx = drama_name_to_index_unprocess[title]
         summary = str(non_processed_data['Summary'].loc[idx])
-        """result_exp['Summary'].iloc[i] = summary"""
+        result_exp['Summary'].iloc[i] = summary
         if summary != "nan":
             summaries[title] = summary
         else:
             summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])
-        """result_exp['Genre'].iloc[i] = genre"""
+        result_exp['Genre'].iloc[i] = genre
         if genre != "nan":
             genre = genre.strip('[]')
             genre = genre.replace("'", "")
@@ -207,19 +215,19 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         else:
             genres[title] = "No genre information is available."
         rating = str(data['Rating'].loc[idx])
-        """result_exp['Rating'].iloc[i] = rating"""
+        result_exp['Rating'].iloc[i] = rating
         if rating != "nan":
             ratings[title] = rating
         else:
             ratings[title] = "No rating information is available."
         runtime = str(non_processed_data['Runtime'].loc[idx])
-        """result_exp['Runtime'].iloc[i] = runtime"""
+        result_exp['Runtime'].iloc[i] = runtime
         if runtime != "nan":
             runtimes[title] = rating
         else:
             runtimes[title] = "No runtime information is available."
         actor = str(non_processed_data['Actors'].loc[idx])
-        """result_exp['Actors'].iloc[i] = actor"""
+        result_exp['Actors'].iloc[i] = actor
         if actor != "nan":
             actors[title] = actor
         else:
@@ -231,19 +239,19 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
                 network = network + net + ", "
         if len(network) > 0:
             network = network[:-2]
-        """result_exp['Network'].iloc[i] = network"""
+        result_exp['Network'].iloc[i] = network
         if network != "":
             networks[title] = network
         else:
             networks[title] = "No network information is available."
         vote = str(non_processed_data['Votes'].loc[idx])
-        """result_exp['Votes'].iloc[i] = vote"""
+        result_exp['Votes'].iloc[i] = vote
         if vote != "nan":
             votes[title] = vote
         else:
             votes[title] = "No votes information is available."
         year = str(data['Year'].loc[idx])
-        """result_exp['Year'].iloc[i] = year"""
+        result_exp['Year'].iloc[i] = year
         if year != "nan":
             years[title] = year
         else:
@@ -251,13 +259,13 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         sentiment_dictionary = reviews_sentiment_dict[str(idx)]
         sentiment_output[title] = sentiment_dictionary["Predicted Sentiment"]
         sentiment_reviews_output[title] = sentiment_dictionary['Reviews']
-        """result_exp['Title'].iloc[i] = title
+        result_exp['Title'].iloc[i] = title
         result_exp['Similarity_Score'].iloc[i] = score
-        result_exp['Sentiment_Score'].iloc[i] = sentiment_score"""
+        result_exp['Sentiment_Score'].iloc[i] = sentiment_score
         i+=1
 
-    """j[0]+=1
-    result_exp.to_csv(os.path.join("app", "irsystem", "models", 'test_results', str("result" + str(j[0])+ ".csv")))"""
+    j[0]+=1
+    result_exp.to_csv(os.path.join("app", "irsystem", "models", 'test_results', str("result" + str(j[0])+ ".csv")))
     return ['{},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Actors: {}, Votes: {}, Years: {},  Sentiment: {}, Sentiment Reviews: {}, Total Similarity Score: {}, Sentiment Score: {}, Embedding Score: {}, Summary Score: {}, Actor Score: {}, Genre Score: {}'.format(title, summaries[title], \
     genres[title], ratings[title], runtimes[title], actors[title], votes[title], years[title], sentiment_output[title], sentiment_reviews_output[title], round(100*score,4), round(100*sentiment_score,4), round(100*embedding_score,4), round(100*summary_score,4), \
     round(100*actor_score,4), round(100*genre_score,4)) for title, score, sentiment_score, embedding_score, summary_score, actor_score, genre_score in result]
@@ -279,6 +287,5 @@ display("","doctors, good doctor, doctor stranger", "","", [1958, 2019], 5)
 display("","game of thrones, nikita, teen wolf", "","", [1958, 2019], 5)
 """
 
-"""
-display("","", "", "Lee Min Ho, Park Shin Hye", [1958, 2019], 5)
-"""
+
+display("","Confession", "", "", [1958, 2019], 21)

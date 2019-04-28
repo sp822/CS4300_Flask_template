@@ -25,12 +25,16 @@ replace_no_space = re.compile("(\.)|(\;)|(\:)|(\!)|(\')|(\?)|(\,)|(\")|(\()|(\))
 replace_with_space =re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
 no_space = ""
 blankspace = " "
+replace_no_space = re.compile("(\")|(\d+)")
+replace_with_space =re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
+no_space = ""
+blankspace = " "
 def preprocess_reviews(datas):
     for index in datas:
         if len(datas[index])==0:
                 datas[index] = []
         else:
-            datas[index] = [replace_no_space.sub(no_space, line.lower()) for line in datas[index]]
+            datas[index] = [replace_no_space.sub(no_space, line) for line in datas[index]]
             datas[index] = [replace_with_space.sub(blankspace, line) for line in datas[index]]
 
     return datas
@@ -79,5 +83,27 @@ def get_sentiment_score(sentiment_dict):
         sentiment_scores[index] = sum/len(sentiment_dict[index])
     return sentiment_scores
 sentiment_scores = get_sentiment_score(sentiment_dict)
+def get_reviews_and_sentiment(datas, sentiment_scores):
+    reviews_sent = {}
+    for key in datas: 
+        if (len(datas[key]) == 0):
+            reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': 0.0, 'Reviews': 'There are no reviews for this drama.'}
+        elif (sentiment_scores[key]==0.0 and len(datas[key]) > 0):
+            if len(datas[key]) < 5:
+                reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key]}
+            else:
+                reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key][:5]}
+        elif len(datas[key]) < 5: 
+            if (sentiment_scores[key] < 0): 
+                reviews_sent[key] = {'Predicted Sentiment': 'Negative', 'Sentiment Score': abs(sentiment_scores[key]), 'Reviews': datas[key]}
+            else: 
+                reviews_sent[key] = {'Predicted Sentiment': 'Positive', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key]}
+        else: 
+            if (sentiment_scores[key] < 0): 
+                reviews_sent[key] = {'Predicted Sentiment': 'Negative', 'Sentiment Score': abs(sentiment_scores[key]), 'Reviews': datas[key][:5]}
+            else: 
+                reviews_sent[key] = {'Predicted Sentiment': 'Positive', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key][:5]}
+    return reviews_sent
+reviews_sent = get_reviews_and_sentiment(datas, sentiment_scores)
 with open('sentiment_analysis.json', 'w') as fp:
     json.dump(sentiment_scores, fp)

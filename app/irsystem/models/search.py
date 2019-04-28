@@ -52,7 +52,7 @@ emb_sim_matrix = np.load('emb_sim_matrix_1.npy')
 #with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
 #    sentiment_dict = json.load(fp4)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sentiment.json')) as fp4:
-    reviews_sentiment_dict = json.load(fp5)
+    reviews_sentiment_dict = json.load(fp4)
 '''j = [0]'''
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')

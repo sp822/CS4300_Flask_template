@@ -49,8 +49,10 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json'
 
 emb_sim_matrix = np.load('emb_sim_matrix_1.npy')
 
-with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
-    sentiment_dict = json.load(fp4)
+#with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
+#    sentiment_dict = json.load(fp4)
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sent.json')) as fp4:
+    reviews_sentiment_dict = json.load(fp5)
 '''j = [0]'''
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -94,7 +96,7 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     embedding_bool = True
     preferred_actors_set = set()
     preferred_actors_set.update(preferred_actors)
-    d2 = {int(k):float(v) for k, v in sentiment_dict.items()}
+    d2 = {int(k):float(v) for k, v in reviews_sentiment_dict.items()}
     result['Sentiment_Analysis']= pd.DataFrame.from_dict(d2, orient='index')
     for drama in dramas_enjoyed:
         drama = drama.lower()

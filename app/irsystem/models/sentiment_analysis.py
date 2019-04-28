@@ -107,3 +107,5 @@ def get_reviews_and_sentiment(datas, sentiment_scores):
 reviews_sent = get_reviews_and_sentiment(datas, sentiment_scores)
 with open('sentiment_analysis.json', 'w') as fp:
     json.dump(sentiment_scores, fp)
+with open('reviews_sentiment.json', 'w') as fp:
+    json.dump(reviews_sent, fp)

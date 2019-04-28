@@ -242,8 +242,9 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
             years[title] = year
         else:
             years[title] = "No timeframe information is available."
-        sentiment_output[title] = sentiment_dict[str(idx)]
-        sentiment_reviews_output[title] = reviews_sentiment_dict[str(idx)]
+        sentiment_dictionary = reviews_sentiment_dict[str(idx)]
+        sentiment_output[title] = sentiment_dictionary["Predicted Sentiment"]
+        sentiment_reviews_output[title] = sentiment_dictionary['Reviews']
         """result_exp['Title'].iloc[i] = title
         result_exp['Similarity_Score'].iloc[i] = score
         result_exp['Sentiment_Score'].iloc[i] = sentiment_score"""

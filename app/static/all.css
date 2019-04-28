@@ -46,6 +46,10 @@
         width: 90%
     }
     
+    h2 {
+        margin-left: 30px;
+    }
+
     #back2Top {
         font-size: 50px;
         position: fixed;
@@ -62,7 +66,7 @@
     }
 
     #back2Top:hover {
-        color: lightblue;
+        color: rgb(12, 81, 104);
     }
 
     
@@ -71,13 +75,15 @@
         flex-direction: row;
     }
     .left-side {
-        flex: 1
+        flex: .5;
     }
     .right-side {
         margin: auto 10%;
         max-width: 80%;
         padding: 10px;
         flex: 1;
+        max-height: 500px;
+        overflow-y: auto; 
         
     }
     
@@ -86,6 +92,9 @@
         box-shadow: 5px 10px;
         border-radius: 25px;
         min-width: 100%;
+    }
+    .main-cointainer div {
+        margin: 10px;
     }
     
     footer {
@@ -123,11 +132,27 @@
         flex-wrap: wrap;
     }
     .gallaryimg {
+        position: relative;
         max-width: 30%;
         min-width: 30%;
         flex-grow: 1;
         margin: 10px;
         
+    }
+    .gallaryimg .titleh {
+        position: absolute;
+        top:0;
+        left: 8.5%;
+        width: 300px;
+        height: 350px;
+        padding-top: 30%;
+        display: none;
+    }
+    .gallaryimg:hover .titleh {
+        font-size: 20px;
+        display: block;
+        background: rgba(0, 0, 0, 0.6);
+        color:white;
     }
 
     .gallary_class h1{
@@ -145,12 +170,19 @@
         opacity: 0.4;
     }
 
-    .titleh h2 {
+    .titleh h2, .titleh div {
         font-size: 100%;
+
+
     }
     
     .btn-info {
+        background: navy;
         width: 30%;
+    }
+    .token {
+        color: white;
+        background: navy !important; 
     }
     .tokenfield {
         text-align: left;
@@ -168,6 +200,7 @@
     nav li {
         text-decoration: none;
         display: inline-block;
+        margin-right: 20px;
     }
     .right-side {
         height: 100%;
@@ -177,6 +210,7 @@
         max-height: 10%;
         right: 20x;
         top: 230px;
+        
     }
     .left-side h2 {
         padding-bottom: 30px;
@@ -185,11 +219,52 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        text-align: left;
     }
     .right-side .mini-nav {
         flex:1 
     }
     .right-side .display_info {
         flex: 1
+    }
+    .back2searches {
+        transform: rotate(45deg);
+        font-size: 30px;
+    }
+    .main-cointainer img {
+        width: 400px;
+        height: 500px;
+    }
+    .actors p {
+        margin-bottom: 3px;
+    }
+    .rating {
+        display: flex;
+        flex-direction: row;
+    }
+    .rating p {
+        flex: 1
+    }
+    .genre {
+        display: flex;
+        flex-direction: row;
+    }
+    .genre p {
+        flex: 1
+    }
+    #new-search {
+        
+        margin-right: 50px;
+    }
+
+    .reviews {
+        margin-top: 10px;
+    }
+    .r_style{
+        border: 2px solid navy;
+    }
+    #back2searches {
+        transform: rotate(180deg);
+        font-size: 30px;
     }
 }

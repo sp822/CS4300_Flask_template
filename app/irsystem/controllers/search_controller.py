@@ -20,6 +20,7 @@ network_list = ['Channel A','Naver tvcast','Mnet', 'tvN', 'KM' 'Onstyle', 'SBS' 
 
 
 @irsystem.route('/', methods=['GET', 'POST'])
+
 def search():
 	dramas_enjoyed = request.args.get("enjoyed")
 	dramas_disliked = request.args.get('disliked')
@@ -36,18 +37,28 @@ def search():
 
 	preferred_actors = request.args.get('preferred_actors')
 	clicked_img = request.args.get("img-click")
-	num_results = 9
-
+	num_results = 21
+	
 
 	if not dramas_enjoyed and not dramas_disliked and not preferred_genres and not preferred_actors:
 		output = []
 		output_message = ''
 		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	else:
-		output_message = "So you like {}, dislike {}, like the Genre(s) {} and actor(s) {}, from {}, to {}.".format(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame[0], preferred_time_frame[1])
+		output_message = ''
+		if (dramas_enjoyed):
+			output_message += "Similar Shows to {}".format(dramas_enjoyed)
+		if (dramas_disliked): 
+			output_message += " different From {}".format(dramas_disliked)
+		if (preferred_genres):	
+			output_message += " contains {} Genre(s)".format(preferred_genres)
+		if (preferred_actors):
+			output_message +="and {} actor(s)".format(preferred_actors)
+		output_message += " from {}, to {}.".format(preferred_time_frame[0], preferred_time_frame[1])
 		output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results)
 		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	if request.args.get('new-search'):
 		return  render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list,  clicked_img = clicked_img, networks = network_list, output=output)
 	# if request.args.get('more-display')
 	# 	return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, networks = network_list, output=output)
+

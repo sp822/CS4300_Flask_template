@@ -259,8 +259,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     """j[0]+=1
     result_exp.to_csv(os.path.join("app", "irsystem", "models", 'test_results', str("result" + str(j[0])+ ".csv")))"""
     return ['{},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Actors: {}, Votes: {}, Years: {},  Sentiment: {}, Sentiment Reviews: {}, Total Similarity Score: {}, Sentiment Score: {}, Embedding Score: {}, Summary Score: {}, Actor Score: {}, Genre Score: {}'.format(title, summaries[title], \
-    genres[title], ratings[title], runtimes[title], actors[title], votes[title], years[title], sentiment_output[title], sentiment_reviews_output[title], str(str(round(100*score,4)) + " %"), str(str(round(100*sentiment_score,4)) + " %"), str(str(round(100*embedding_score,4)) + " %"), str(str(round(100*summary_score,4)) + " %"), \
-    str(str(round(100*actor_score,4)) + " %"), str(str(round(100*genre_score,4)) + " %")) for title, score, sentiment_score, embedding_score, summary_score, actor_score, genre_score in result]
+    genres[title], ratings[title], runtimes[title], actors[title], votes[title], years[title], sentiment_output[title], sentiment_reviews_output[title], round(100*score,4), round(100*sentiment_score,4), round(100*embedding_score,4), round(100*summary_score,4), \
+    round(100*actor_score,4), round(100*genre_score,4)) for title, score, sentiment_score, embedding_score, summary_score, actor_score, genre_score in result]
 """
 display("", "","fantasy","", [1958, 2019], 5)
 display("", "","romantic","", [1958, 2019], 5)
@@ -278,8 +278,7 @@ display("","the mindy project, grey's anatomy, house","", "",[1958, 2019], 5)
 display("","doctors, good doctor, doctor stranger", "","", [1958, 2019], 5)
 display("","game of thrones, nikita, teen wolf", "","", [1958, 2019], 5)
 """
-display("","", "", "Park Shin Hye", [1958, 2019], 5)
-display("","", "", "Lee Min Ho", [1958, 2019], 5)
+
 """
 display("","", "", "Lee Min Ho, Park Shin Hye", [1958, 2019], 5)
 """

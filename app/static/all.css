@@ -254,12 +254,8 @@
         height: 100%;
         text-align: left;
     }
-    .right-side .mini-nav {
-        flex:1 
-    }
-    .right-side .display_info {
-        flex: 1
-    }
+    
+    
     .main-cointainer img {
         width: 400px;
         height: 500px;

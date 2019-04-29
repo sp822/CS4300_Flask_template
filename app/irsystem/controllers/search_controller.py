@@ -51,7 +51,7 @@ def search():
 		if (dramas_disliked): 
 			output_message += " different From {}".format(dramas_disliked)
 		if (preferred_genres):	
-			output_message += " contains {} Genre(s)".format(preferred_genres)
+			output_message += " contains the {} Genre(s)".format(preferred_genres)
 		if (preferred_actors):
 			output_message +="and {} actor(s)".format(preferred_actors)
 		output_message += " from {}, to {}.".format(preferred_time_frame[0], preferred_time_frame[1])

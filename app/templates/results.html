@@ -7,7 +7,8 @@
         <script src="static/jquery-3.3.1.min.js" type = "text/javascript"></script>
         <script type="text/javascript" src="/static/sliptree-bootstrap-tokenfield-9c06df4/dist/bootstrap-tokenfield.min.js"></script>
         <script type="text/javascript" src="/static/bootstrap3-typeahead.min.js"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 
         <script type="text/javascript">
             /*Scroll to top when arrow up clicked BEGIN*/
@@ -50,39 +51,47 @@
                 });
 
                 $(".img-click").click(function(event){
+                    console.log("i ran");
                     var x = $(this).attr("href");
-                    console.log(x);
+                  
                     if (document.querySelector(x).classList.contains('hidden')) {
                         $(x).removeClass("hidden");
-                        $(this).addClass("hidden");
-                        $('.dis').addClass('hidden');
-                    }else {
-                        $(x).addClass("hidden");
-                        $('.dis').removeClass("hidden");
-                        $(this).removeClass('hidden');
-                        $(".img-click").removeClass('hidden');
+                        $('.dis').addClass("hidden");
                     }
                 });
+                $(".back2searches").click(function(event){
+                        $('.dis').removeClass("hidden");
+                        $('.main-cointainer').addClass('hidden');
+                    });
+               
                 $(".score").click(function(event){
                     var x = $(this).attr("href")+"scoreh";
                     var y = $(this).attr("href")+"infoh";
                     var z = $(this).attr("href")+"cast";
-                    console.log(x);
+            
                     if (document.querySelector(x).classList.contains('hidden')) {
+                        console.log('i ran');
                         $(x).removeClass('hidden');
                         $(y).addClass('hidden');
                         $(z).addClass('hidden');
+                        $(this).addClass('clicked');
+                        $('.info').removeClass('clicked');
+                        $('.cast').removeClass('clicked');
+                        
                     }
                 });
                 $(".info").click(function(event){
                     var x = $(this).attr("href")+"scoreh";
                     var y = $(this).attr("href")+"infoh";
                     var z = $(this).attr("href")+"cast";
-                    console.log(x);
-                    if (document.querySelector(y).classList.contains('hidden')) {
+        
+                    if (document.querySelector(y).classList.contains('hidden')) {                  
                         $(y).removeClass('hidden');
                         $(x).addClass('hidden');
                         $(z).addClass('hidden');
+                        $(this).addClass('clicked');
+                        $('.score').removeClass('clicked');
+                        $('.cast').removeClass('clicked');
 
                     }
 
@@ -91,11 +100,15 @@
                     var x = $(this).attr("href")+"scoreh";
                     var y = $(this).attr("href")+"infoh";
                     var z = $(this).attr("href")+"cast";
-                    console.log(z);
+           
+                  
                     if (document.querySelector(z).classList.contains('hidden')) {
                         $(z).removeClass('hidden');
                         $(x).addClass('hidden');
                         $(y).addClass('hidden');
+                        $(this).addClass('clicked');
+                        $('.info').removeClass('clicked');
+                        $('.score').removeClass('clicked');
 
                     }
 
@@ -116,40 +129,56 @@
             <!-- <a id = 'new-search' href=#>Make a New search</a> -->
                  <div class = "gallary_class">
                    {% if not output.empty %}
+                   <script>
+                    var ids = [];
+                   </script>
+                   
                          {% for y in output %}
+                         <script>
+                             
+                         var this_id = "{{ y[: y.find(',')]}}";
+                         ids.push(this_id);
+                         
+                    </script>
                      <br>
-                    <div class = "gallaryimg">
-                           <img class = 'dis' src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/>
-                           <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}" >
+                    
+                    <div class = "dis">
+                        <div class = "gallaryimg">
+                           <img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/>
+                           
+                           <a class = "img-click" name = "img-click">
                             <div class= 'titleh'>
                                 <h2>{{  y[: y.index(',')] }}</h2>
                                 <div class = 'Similarity'><p>{{  y[y.index("Similarity Score:"):y.index(", Sentiment Score:")] }}%</p></div>
 
                              </div>
                             </a>
+                        </div>
                     </div>
-                     <div class = "main-cointainer hidden" id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}">
+                    
+                     <div class = "main-cointainer hidden">
                         
                             <div class = "info-container">
                                 <div class = 'left-side'>
                                    
-                                    <a class = "img-click" name = "img-click" href ="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}" ><img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/></a>
+                                    <img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/>
                                 </div>
                                 <div class = "right-side">
                                     <h2>{{  y[: y.index(',')] }}</h2>
                                 <div class = "mini-nav">
                                 <nav>
                                         <ul>
-                                            <li><a class = "info" href="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}">Overview</a></li>
-                                            <li><a class = "cast" href="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}">Actors</a></li>
-                                            <li><a class = "score" href="#{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}">Similarity Score</a></li>
+                                            <li><a class = "info clicked" >Overview</a></li>
+                                            <li><a class = "cast" >Actors</a></li>
+                                            <li><a class = "score " >Similarity Score</a></li>
 
                                         </ul>
                                     </nav>
                                 </div>
                                 <div class = "display_info">
+                                    
                                                 
-                                        <div id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}infoh">
+                                        <div class = 'infoid'>
                                            
                                             <div class = 'rating'><p><strong> Rating: </strong>{{  y[y.find('Rating:')+7 :  y.index(', Runtime')] }}</p><p class = 'right'><strong> Year: </strong>{{  y[y.index('Years:')+6 :y.index(',  Sentiment:')] }}</p></div>
                                             <div class = 'genre'><p><strong> Genres: </strong>{{  y[y.find('Genre:')+6 : y.index(', Rating')] }}</p><p class = "right"><strong> Runtime: </strong>{{  y[y.find('Runtime:')+ 8 :y.index(', Actors')] }}</p></div>
@@ -158,7 +187,7 @@
                                             <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary:')+8: y.index(',  Genre')] }}</p></div>
                                         </div>
 
-                                        <div id ="{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}cast" class = "hidden" >
+                                        <div class = "castid hidden" >
                                             <div class = 'actors'><strong> Actors: </strong>
                                                 {%for x in  y[y.find('Actors:')+ 7 :y.index(', Votes')].split(', ') %}
                                                     <p>{{x}}</p>
@@ -167,63 +196,26 @@
                                         </div>
                                             
                                         
-                                        <div id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}scoreh" class = "hidden">
-                                            <script type="text/javascript">
-                                                // Load google charts
-                                                google.charts.load('current', {'packages':['corechart']});
-                                                google.charts.setOnLoadCallback(drawChart);
-                                                
-                                                // Draw the chart and set the chart values
-                                               
-                                                function drawChart() {
-                                                    var total_sim = parseFloat( '{{  y[y.index("Similarity Score:")+18 :y.index(", Sentiment Score:")] }}' );
-                                                    console.log('total:' +total_sim);
-                                                    var sentiment_score = parseFloat( '{{  y[y.index("Sentiment Score")+16 :y.index(", Embedding")] }}' );
-                                                    console.log(sentiment_score);
-                                                    
-                                                    var  embedding_score =  parseFloat( '{{  y[y.index("Embedding Score")+16 :y.index(", Summary")] }}' );
-                                                    console.log(embedding_score);
-                                                    
-                                                    var summary_score = parseFloat( '{{  y[y.index("Summary Score")+1 :y.index(", Actor")] }}' );
-                                                    console.log('summary '+summary_score);
+                                        <div class = "scoreid hidden">
+                                                <div class =  "users_message">
+                                                    <div><strong>User Input:</strong><p>{{output_message}}</p></div>
 
-                                                    var actors_score = parseFloat( '{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}' );
-                                                    console.log(actors_score);
-                                                    var genre_score = parseFloat( "{{  y[y.index('Genre Score')+12 : ]}}" );
-                                                    console.log(genre_score);
-                                                  var data = google.visualization.arrayToDataTable([
-                                                  ['Inputs', 'Match Percentage'],
-                                                  ['Total Similarity Score', total_sim],
-                                                  ['Sentiment Score', sentiment_score],
-                                                  ['Embedding Score', embedding_score],
-                                                  ['Summary Score', summary_score],
-                                                  ['Actor Score', actors_score],
-                                                  ['Genre Score', genre_score]
-                                                ]);
-                                                
-                                                  // Optional; add a title and set the width and height of the chart
-                                                  var options = {'title':'Similarity Scores', 'width':500, 'height':300};
-                                                
-                                                
-                                                  var chart = new google.visualization.ColumnChart(document.getElementById("{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}Similarity"));
-                                                  chart.draw(data, options);
-                                                }
-                                                </script> 
-                                            <div class= "sentiment"> <strong>Sentiment:</strong> {{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}  </div>
-                                                <div class =  "users_message"><p>{{output_message}}</p>
+                                                    <div class = 'Similarity'><strong>This drama Similarity to What you search:</strong><p style= "text-align: center;">{{  y[y.index("Similarity Score:")+17:y.index(", Sentiment Score:")] }}%</p></div>
+                            
+                                                </div>
+                                            <div class= "sentiment"><strong>Sentiment:</strong> {{  y[y.index("Sentiment Score")+16 :y.index(", Embedding")] }}%
+                                                {{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}  </div>
 
                                     
                                                     
-                                                </div>
-                                            <div id = "{{ y[: y.find(',')].replace(' ', '').replace('/', '').replace(':', '').replace('(', '').replace(')', '').replace('.','')}}Similarity"></div>
+                                                
+                                            <div class = 'chart'></div>
                                             <div class = 'reviews'>
                                                 <strong>Sentiment Reviews:</strong>
                                                 {% for r in y[y.index("Sentiment Reviews:")+21 :y.index(', Total')-2].replace("'", '"').split('", "') %} 
                                                 <p class = "r_style">{{r}}</p>
                                                 {%endfor%}
-                                                <!-- {% for s in y[y.index("Sentiment Reviews:")+20 :y.index(', Total')].split() %} 
-                                                <p>{{s}}</p>
-                                                {%endfor%} -->
+                                             
                                             
                                             
                                             </div> 
@@ -232,17 +224,145 @@
                                 </div>
                             </div>
                             </div>
+                            <div><a class="back2searches" title="Back to Your Results">  &#10148;</a></div>
+
                         </div>
                         
                         {% endfor %}
+                        <script>
+                            
 
+                                function make_id(r){
+                                    r = r.replace(/[^a-zA-Z0-9]/g, '');
+                                    r = r.replace(' ', '');
+                                    return r
+                                }
+                                var new_ids =[];
+                                for (i = 0; i < ids.length; i++) {
+                                    new_ids.push( make_id(ids[i]));
+                                }
+                                var g = document.getElementsByClassName('main-cointainer hidden');
+                                var s = document.getElementsByClassName('img-click');
+                                var back_search = document.getElementsByClassName('back2searches');
+                                var sim_chart = document.getElementsByClassName('chart');
+                                var get_link = document.getElementsByClassName('img-click');
+                                var link_to_score = document.getElementsByClassName('scoreid');
+                                var link_to_cast = document.getElementsByClassName('castid');
+                                var link_to_info = document.getElementsByClassName('infoid');
+
+                                var nav_link = ['cast', 'info', 'score'];
+                                for (i = 0; i < nav_link.length; i++) {
+                                    var link_to = document.getElementsByClassName(nav_link[i]);
+                                    for (j = 0; j < link_to.length; j++) {
+                                        var to = link_to[j];
+                                        to.setAttribute('href', '#'+ new_ids[j]);
+                                    }
+
+                                }
+
+                                
+                                
+                                for (i = 0; i < g.length; i++) {
+                                    var this_score = link_to_score[i];
+                                    var this_info = link_to_info[i];
+                                    var this_cast = link_to_cast[i];
+                                    var get_id = g[i];
+                                    var set_href = s[i];
+                                    var back_search_of_show = back_search[i];
+                                    var get_link_href = get_link[i]; 
+                                    var chart_link = sim_chart[i];
+                                    chart_link.setAttribute('id', new_ids[i]+'similarity');
+                                    get_id.setAttribute('id', new_ids[i]);
+                                    this_score.setAttribute('id', new_ids[i]+'scoreh');
+                                    this_info.setAttribute('id', new_ids[i]+'infoh');
+                                    this_cast.setAttribute('id', new_ids[i]+'cast');
+
+                                    get_link_href.setAttribute('href', '#'+ new_ids[i]);
+                                    set_href.setAttribute('href', '#'+ new_ids[i]);
+                                    back_search_of_show.setAttribute('href', '#'+ new_ids[i]);
+                                }
+
+                                var count = 0;
+                                </script>
+                            {% for y in output %}
+
+                            <script type="text/javascript">
+                                // Load google charts
+                               
+                     
+                                google.charts.load('current', {'packages':['corechart']});
+                                google.charts.setOnLoadCallback(drawChart);
+                                
+                                // Draw the chart and set the chart values
+                               
+                                function drawChart() {
+                                    var total_sim = parseFloat( '{{  y[y.index("Similarity Score:")+18 :y.index(", Sentiment Score:")] }}' );
+                                    
+                                    var  embedding_score =  parseFloat( '{{  y[y.index("Embedding Score")+16 :y.index(", Summary")] }}' );
+                                   
+                                    
+                                    var summary_score = parseFloat( '{{  y[y.index("Summary Score:")+15 :y.index(", Actor Score:")] }}' );
+
+                                    var actors_score = parseFloat( '{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}' );
+                                 
+                                    var genre_score = parseFloat( "{{  y[y.index('Genre Score')+12 : ]}}" );
+                                   
+                                  var data = google.visualization.arrayToDataTable([
+                                  ['Inputs', 'Match Percentage'],
+                                  ['Total', total_sim],
+                                  ['Embedding', embedding_score],
+                                  ['Summary', summary_score],
+                                  ['Actor', actors_score],
+                                  ['Genre', genre_score]
+                                ]);
+                                
+                                  // Optional; add a title and set the width and height of the chart
+                                 
+                                  var options = {'title':'Similarity Scores',
+                                                 'width':500, 
+                                                 'height':300,
+                                                 legend: { position: "none" },
+                                                 hAxis: {title: 'Inputs', titleTextStyle: {color: 'Black'}},
+                                                 vAxis: {title: 'Match Percentage',
+                                            
+                                                        minValue: 0,
+                                                        format: '##.#%',
+                                                        ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+                                                    }, annotation: {
+                                                        textStyle: {
+                                                            fontName: 'Times-Roman',
+                                                            fontSize: 18,
+                                                            bold: true,
+                                                            // The color of the text.
+                                           
+                                                            // The color of the text outline.
+                                                          
+                                                            // The transparency of the text.
+                                                           
+                                                            }
+
+                                                    }
+                                                    
+                                                };
+
+                                
+                                  
+                                  var chart = new google.visualization.ColumnChart(document.getElementById(new_ids[count]+"similarity"));
+                                  chart.draw(data, options);
+                                  count++;
+                                }
+               
+
+                                
+                                </script>   
+                             {%endfor%} 
                     {% endif %}
+                   
                 
 
                 </div>
 
            </form>
-           <a id="back2searches" title="Back to top" href="#"> &#10148; </a>
            <a id="back2Top" title="Back to top" href="#"> &#10148; </a>
 
 

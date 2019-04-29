@@ -200,7 +200,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
             summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])
         """result_exp['Genre'].iloc[i] = genre"""
-        if genre != "nan":
+        if genre != "NaN":
             genre = genre.strip('[]')
             genre = genre.replace("'", "")
             genres[title] = genre

@@ -1,5 +1,4 @@
-@media (min-width:400px){
-    
+  
     #searchForm {
         background-image: url('/static/background.png');
         background-size: cover;
@@ -73,6 +72,7 @@
     .info-container {
         display: flex;
         flex-direction: row;
+        width: 98%;
     }
     .left-side {
         flex: .5;
@@ -87,11 +87,14 @@
         
     }
     
-    .main-cointainer {
+    .info-container {
         border: 2px solid navy;
         box-shadow: 5px 10px;
         border-radius: 25px;
-        min-width: 100%;
+    }
+    .main-cointainer {
+        width: 98%;
+
     }
     .main-cointainer div {
         margin: 10px;
@@ -131,18 +134,21 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .gallaryimg {
-        position: relative;
-        max-width: 30%;
-        min-width: 30%;
+    .dis {
         flex-grow: 1;
         margin: 10px;
+    }
+    .gallaryimg {
+        position: relative;
+        width: 300px;
+        height: 350px;
+        
         
     }
     .gallaryimg .titleh {
         position: absolute;
         top:0;
-        left: 8.5%;
+        left: 0;
         width: 300px;
         height: 350px;
         padding-top: 30%;
@@ -166,9 +172,6 @@
         width: 300px;
         height: 350px;
     }
-    img:hover {
-        opacity: 0.4;
-    }
 
     .titleh h2, .titleh div {
         font-size: 100%;
@@ -187,7 +190,7 @@
     .tokenfield {
         text-align: left;
         width: 400px !important;
-        overflow-x: hidden;
+        overflow-x: auto;
     }
     .ui-menu-item {
         max-width: 373px !important;
@@ -197,21 +200,47 @@
         overflow-y: scroll !important; 
         overflow-x: hidden !important;
     }
-    nav li {
-        text-decoration: none;
-        display: inline-block;
-        margin-right: 20px;
-    }
-    .right-side {
-        height: 100%;
-    }
     nav {
         display: block;
         max-height: 10%;
-        right: 20x;
+        margin-left: 20px;
         top: 230px;
+
         
     }
+    nav ul {
+        padding-left: 0;
+
+    }
+    nav li {
+        text-decoration: none;
+        display: inline-block;
+        width: 30%;
+        
+    }
+
+    nav li a {
+        padding-left:2px;
+        color:black;
+        display: inline-block;
+        width: 100%;
+    }
+    nav li a:hover {
+        text-decoration: None;
+        color: white;
+        background-image: linear-gradient(to top right, navy, lightblue); 
+    } 
+    .clicked {
+        color: white;
+        background-image: linear-gradient(to top right, navy, lightblue);
+    }
+
+
+    
+    .right-side {
+        height: 100%;
+    }
+    
     .left-side h2 {
         padding-bottom: 30px;
     }
@@ -226,10 +255,6 @@
     }
     .right-side .display_info {
         flex: 1
-    }
-    .back2searches {
-        transform: rotate(45deg);
-        font-size: 30px;
     }
     .main-cointainer img {
         width: 400px;
@@ -263,8 +288,28 @@
     .r_style{
         border: 2px solid navy;
     }
-    #back2searches {
+    .back2searches {
+        display: inline-block;
+        font-size: 40px;
+        text-align: left;
+        padding: 10px;
+        margin-right: 90%;
+        color: navy;
         transform: rotate(180deg);
-        font-size: 30px;
+        text-decoration: none;
     }
-}
+    .back2searches:hover {
+        color: gainsboro;
+        text-decoration: none;
+    }
+    .users_message {
+        display: flex;
+        flex-direction: row
+    }
+    .users_message div {
+        flex: 1;
+    }
+
+
+
+    

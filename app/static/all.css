@@ -2,6 +2,7 @@
     #searchForm {
         background-image: url('/static/background.png');
         background-size: cover;
+        color:navy;
         
     }
     .global-search {

@@ -304,6 +304,7 @@
         text-decoration: none;
     }
     .users_message {
+        margin-left: 0 !important;
         display: flex;
         flex-direction: row
     }

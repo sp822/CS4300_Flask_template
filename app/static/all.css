@@ -314,6 +314,10 @@
     .users_message div {
         flex: 1;
     }
+    .ui-state-focus:hover {
+        color:white !important;
+        background: navy !important;
+    }
 
 
 

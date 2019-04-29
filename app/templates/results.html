@@ -204,10 +204,15 @@
                                            
                                                 
                                                 <div class = 'translation'>
-                                                    <strong>Plot Translation:</strong>
+                                                    <strong>Plot Breakdown:</strong>
                                                         <p>
                                                             This graph shows you how simlilar This show is to your search, and why it comes up within your results.
-                                                            Hover over the bar to see how similar this show is to your search. 
+                                                            Total similarity is calculated by adding all the similarity together given their importance.
+                                                            Summary similarity is the similarity between the show you search and this show.            
+                                                            Embedded similarity is the similarity between the way language is used in the similarity as opposed to summary similarity.
+                                                            Actor similarity is the similarity between the actors you input and the actors on this show.
+                                                            Genre similarity is the similarity between the genres you input and the genre of this show.
+                                                            <strong>Hover over the bar to see the breakdown of how similar this show is to your search.</strong> 
                                                         </p>
                                                     </div>
 
@@ -332,8 +337,8 @@
                                   var data = google.visualization.arrayToDataTable([
                                   ['Inputs', 'Match Percentage'],
                                   ['Total', total_sim],
-                                  ['Embedding', embedding_score],
                                   ['Summary', summary_score],
+                                  ['Embedding', embedding_score],
                                   ['Actor', actors_score],
                                   ['Genre', genre_score]
                                 ]);

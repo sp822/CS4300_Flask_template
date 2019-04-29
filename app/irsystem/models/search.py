@@ -31,7 +31,8 @@ years_inclusion_matrix  = np.load(path6)
 non_processed_data = pd.read_csv(path3)
 drama_index_to_name = non_processed_data['Title'].to_dict()
 process_dict = data['Title'].to_dict()
-drama_name_to_index = {v: k for k, v in process_dict.items()}
+drama_name_to_index = {v.strip(): k for k, v in process_dict.items()}
+print(drama_name_to_index)
 drama_name_to_index_unprocess = {v: k for k, v in drama_index_to_name.items()}
 
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'genre_name_to_index.json')) as fp:
@@ -53,7 +54,7 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analys
     sentiment_dict = json.load(fp4)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sentiment.json')) as fp5:
     reviews_sentiment_dict = json.load(fp5)
-'''j = [0]'''
+j = [0]
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
     cleantext = re.sub(clean, '', raw_html)
@@ -86,6 +87,8 @@ def preprocess_text(text):
 def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
     feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity','Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
+    dramas_enjoyed = [drama.lower().strip() for drama in dramas_enjoyed]
+    dramas_disliked = [drama.lower().strip() for drama in dramas_disliked]
     genres = set()
     preferred_genres = [preprocess_text(value) for value in preferred_genres]
     for genre in preferred_genres:
@@ -101,9 +104,8 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     length_arr = s.values
     d2 = {int(k):float(v) for k, v in sentiment_dict.items()}
     result['Sentiment_Analysis']= pd.DataFrame.from_dict(d2, orient='index')
+
     for drama in dramas_enjoyed:
-        drama = drama.lower()
-        drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
             sim = drama_sims_cos[index,:1466]
@@ -112,8 +114,6 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
             result['Embedding_Similarity']+= pd.Series(sim_doc)
 
     for drama in dramas_disliked:
-        drama = drama.lower()
-        drama = drama.strip()
         if drama in drama_name_to_index.keys():
             index = drama_name_to_index[drama]
             sim = drama_sims_cos[index,:1466]
@@ -134,9 +134,19 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     actor_union+=len(preferred_actors)
     actor_sim = actor_sim/(actor_union+1)
     result['Actor_Similarity'] = actor_sim
-    if result['Embedding_Similarity'].max()!=0:
+    min_summary = result['Summary_Similarity'].min()
+    min_embedding = result['Embedding_Similarity'].min()
+    if min_summary < 0:
+        result['Summary_Similarity'] = result['Summary_Similarity'] + min_summary*-1
+        result['Summary_Similarity'] = result['Summary_Similarity']/(1+min_summary*-1)
+    if min_embedding < 0:
+        result['Embedding_Similarity'] = result['Embedding_Similarity'] + min_embedding*-1
+        result['Embedding_Similarity'] = result['Embedding_Similarity']/(1+min_summary*-1)
+    if result['Embedding_Similarity'].max() != 0 and result['Embedding_Similarity'].max() > 1:
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
-    result['Total'] = round(result['Embedding_Similarity']*.3 + result['Summary_Similarity']*.4 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.2,4)
+    if result['Summary_Similarity'].max() > 1:
+        result['Summary_Similarity'] = result['Summary_Similarity']/(result['Summary_Similarity'].max())
+    result['Total'] = round(result['Embedding_Similarity']*.2 + result['Summary_Similarity']*.4 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.2,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]
@@ -146,6 +156,13 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
             mat2 = years_inclusion_matrix[idx, :]
             if sum(mat) == 0:
                 result = result[result.index != idx]
+
+    for idx, res in result.iterrows():
+        title = drama_index_to_name[idx]
+        title = title.lower().strip()
+        if title in dramas_enjoyed or title in dramas_disliked:
+            result = result[result.index != idx]
+
     result = result[:num_results]
     indices =  result.index.tolist()
     best_dramas = pd.Series([drama_index_to_name[index] for index in indices],index = result.index)
@@ -277,8 +294,7 @@ display("game of thrones, nikita, teen wolf", "", "","", [1958, 2019], 5)
 display("","the mindy project, grey's anatomy, house","", "",[1958, 2019], 5)
 display("","doctors, good doctor, doctor stranger", "","", [1958, 2019], 5)
 display("","game of thrones, nikita, teen wolf", "","", [1958, 2019], 5)
-"""
 
-"""
-display("","", "", "Lee Min Ho, Park Shin Hye", [1958, 2019], 5)
-"""
+
+
+display("","Confession", "", "", [1958, 2019], 21)"""

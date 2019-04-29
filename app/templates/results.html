@@ -122,6 +122,12 @@
                         // using the titles to make unike ids for hyperlinks
                          var this_id = "{{ y[: y.find(',')]}}";
                          ids.push(this_id);
+                        //  var q = document.getElementsByClassName('gallarydisplay'); //get all containers with this tag
+                        //  for (i = 0; i < q.length; i++) {
+                        //         var dis_img = q[i];
+                        //         if 
+                        //     }
+
                          
                     </script>
                      <br>
@@ -129,7 +135,7 @@
                     <div class = "dis">
                         <!-- container that has the overlay -->
                         <div class = "gallaryimg">
-                           <img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/>
+                           <img class = 'gallarydisplay' src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" onerror="this.src='/static/Show_Images/A Gentleman’s Dignity.jpg'" alt= "{{ y[: y.find(',')]}}"/>
                            
                            <a class = "img-click" name = "img-click">
                             <div class= 'titleh'>
@@ -148,7 +154,7 @@
                                 <!-- div that contain the image -->
                                 <div class = 'left-side'>
                                    
-                                    <img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/>
+                                        <img class = 'gallarydisplay' src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" onerror="this.src='/static/Show_Images/A Gentleman’s Dignity.jpg'" alt= "{{ y[: y.find(',')]}}"/>
                                 </div>
 
                                 <!-- div that contained the information about the show -->

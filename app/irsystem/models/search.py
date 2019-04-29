@@ -124,7 +124,7 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     for genre in preferred_genres:
         if genre in genre_name_to_index.keys():
             index = genre_name_to_index[genre]
-            result['Genre_Similarity']= genre_inclusion_matrix[:,index]
+            result['Genre_Similarity']+= genre_inclusion_matrix[:,index]
     actor_sim = np.zeros((1466,))
     for actor in preferred_actors:
         if actor in actors_name_to_index.keys():
@@ -146,6 +146,8 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
     if result['Summary_Similarity'].max() > 1:
         result['Summary_Similarity'] = result['Summary_Similarity']/(result['Summary_Similarity'].max())
+    if result['Genre_Similarity'].max() != 0:
+        result['Genre_Similarity'] = result['Genre_Similarity']/(result['Genre_Similarity'].max())
     result['Total'] = round(result['Embedding_Similarity']*.2 + result['Summary_Similarity']*.4 + result['Actor_Similarity']*.1 + result['Genre_Similarity']*.3,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]

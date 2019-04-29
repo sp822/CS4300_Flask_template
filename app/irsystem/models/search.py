@@ -46,8 +46,9 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
     actors_dict = json.load(fp2)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
-
-emb_sim_matrix = np.load('emb_sim_matrix_1.npy')
+    
+fp6=(os.path.join(os.getcwd(),"app", "irsystem", "models",'emb_sim_matrix_1.npy'))
+emb_sim_matrix = np.load(fp6)
 
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
     sentiment_dict = json.load(fp4)

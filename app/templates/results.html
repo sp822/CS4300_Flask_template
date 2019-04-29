@@ -20,66 +20,50 @@
                      $('#back2Top').fadeOut();
                  }
             });
-            // var bgImageArray = ["/static/boysoverflowers-faded.png", "/static/pinocchio-faded.png", "/static/Goong-faded.png", "/static/SurplusPrincess-faded.png", "/static/Youwhocamefromthestars-faded.png" ];
-            // var	base = "";
-            // var	secs = 5;
-            // function backgroundSequence() {
-            //     var k = 0;
-            //     for (var i = 0; i < bgImageArray.length; i++) {
-            //         setTimeout(function(){
-            //             document.body.style.background = 'url('+bgImageArray[k]+') no-repeat center center fixed';
-            //             document.body.style.backgroundSize ="cover";
-            //             if ((k+1) == bgImageArray.length) {
-            //                 setTimeout(function() {
-            //                     backgroundSequence(); }, (secs * 1000));
-            //             }
-            //             else {
-            //                 k++;
-            //             }
-            //         }, (secs * 1000) * i) ;
-            //     }
-            // }
-
-
+            /*Scroll to top when arrow up clicked END*/
+            // document ready 
 
             $(document).ready(function() {
-            // backgroundSequence();
+            // scorring effect take place and slowing down the speed of the scroll
              $("#back2Top").click(function(event) {
                 event.preventDefault();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
                 return false;
                 });
-
+                // when image gets clicked
                 $(".img-click").click(function(event){
-                    console.log("i ran");
-                    var x = $(this).attr("href");
+                   
+                    var x = $(this).attr("href"); //get the atrribute of this image
                   
                     if (document.querySelector(x).classList.contains('hidden')) {
-                        $(x).removeClass("hidden");
-                        $('.dis').addClass("hidden");
+                        $(x).removeClass("hidden"); // show the information correlated with the id in the link
+                        $('.dis').addClass("hidden"); // hide the searches and gallary
                     }
                 });
+                //when you click the go back button
                 $(".back2searches").click(function(event){
-                        $('.dis').removeClass("hidden");
-                        $('.main-cointainer').addClass('hidden');
+                        $('.dis').removeClass("hidden"); //show the gallary 
+                        $('.main-cointainer').addClass('hidden'); //hide the information about the show you clicked
                     });
-               
+                // when you click on the similarity score link
                 $(".score").click(function(event){
-                    var x = $(this).attr("href")+"scoreh";
-                    var y = $(this).attr("href")+"infoh";
-                    var z = $(this).attr("href")+"cast";
+                    var x = $(this).attr("href")+"scoreh"; //get the id associated with this link
+                    var y = $(this).attr("href")+"infoh"; //get the id associated with this link
+                    var z = $(this).attr("href")+"cast"; // get the id associated with this link
             
                     if (document.querySelector(x).classList.contains('hidden')) {
-                        console.log('i ran');
+                        //hide the information of the other two tabs and show the one of the tab you wank
                         $(x).removeClass('hidden');
                         $(y).addClass('hidden');
                         $(z).addClass('hidden');
+                        // display which section you are on
                         $(this).addClass('clicked');
                         $('.info').removeClass('clicked');
                         $('.cast').removeClass('clicked');
                         
                     }
                 });
+                // information is the same as the previous .click function 
                 $(".info").click(function(event){
                     var x = $(this).attr("href")+"scoreh";
                     var y = $(this).attr("href")+"infoh";
@@ -96,6 +80,7 @@
                     }
 
                 });
+                // information is the same as the previous .click function 
                 $(".cast").click(function(event){
                     var x = $(this).attr("href")+"scoreh";
                     var y = $(this).attr("href")+"infoh";
@@ -114,40 +99,41 @@
 
                 });
 
-                // $("#more-display").click(function(event){
-                //     var numresult
-                //  });
 
             });
-            /*Scroll to top when arrow up clicked END*/
+            
         </script>
     </head>
     <body id = "resultsform">
 
             <form class="form-inline global-search content">
+                <!-- Go back to search engine page -->
             <div> <button id ='new-search' type="submit" class="btn btn-info" name = 'new-search'> Make a new Search </button></div>
-            <!-- <a id = 'new-search' href=#>Make a New search</a> -->
+                
                  <div class = "gallary_class">
                    {% if not output.empty %}
                    <script>
+                    //    storing all titles here
                     var ids = [];
                    </script>
-                   
+                        <!-- run the loop of all results found -->
                          {% for y in output %}
                          <script>
-                             
+                        // using the titles to make unike ids for hyperlinks
                          var this_id = "{{ y[: y.find(',')]}}";
                          ids.push(this_id);
                          
                     </script>
                      <br>
-                    
+                    <!-- container that holds the gallary in place -->
                     <div class = "dis">
+                        <!-- container that has the overlay -->
                         <div class = "gallaryimg">
                            <img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= '/static/Show_Images/A Gentleman’s Dignity.jpg'/>
                            
                            <a class = "img-click" name = "img-click">
                             <div class= 'titleh'>
+                                <!-- Displaying the title and similarity score overlay -->
                                 <h2>{{  y[: y.index(',')] }}</h2>
                                 <div class = 'Similarity'><p>{{  y[y.index("Similarity Score:"):y.index(", Sentiment Score:")] }}%</p></div>
 
@@ -155,18 +141,22 @@
                             </a>
                         </div>
                     </div>
-                    
+                    <!-- container that contain the information (lol spelt container wrong in the code) -->
                      <div class = "main-cointainer hidden">
-                        
+                            <!-- main information container -->
                             <div class = "info-container">
+                                <!-- div that contain the image -->
                                 <div class = 'left-side'>
                                    
                                     <img src="/static/Show_Images/{{ y[: y.index(',')] }}.jpg" alt= "/static/Show_Images/A Gentleman's Dignity.jpg"/>
                                 </div>
+
+                                <!-- div that contained the information about the show -->
                                 <div class = "right-side">
                                     <h2>{{  y[: y.index(',')] }}</h2>
                                 <div class = "mini-nav">
                                 <nav>
+                                    <!-- nav bar of the infomation -->
                                         <ul>
                                             <li><a class = "info clicked" >Overview</a></li>
                                             <li><a class = "cast" >Actors</a></li>
@@ -175,9 +165,10 @@
                                         </ul>
                                     </nav>
                                 </div>
+                                <!-- this contains the ratings, genre, summary e.t.c -->
                                 <div class = "display_info">
                                     
-                                                
+                                                <!-- main overview -->
                                         <div class = 'infoid'>
                                            
                                             <div class = 'rating'><p><strong> Rating: </strong>{{  y[y.find('Rating:')+7 :  y.index(', Runtime')] }}</p><p class = 'right'><strong> Year: </strong>{{  y[y.index('Years:')+6 :y.index(',  Sentiment:')] }}</p></div>
@@ -186,7 +177,7 @@
 
                                             <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary:')+8: y.index(',  Genre')] }}</p></div>
                                         </div>
-
+                                            <!-- information about the actors -->
                                         <div class = "castid hidden" >
                                             <div class = 'actors'><strong> Actors: </strong>
                                                 {%for x in  y[y.find('Actors:')+ 7 :y.index(', Votes')].split(', ') %}
@@ -195,21 +186,36 @@
                                             </div>
                                         </div>
                                             
-                                        
+                                            <!-- informaton about the scores -->
                                         <div class = "scoreid hidden">
                                                 <div class =  "users_message">
                                                     <div><strong>User Input:</strong><p>{{output_message}}</p></div>
 
-                                                    <div class = 'Similarity'><strong>This drama Similarity to What you search:</strong><p style= "text-align: center;">{{  y[y.index("Similarity Score:")+17:y.index(", Sentiment Score:")] }}%</p></div>
+                                                    <div class = 'Similarity'><strong>This drama's similarity to what you search:</strong><p style= "text-align: center;">{{  y[y.index("Similarity Score:")+17:y.index(", Sentiment Score:")] }}%</p></div>
                             
                                                 </div>
-                                            <div class= "sentiment"><strong>Sentiment:</strong> {{  y[y.index("Sentiment Score")+16 :y.index(", Embedding")] }}%
-                                                {{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}  </div>
+                                            
+                                           
+                                                
+                                                <div class = 'translation'>
+                                                        <p>
+                                                            This graph shows you how simlilar This show is to your search, and why it comes up within your results.
+                                                            Hover over the bar to see how similar this show is to your search. 
+                                                        </p>
+                                                    </div>
 
                                     
                                                     
                                                 
                                             <div class = 'chart'></div>
+                                            
+                                            <div class= "sentiment">
+            
+                                                    <strong>Sentiment:</strong> 
+                                                    <p>{{  y[y.index("Sentiment Score")+16 :y.index(", Embedding")] }}%
+                                                    {{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}</p>
+    
+                                                    </div>
                                             <div class = 'reviews'>
                                                 <strong>Sentiment Reviews:</strong>
                                                 {% for r in y[y.index("Sentiment Reviews:")+21 :y.index(', Total')-2].replace("'", '"').split('", "') %} 
@@ -224,6 +230,7 @@
                                 </div>
                             </div>
                             </div>
+                            <!-- takes you back to the results you searched  -->
                             <div><a class="back2searches" title="Back to Your Results">  &#10148;</a></div>
 
                         </div>
@@ -231,25 +238,32 @@
                         {% endfor %}
                         <script>
                             
-
+                                // funtion that strips the titles of javascript keywords so we can use the titles as unique ids
                                 function make_id(r){
                                     r = r.replace(/[^a-zA-Z0-9]/g, '');
                                     r = r.replace(' ', '');
+                                    var rsub = r.substr(0, r.length/2);
+                                    if (/\d/.test(rsub)) {
+                                        
+                                        r = r.substr(r.length/2, r.length);
+                                    }
                                     return r
                                 }
+                                // make the ids
                                 var new_ids =[];
                                 for (i = 0; i < ids.length; i++) {
                                     new_ids.push( make_id(ids[i]));
                                 }
-                                var g = document.getElementsByClassName('main-cointainer hidden');
-                                var s = document.getElementsByClassName('img-click');
-                                var back_search = document.getElementsByClassName('back2searches');
-                                var sim_chart = document.getElementsByClassName('chart');
-                                var get_link = document.getElementsByClassName('img-click');
-                                var link_to_score = document.getElementsByClassName('scoreid');
+                                var g = document.getElementsByClassName('main-cointainer hidden'); //get all containers with this tag
+                                var s = document.getElementsByClassName('img-click'); //get all containers with img-click tag
+                                var back_search = document.getElementsByClassName('back2searches'); //get all go back buttons
+                                var sim_chart = document.getElementsByClassName('chart'); //get the chart div
+                                var get_link = document.getElementsByClassName('img-click'); 
+                                var link_to_score = document.getElementsByClassName('scoreid'); // get all elements with this class
                                 var link_to_cast = document.getElementsByClassName('castid');
                                 var link_to_info = document.getElementsByClassName('infoid');
 
+                                // set the class in this array to be clickable by setting their links
                                 var nav_link = ['cast', 'info', 'score'];
                                 for (i = 0; i < nav_link.length; i++) {
                                     var link_to = document.getElementsByClassName(nav_link[i]);
@@ -261,7 +275,7 @@
                                 }
 
                                 
-                                
+                                // Every link in this page should be set here 
                                 for (i = 0; i < g.length; i++) {
                                     var this_score = link_to_score[i];
                                     var this_info = link_to_info[i];
@@ -281,7 +295,7 @@
                                     set_href.setAttribute('href', '#'+ new_ids[i]);
                                     back_search_of_show.setAttribute('href', '#'+ new_ids[i]);
                                 }
-
+                                // use this to make the chart id unique
                                 var count = 0;
                                 </script>
                             {% for y in output %}
@@ -296,15 +310,16 @@
                                 // Draw the chart and set the chart values
                                
                                 function drawChart() {
+                                    // getting the similarity scores
                                     var total_sim = parseFloat( '{{  y[y.index("Similarity Score:")+18 :y.index(", Sentiment Score:")] }}' );
-                                    
+                                    // embedded scores
                                     var  embedding_score =  parseFloat( '{{  y[y.index("Embedding Score")+16 :y.index(", Summary")] }}' );
                                    
-                                    
+                                    // summary scores
                                     var summary_score = parseFloat( '{{  y[y.index("Summary Score:")+15 :y.index(", Actor Score:")] }}' );
-
+                                    // actors similarity
                                     var actors_score = parseFloat( '{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}' );
-                                 
+                                    // genre similarity
                                     var genre_score = parseFloat( "{{  y[y.index('Genre Score')+12 : ]}}" );
                                    
                                   var data = google.visualization.arrayToDataTable([
@@ -363,11 +378,11 @@
                 </div>
 
            </form>
+           <!-- back to the top arrow -->
            <a id="back2Top" title="Back to top" href="#"> &#10148; </a>
 
 
-           <!-- <a id="back2Top" title="Back to top" href="#">&Darr; </a> -->
-
+           <!-- footer -->
     <footer>
         <div>
             <p>Project Name: {{ name }}</p>

@@ -207,11 +207,12 @@
         max-height: 10%;
         margin-left: 20px;
         top: 230px;
-
+        
         
     }
     nav ul {
         padding-left: 0;
+        border-bottom: 2px solid navy;
 
     }
     nav li {

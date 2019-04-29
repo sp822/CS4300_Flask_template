@@ -218,8 +218,8 @@
                                                     </div>
                                             <div class = 'reviews'>
                                                 <strong>Sentiment Reviews:</strong>
-                                                {% for r in y[y.index("Sentiment Reviews:")+21 :y.index(', Total')-2].replace("'", '"').split('", "') %} 
-                                                <p class = "r_style">{{r}}</p>
+                                                {% for r in y[y.index("Sentiment Reviews:")+19 :y.index(', Total')].replace("'", '"').replace('"]', '').replace('["', '').split('", "') %} 
+                                                <p class = "r_style">{{r.replace('"', "'")}}</p>
                                                 {%endfor%}
                                              
                                             

@@ -45,19 +45,19 @@ def search():
 		output_message = ''
 		return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	else:
-		if type(dramas_enjoyed) == None or type(dramas_disliked) == None or type(preferred_genres) == None or type(preferred_actors) == None:
+		if type(dramas_enjoyed) == None and type(dramas_disliked) == None and type(preferred_genres) == None and type(preferred_actors) == None:
 			output = display('','','','', preferred_time_frame, num_results)
 		else:
 			output_message = ''
 			if (dramas_enjoyed):
-				output_message += "Similar Shows to {}".format(dramas_enjoyed)
+				output_message += "Similar shows to {}.".format(dramas_enjoyed)
 			if (dramas_disliked): 
-				output_message += " different From {}".format(dramas_disliked)
+				output_message += "Shows different from {}.".format(dramas_disliked)
 			if (preferred_genres):	
-				output_message += " contains the {} Genre(s)".format(preferred_genres)
+				output_message += "Should contain the {} genre(s)".format(preferred_genres)
 			if (preferred_actors):
-				output_message +="and {} actor(s)".format(preferred_actors)
-			output_message += " from {}, to {}.".format(preferred_time_frame[0], preferred_time_frame[1])
+				output_message +=" and these actor(s): {}.".format(preferred_actors)
+			output_message += "Preferably between {} to {} years.".format(preferred_time_frame[0], preferred_time_frame[1])
 			output = display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results)
 		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, genre=genre_list, titles = titles_list, clicked_img = clicked_img, networks = network_list, output=output)
 	if request.args.get('new-search'):

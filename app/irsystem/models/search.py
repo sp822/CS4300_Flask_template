@@ -244,6 +244,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
             actors[title] = actor
         else:
             actors[title] = "No actor information is available."
+        print(actors[title])
         network_loc = str(non_processed_data['Network'].loc[idx])
         network = ""
         for net in network_list:

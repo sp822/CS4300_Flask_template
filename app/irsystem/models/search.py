@@ -32,7 +32,6 @@ non_processed_data = pd.read_csv(path3)
 drama_index_to_name = non_processed_data['Title'].to_dict()
 process_dict = data['Title'].to_dict()
 drama_name_to_index = {v.strip(): k for k, v in process_dict.items()}
-print(drama_name_to_index)
 drama_name_to_index_unprocess = {v: k for k, v in drama_index_to_name.items()}
 
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'genre_name_to_index.json')) as fp:
@@ -48,7 +47,9 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
 
-emb_sim_matrix = np.load('emb_sim_matrix_1.npy')
+path7 = os.path.join(os.getcwd(),"app", "irsystem", "models", 'emb_sim_matrix_1.npy')
+
+emb_sim_matrix = np.load(path7)
 
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
     sentiment_dict = json.load(fp4)

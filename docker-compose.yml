@@ -1,5 +1,5 @@
 flask:
-    image: yangkt/flask-template:v2
+    image: yangkt/flask-template:v1
     ports:
       - "5000:5000"
     environment:

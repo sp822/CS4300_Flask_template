@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v4
 kind: Deployment
 metadata:
   name: flask
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: yangkt/flask-template:v2
+        image: yangkt/flask-template:v4
         env:
         - name: APP_SETTINGS
           value: config.DevelopmentConfig

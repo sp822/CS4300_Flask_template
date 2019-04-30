@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: yangkt/flask-template:v4
+        image: yangkt/flask-template:final
         env:
         - name: APP_SETTINGS
           value: config.DevelopmentConfig

@@ -137,19 +137,25 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     result['Actor_Similarity'] = actor_sim
     min_summary = result['Summary_Similarity'].min()
     min_embedding = result['Embedding_Similarity'].min()
+    min_sentiment = result['Sentiment_Analysis'].min()
     if min_summary < 0:
         result['Summary_Similarity'] = result['Summary_Similarity'] + min_summary*-1
         result['Summary_Similarity'] = result['Summary_Similarity']/(1+min_summary*-1)
     if min_embedding < 0:
         result['Embedding_Similarity'] = result['Embedding_Similarity'] + min_embedding*-1
-        result['Embedding_Similarity'] = result['Embedding_Similarity']/(1+min_summary*-1)
-    if result['Embedding_Similarity'].max() != 0 or result['Embedding_Similarity'].min() != 0:
-        result['Embedding_Similarity'] = (result['Embedding_Similarity']-result['Embedding_Similarity'].min())/(result['Embedding_Similarity'].max()-result['Embedding_Similarity'].min())
-    if result['Summary_Similarity'].max() != 0 or result['Summary_Similarity'].min()!=0:
-        result['Summary_Similarity'] = (result['Summary_Similarity']-result['Summary_Similarity'].min())/(result['Summary_Similarity'].max()-result['Summary_Similarity'].min())
-    if result['Genre_Similarity'].max() != 0 or result['Genre_Similarity'].min() != 0:
-        result['Genre_Similarity'] = (result['Genre_Similarity'] - result['Genre_Similarity'].min())/ (result['Genre_Similarity'].max() - result['Genre_Similarity'].min())
-    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Sentiment_Analysis']*.1 + result['Summary_Similarity']*.45 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
+        result['Embedding_Similarity'] = result['Embedding_Similarity']/(1+min_embedding*-1)
+    if min_sentiment < 0:
+        result['Sentiment_Analysis'] = result['Sentiment_Analysis'] + min_sentiment*-1
+        result['Sentiment_Analysis'] = result['Sentiment_Analysis']/(1+min_sentiment*-1)
+    if result['Embedding_Similarity'].max() != 0 and result['Embedding_Similarity'].max() > 1:
+        result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
+    if result['Summary_Similarity'].max() > 1:
+        result['Summary_Similarity'] = result['Summary_Similarity']/(result['Summary_Similarity'].max())
+    if result['Sentiment_Analysis'].max() > 1:
+        result['Sentiment_Analysis'] = result['Sentiment_Analysis']/(result['Sentiment_Analysis'].max())
+    if result['Genre_Similarity'].max() != 0:
+        result['Genre_Similarity'] = result['Genre_Similarity']/(result['Genre_Similarity'].max())
+    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Summary_Similarity']*.55 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]
@@ -286,19 +292,13 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
 display("", "","fantasy","", [1958, 2019], 5)
 display("", "","romantic","", [1958, 2019], 5)
 display("", "","medical","", [1958, 2019], 5)
-
 display("", "", "","", [1958, 1962], 5)
 display("", "", "","", [1980, 2000], 5)
 display("", "", "","", [2000, 2010], 5)
-
 display("the mindy project, grey's anatomy, house", "","", "",[1958, 2019], 5)
 display("doctors, good doctor, doctor stranger", "", "","", [1958, 2019], 5)
 display("game of thrones, nikita, teen wolf", "", "","", [1958, 2019], 5)
-
 display("","the mindy project, grey's anatomy, house","", "",[1958, 2019], 5)
 display("","doctors, good doctor, doctor stranger", "","", [1958, 2019], 5)
 display("","game of thrones, nikita, teen wolf", "","", [1958, 2019], 5)
-
-
-
 display("","Confession", "", "", [1958, 2019], 21)"""

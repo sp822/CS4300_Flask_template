@@ -149,7 +149,7 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         result['Summary_Similarity'] = (result['Summary_Similarity']-result['Summary_Similarity'].min())/(result['Summary_Similarity'].max()-result['Summary_Similarity'].min())
     if result['Genre_Similarity'].max() != 0 or result['Genre_Similarity'].min() != 0:
         result['Genre_Similarity'] = (result['Genre_Similarity'] - result['Genre_Similarity'].min())/ (result['Genre_Similarity'].max() - result['Genre_Similarity'].min())
-    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Actor_Similarity']*.1 + result['Summary_Similarity']*.45 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
+    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Sentiment_Analysis']*.1 + result['Summary_Similarity']*.45 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]

@@ -143,13 +143,13 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     if min_embedding < 0:
         result['Embedding_Similarity'] = result['Embedding_Similarity'] + min_embedding*-1
         result['Embedding_Similarity'] = result['Embedding_Similarity']/(1+min_summary*-1)
-    if result['Embedding_Similarity'].max() != 0 and result['Embedding_Similarity'].max() > 1:
-        result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
-    if result['Summary_Similarity'].max() > 1:
-        result['Summary_Similarity'] = result['Summary_Similarity']/(result['Summary_Similarity'].max())
-    if result['Genre_Similarity'].max() != 0:
-        result['Genre_Similarity'] = result['Genre_Similarity']/(result['Genre_Similarity'].max())
-    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Summary_Similarity']*.55 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
+    if result['Embedding_Similarity'].max() != 0 or result['Embedding_Similarity'].min() != 0:
+        result['Embedding_Similarity'] = (result['Embedding_Similarity']-result['Embedding_Similarity'].min())/(result['Embedding_Similarity'].max()-result['Embedding_Similarity'].min())
+    if result['Summary_Similarity'].max() != 0 or result['Summary_Similarity'].min()!=0:
+        result['Summary_Similarity'] = (result['Summary_Similarity']-result['Summary_Similarity'].min())/(result['Summary_Similarity'].max()-result['Summary_Similarity'].min())
+    if result['Genre_Similarity'].max() != 0 or result['Genre_Similarity'].min() != 0:
+        result['Genre_Similarity'] = (result['Genre_Similarity'] - result['Genre_Similarity'].min())/ (result['Genre_Similarity'].max() - result['Genre_Similarity'].min())
+    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Actor_Similarity']*.1 + result['Summary_Similarity']*.45 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]

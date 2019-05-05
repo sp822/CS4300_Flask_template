@@ -106,7 +106,7 @@
         background-color: navy;
         padding: 10px;
         color: white;
-        bottom: 0%;
+        bottom: 0;
     }
     
     .sidebyside {
@@ -313,6 +313,10 @@
     .ui-state-focus {
         color:white !important;
         background: navy !important;
+    }
+
+    .chart {
+        text-align: left;
     }
 
 

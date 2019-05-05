@@ -3,9 +3,9 @@
         <link rel="stylesheet" href="static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css"/>
         <link rel="stylesheet" href="/static/all.css"/>
-        <link href="/static/dist/css/bootstrap-tokenfield.min.css" rel="stylesheet" type="text/css">
+        <link href="/static/sliptree-bootstrap-tokenfield-9c06df4/dist/css/bootstrap-tokenfield.min.css" rel="stylesheet" type="text/css">
         <script src="static/jquery-3.3.1.min.js" type = "text/javascript"></script>
-        <script type="text/javascript" src="/static/dist/bootstrap-tokenfield.min.js"></script>
+        <script type="text/javascript" src="/static/sliptree-bootstrap-tokenfield-9c06df4/dist/bootstrap-tokenfield.min.js"></script>
         <script type="text/javascript" src="/static/bootstrap3-typeahead.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -333,9 +333,6 @@
                                     var actors_score = parseFloat( '{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}' );
                                     // genre similarity
                                     var genre_score = parseFloat( "{{  y[y.index('Genre Score')+12 : ]}}" );
-
-                                    var sentiment_score = parseFloat("{{y[y.index('Sentiment Score:')+17 : y.index(', Embedding Score:')]}}");
-                                    console.log(sentiment_score);
                                    
                                   var data = google.visualization.arrayToDataTable([
                                   ['Inputs', 'Match Percentage'],
@@ -343,14 +340,13 @@
                                   ['Summary', summary_score],
                                   ['Embedding', embedding_score],
                                   ['Actor', actors_score],
-                                  ['Genre', genre_score],
-                                  ['sentiment', sentiment_score]
+                                  ['Genre', genre_score]
                                 ]);
                                 
                                   // Optional; add a title and set the width and height of the chart
                                  
                                   var options = {'title':'Similarity Scores',
-                                                 'width':530, 
+                                                 'width':500, 
                                                  'height':300,
                                                  legend: { position: "none" },
                                                  hAxis: {title: 'Inputs', titleTextStyle: {color: 'Black'}},

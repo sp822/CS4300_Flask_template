@@ -1,320 +1,323 @@
+
+  #searchForm {
+      background-image: url('/static/background.png');
+      background-size: cover;
+      color:navy;
+
+  }
+  .global-search {
+      margin-top: 20%;
+      margin-bottom: 2.35%;
+  }
+
+  #resultsform {
+      background-image: none;
+      background-color: lightblue;
+  }
+  #resultsform .global-search {
+      margin-top: auto;
+  }
+
+  .global-search .form-group {
+      width: 80%;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: row;
+  }
+  .global-search .form-group div {
+      text-align: left;
+      display: flex;
+      align-items: flex-end;
+
+  }
+  .global-search .form-group div:last-child {
+      margin-left: 10px;
+  }
+
+  .global-search .form-group div label {
+      min-width: 140px;
+      flex-grow: .5;
+  }
+  .global-search .form-group div input {
+      flex-grow: 1;
+
+
+  }
+  .first {
+      width: 90%
+  }
+
+  h2 {
+      margin-left: 30px;
+  }
+
+  #back2Top {
+      font-size: 50px;
+      position: fixed;
+      width: 40px;
+      transform: rotate(270deg);
+      font-size: 40px;
+      cursor: pointer;
+      color:navy;
+      cursor: pointer;
+      text-decoration: none;
+      bottom: 70px;
+      right: 7px;
+      display:none;
+  }
+
+  #back2Top:hover {
+      color: rgb(12, 81, 104);
+  }
+
+
+  .info-container {
+      display: flex;
+      flex-direction: row;
+      width: 98%;
+  }
+  .left-side {
+      flex: .5;
+  }
+  .right-side {
+      margin: auto 10%;
+      max-width: 80%;
+      padding: 10px;
+      flex: 1;
+      max-height: 500px;
+      overflow-y: auto;
+
+  }
+
+  .info-container {
+      border: 2px solid navy;
+      box-shadow: 5px 10px;
+      border-radius: 25px;
+  }
+  .main-cointainer {
+      width: 98%;
+
+  }
+  .main-cointainer div {
+      margin: 10px;
+  }
+
+  footer {
+      background-color: navy;
+      padding: 10px;
+      color: white;
+      bottom: 0;
+  }
+
+  .sidebyside {
+      display: flex;
+      flex-direction: row;
+
+  }
+  .sidebyside div {
+      margin: 15px;
+      flex: 1;
+  }
+  .pullabit select:first-child {
+      width: 200px;
+  }
+
+  .gallary_class {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+  .dis {
+      flex-grow: 1;
+      margin: 10px;
+  }
+  .gallaryimg {
+      position: relative;
+      width: 300px;
+      height: 350px;
+
+
+  }
+  .gallaryimg:hover {
+      width: 310px;
+      height: 360px;
+  }
+  .gallaryimg .titleh {
+      position: absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding-top: 30%;
+      display: none;
+  }
+
+  .gallaryimg:hover .titleh {
+      font-size: 20px;
+      display: block;
+      background: rgba(0, 0, 0, 0.6);
+      color:white;
+
+  }
+
+  .gallary_class h1{
+      width: 100%;
+      Display: block;
+  }
+  .hidden {
+      display: none;
+  }
+  img {
+      width: 300px;
+      height: 350px;
+  }
+  .gallaryimg:hover img {
+      width: 100%;
+      height: 100%;
+  }
+
+  .titleh h2, .titleh div {
+      font-size: 100%;
+
+
+  }
+
+  .btn-info {
+      background: navy;
+      width: 30%;
+  }
+  .token {
+      color: white;
+      background: navy !important;
+  }
+  .tokenfield {
+      text-align: left;
+      width: 400px !important;
+      overflow-x: auto;
+  }
+  .ui-menu-item {
+      max-width: 373px !important;
+  }
+  .ui-autocomplete {
+      max-height: 150px !important;
+      overflow-y: scroll !important;
+      overflow-x: hidden !important;
+  }
+  nav {
+      display: block;
+      max-height: 10%;
+      margin-left: 20px;
+      top: 230px;
+
+
+  }
+  nav ul {
+      padding-left: 0;
+      border-bottom: 2px solid navy;
+
+  }
+  nav li {
+      text-decoration: none;
+      display: inline-block;
+      width: 30%;
+
+  }
+
+  nav li a {
+      padding-left:2px;
+      color:black;
+      display: inline-block;
+      width: 100%;
+  }
+  nav li a:hover {
+      text-decoration: None;
+      color: white;
+      background-image: linear-gradient(to top right, navy, lightblue);
+  }
+  .clicked {
+      color: white;
+      background-image: linear-gradient(to top right, navy, lightblue);
+  }
+
+
+
+  .right-side {
+      height: 100%;
+  }
+
+  .left-side h2 {
+      padding-bottom: 30px;
+  }
+  .right-side {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      text-align: left;
+  }
+
+
+  .main-cointainer img {
+      width: 400px;
+      height: 500px;
+  }
+  .actors p {
+      margin-bottom: 3px;
+  }
+  .rating {
+      display: flex;
+      flex-direction: row;
+  }
+  .rating p {
+      flex: 1
+  }
+  .genre {
+      display: flex;
+      flex-direction: row;
+  }
+  .genre p {
+      flex: 1
+  }
+  #new-search {
+
+      margin-right: 50px;
+  }
+
+  .reviews {
+      margin-top: 10px;
+  }
+  .r_style{
+      border: 2px solid navy;
+  }
+  .back2searches {
+      display: inline-block;
+      font-size: 40px;
+      text-align: left;
+      padding: 10px;
+      margin-right: 90%;
+      color: navy;
+      transform: rotate(180deg);
+      text-decoration: none;
+  }
+  .back2searches:hover {
+      color: gainsboro;
+      text-decoration: none;
+  }
+  .users_message {
+      margin-left: 0 !important;
+      display: flex;
+      flex-direction: row
+  }
+  .users_message div {
+      flex: 1;
+  }
+  .ui-state-focus {
+      color:white !important;
+      background: navy !important;
+  }
+
+  .chart {
+      text-align: left;
+  }
+
+
   
-    #searchForm {
-        background-image: url('/static/background.png');
-        background-size: cover;
-        color:navy;
-        
-    }
-    .global-search {
-        margin-top: 20%;
-        margin-bottom: 2.35%;
-    }
-
-    #resultsform {
-        background-image: none;
-        background-color: lightblue;
-    }
-    #resultsform .global-search {
-        margin-top: auto;
-    }
-
-    .global-search .form-group {
-        width: 80%;
-        display: flex;
-        align-items: flex-end;
-        flex-direction: row;
-    }
-    .global-search .form-group div {
-        text-align: left;
-        display: flex;
-        align-items: flex-end;
-
-    }
-    .global-search .form-group div:last-child {
-        margin-left: 10px;
-    }
-
-    .global-search .form-group div label {
-        min-width: 140px;
-        flex-grow: .5;
-    }
-    .global-search .form-group div input {
-        flex-grow: 1;
-    
-        
-    }
-    .first {
-        width: 90%
-    }
-    
-    h2 {
-        margin-left: 30px;
-    }
-
-    #back2Top {
-        font-size: 50px;
-        position: fixed;
-        width: 40px;
-        transform: rotate(270deg);
-        font-size: 40px;
-        cursor: pointer;
-        color:navy;
-        cursor: pointer;
-        text-decoration: none;
-        bottom: 70px;
-        right: 7px;
-        display:none;
-    }
-
-    #back2Top:hover {
-        color: rgb(12, 81, 104);
-    }
-
-    
-    .info-container {
-        display: flex;
-        flex-direction: row;
-        width: 98%;
-    }
-    .left-side {
-        flex: .5;
-    }
-    .right-side {
-        margin: auto 10%;
-        max-width: 80%;
-        padding: 10px;
-        flex: 1;
-        max-height: 500px;
-        overflow-y: auto; 
-        
-    }
-    
-    .info-container {
-        border: 2px solid navy;
-        box-shadow: 5px 10px;
-        border-radius: 25px;
-    }
-    .main-cointainer {
-        width: 98%;
-
-    }
-    .main-cointainer div {
-        margin: 10px;
-    }
-    
-    footer {
-        background-color: navy;
-        padding: 10px;
-        color: white;
-        bottom: 0%;
-    }
-    
-    .sidebyside {
-        display: flex;
-        flex-direction: row;
-
-    }
-    .sidebyside div {
-        margin: 15px;
-        flex: 1;
-    }
-    .pullabit select:first-child {
-        width: 200px;
-    }
-   
-    .gallary_class {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    .dis {
-        flex-grow: 1;
-        margin: 10px;
-    }
-    .gallaryimg {
-        position: relative;
-        width: 300px;
-        height: 350px;
-        
-        
-    }
-    .gallaryimg:hover {
-        width: 310px;
-        height: 360px;
-    }
-    .gallaryimg .titleh {
-        position: absolute;
-        top:0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        padding-top: 30%;
-        display: none;
-    }
-    
-    .gallaryimg:hover .titleh {
-        font-size: 20px;
-        display: block;
-        background: rgba(0, 0, 0, 0.6);
-        color:white;
-
-    }
-
-    .gallary_class h1{
-        width: 100%;
-        Display: block;
-    }
-    .hidden {
-        display: none;
-    }
-    img {
-        width: 300px;
-        height: 350px;
-    }
-    .gallaryimg:hover img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .titleh h2, .titleh div {
-        font-size: 100%;
-
-
-    }
-    
-    .btn-info {
-        background: navy;
-        width: 30%;
-    }
-    .token {
-        color: white;
-        background: navy !important; 
-    }
-    .tokenfield {
-        text-align: left;
-        width: 400px !important;
-        overflow-x: auto;
-    }
-    .ui-menu-item {
-        max-width: 373px !important;
-    }
-    .ui-autocomplete { 
-        max-height: 150px !important;
-        overflow-y: scroll !important; 
-        overflow-x: hidden !important;
-    }
-    nav {
-        display: block;
-        max-height: 10%;
-        margin-left: 20px;
-        top: 230px;
-        
-        
-    }
-    nav ul {
-        padding-left: 0;
-        border-bottom: 2px solid navy;
-
-    }
-    nav li {
-        text-decoration: none;
-        display: inline-block;
-        width: 30%;
-        
-    }
-
-    nav li a {
-        padding-left:2px;
-        color:black;
-        display: inline-block;
-        width: 100%;
-    }
-    nav li a:hover {
-        text-decoration: None;
-        color: white;
-        background-image: linear-gradient(to top right, navy, lightblue); 
-    } 
-    .clicked {
-        color: white;
-        background-image: linear-gradient(to top right, navy, lightblue);
-    }
-
-
-    
-    .right-side {
-        height: 100%;
-    }
-    
-    .left-side h2 {
-        padding-bottom: 30px;
-    }
-    .right-side {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        text-align: left;
-    }
-    
-    
-    .main-cointainer img {
-        width: 400px;
-        height: 500px;
-    }
-    .actors p {
-        margin-bottom: 3px;
-    }
-    .rating {
-        display: flex;
-        flex-direction: row;
-    }
-    .rating p {
-        flex: 1
-    }
-    .genre {
-        display: flex;
-        flex-direction: row;
-    }
-    .genre p {
-        flex: 1
-    }
-    #new-search {
-        
-        margin-right: 50px;
-    }
-
-    .reviews {
-        margin-top: 10px;
-    }
-    .r_style{
-        border: 2px solid navy;
-    }
-    .back2searches {
-        display: inline-block;
-        font-size: 40px;
-        text-align: left;
-        padding: 10px;
-        margin-right: 90%;
-        color: navy;
-        transform: rotate(180deg);
-        text-decoration: none;
-    }
-    .back2searches:hover {
-        color: gainsboro;
-        text-decoration: none;
-    }
-    .users_message {
-        margin-left: 0 !important;
-        display: flex;
-        flex-direction: row
-    }
-    .users_message div {
-        flex: 1;
-    }
-    .ui-state-focus {
-        color:white !important;
-        background: navy !important;
-    }
-
-
-
-    

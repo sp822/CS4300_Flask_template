@@ -226,8 +226,7 @@
                                             <div class= "sentiment">
             
                                                     <strong>Sentiment:</strong> 
-                                                    <p>{{  y[y.index("Sentiment Score")+16 :y.index(", Embedding")] }}%
-                                                    {{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}</p>
+                                                    <p>{{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}</p>
     
                                                     </div>
                                             <div class = 'reviews'>
@@ -352,7 +351,7 @@
                                   // Optional; add a title and set the width and height of the chart
                                  
                                   var options = {'title':'Similarity Scores',
-                                                 'width':530, 
+                                                 'width':500, 
                                                  'height':300,
                                                  legend: { position: "none" },
                                                  hAxis: {title: 'Inputs', titleTextStyle: {color: 'Black'}},

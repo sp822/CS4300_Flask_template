@@ -137,16 +137,11 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         if genre in genre_name_to_index.keys():
             index = genre_name_to_index[genre]
             result['Genre_Similarity']+= genre_inclusion_matrix[:,index]
-    actor_sim = np.zeros((1466,))
     for actor in preferred_actors:
         if actor in actors_name_to_index.keys():
             index = actors_name_to_index[actor]
-            actor_sim+= actors_inclusion_matrix[:,index]
-    result['Actor_Similarity'] = actor_sim
+            result['Actor_Similarity']+= actors_inclusion_matrix[:,index]
     result['Actor_Similarity'] = result['Actor_Similarity'].apply(lambda x: bool_actors(len(preferred_actors),int(x)))
-    print('motherfucker')
-    print((dramas_enjoyed))
-    print((preferred_actors))
     min_summary = result['Summary_Similarity'].min()
     max_summary = result['Summary_Similarity'].max()
     min_embedding = result['Embedding_Similarity'].min()
@@ -189,6 +184,8 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
 
     result = result[:num_results]
     result = result.loc[result['Actor_Similarity'] != 0]
+    if len(preferred_actors) ==0:
+        result['Actor_Similarity'] = 0
     indices =  result.index.tolist()
     best_dramas = pd.Series([drama_index_to_name[index] for index in indices],index = result.index)
     result.insert(loc=0, column='Drama_Title', value=best_dramas)

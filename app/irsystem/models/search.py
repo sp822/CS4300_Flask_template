@@ -85,19 +85,30 @@ def preprocess_text(text):
     text = text.strip()
     text = stem(text)
     return text
+
+def bool_actors(len_actors, x):
+    if x == len_actors:
+        return 1
+    else:
+        return 0
+
 def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
     feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity','Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
+    dramas_enjoyed = list(filter(lambda x: len(x) > 0, dramas_enjoyed))
+    dramas_disliked = list(filter(lambda x: len(x) > 0, dramas_disliked))
     dramas_enjoyed = [drama.lower().strip() for drama in dramas_enjoyed]
     dramas_disliked = [drama.lower().strip() for drama in dramas_disliked]
     genres = set()
     preferred_genres = [preprocess_text(value) for value in preferred_genres]
+    preferred_genres = list(filter(lambda x: len(x) > 0 and x!= "nan", preferred_genres))
     for genre in preferred_genres:
         genres.update(preferred_genres)
     years = preferred_time_frame
     start_year = int(years[0])
     end_year = int(years[1])
     embedding_bool = True
+    preferred_actors = list(filter(lambda x: len(x) > 0, preferred_actors))
     preferred_actors_set = set()
     preferred_actors_set.update(preferred_actors)
     length = {int(idx):len(str(value).split(", ")) for idx, value in non_processed_data["Actors"].items()}
@@ -131,28 +142,35 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         if actor in actors_name_to_index.keys():
             index = actors_name_to_index[actor]
             actor_sim+= actors_inclusion_matrix[:,index]
-    actor_union = length_arr - actor_sim
-    actor_union+=len(preferred_actors)
-    actor_sim = actor_sim/(actor_union+1)
     result['Actor_Similarity'] = actor_sim
+    result['Actor_Similarity'] = result['Actor_Similarity'].apply(lambda x: bool_actors(len(preferred_actors),int(x)))
+    print('motherfucker')
+    print((dramas_enjoyed))
+    print((preferred_actors))
     min_summary = result['Summary_Similarity'].min()
+    max_summary = result['Summary_Similarity'].max()
     min_embedding = result['Embedding_Similarity'].min()
+    max_embedding = result['Embedding_Similarity'].max()
     min_sentiment = result['Sentiment_Analysis'].min()
-    if min_summary < 0:
-        result['Summary_Similarity'] = result['Summary_Similarity']-min_summary
-        result['Summary_Similarity'] = result['Summary_Similarity']/(1-min_summary)
-    if min_embedding < 0:
-        result['Embedding_Similarity'] = result['Embedding_Similarity']- min_embedding
-        result['Embedding_Similarity'] = result['Embedding_Similarity']/(1-min_embedding)
-    if min_sentiment !=1:
-        result['Sentiment_Analysis'] = (result['Sentiment_Analysis']- min_sentiment)/(1-min_sentiment)
-    if result['Embedding_Similarity'].max() != 0 and result['Embedding_Similarity'].max() > 1:
-        result['Embedding_Similarity'] = result['Embedding_Similarity']/(result['Embedding_Similarity'].max())
-    if result['Summary_Similarity'].max() > 1:
-        result['Summary_Similarity'] = result['Summary_Similarity']/(result['Summary_Similarity'].max())
-    if result['Genre_Similarity'].max() != 0:
-        result['Genre_Similarity'] = result['Genre_Similarity']/(result['Genre_Similarity'].max())
-    result['Total'] = round(result['Embedding_Similarity']*.05 + result['Sentiment_Analysis']*.1 + result['Summary_Similarity']*.45 + result['Actor_Similarity']*.2 + result['Genre_Similarity']*.2,4)
+    max_sentiment = result['Sentiment_Analysis'].max()
+    if min_summary != 0 and max_summary != 0:
+        result['Summary_Similarity'] = (result['Summary_Similarity']-min_summary)/(max_summary-min_summary)
+    if min_embedding != 0 and max_embedding !=0:
+        result['Embedding_Similarity'] = (result['Embedding_Similarity']- min_embedding)/(max_embedding - min_embedding)
+    if min_sentiment != 0 and max_sentiment !=0:
+        result['Sentiment_Analysis'] = (result['Sentiment_Analysis']- min_sentiment)/(max_sentiment-min_sentiment)
+    summ = result['Summary_Similarity']
+    embed = result['Embedding_Similarity']
+    gen = result['Genre_Similarity']
+    act = result['Actor_Similarity']
+    if len(dramas_enjoyed) == 0 and len(dramas_disliked) == 0:
+        summ = 1
+        embed = 1
+    if len(preferred_actors) ==0:
+        act = 1
+    if len(preferred_genres) == 0:
+        gen = 1
+    result['Total'] = round(embed*.05 + result['Sentiment_Analysis']*.1 + summ*.45 + act*.1 + gen*.3,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]
     index2 = years_name_to_index[str(end_year)]
@@ -170,6 +188,7 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
             result = result[result.index != idx]
 
     result = result[:num_results]
+    result = result.loc[result['Actor_Similarity'] != 0]
     indices =  result.index.tolist()
     best_dramas = pd.Series([drama_index_to_name[index] for index in indices],index = result.index)
     result.insert(loc=0, column='Drama_Title', value=best_dramas)

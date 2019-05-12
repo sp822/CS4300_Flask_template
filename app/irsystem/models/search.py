@@ -218,8 +218,14 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         embed = 1
     if len(preferred_actors) ==0:
         act = 1
+        result['Actor_Similarity'] = 0
     if len(preferred_genres) == 0:
         gen = 1
+        result['Genre_Similarity'] = 0
+    print(gen)
+    print(summ)
+    print(embed)
+    print(act)
     result['Total'] = round(embed*.05 + result['Sentiment_Analysis']*.1 + summ*.45 + act*.1 + gen*.3,4)
     result = result.sort_values(by='Total', ascending=False)
     index1 = years_name_to_index[str(start_year)]

@@ -12,8 +12,12 @@ import matplotlib.pyplot as plt
 import math
 import json
 from nltk.stem import PorterStemmer
+import zipfile
 
-
+pathZip = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.zip")
+zip_ref = zipfile.ZipFile(pathZip, 'r')
+toExtract =  os.path.join(os.getcwd(), "app", "irsystem", "models")
+zip_ref.extractall(toExtract)
 path3 = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.npy")
 doc_to_vocab = np.load(path3)
 path = os.path.join(os.getcwd(),"app", "irsystem", "models", "cleaned_comprehensive_data.csv")

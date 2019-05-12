@@ -13,7 +13,6 @@ import math
 import json
 from nltk.stem import PorterStemmer
 import zipfile
-from prompt_toolkit import HTML
 
 
 with open(os.path.join(os.getcwd(), "app", "irsystem", "models",'tfidf_index_to_vocab.json')) as fp8:

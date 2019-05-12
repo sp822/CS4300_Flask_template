@@ -14,7 +14,8 @@ import json
 from nltk.stem import PorterStemmer
 
 
-
+path3 = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.npy")
+doc_to_vocab = np.load(path3)
 path = os.path.join(os.getcwd(),"app", "irsystem", "models", "cleaned_comprehensive_data.csv")
 data = pd.read_csv(path)
 num_dramas = len(data)
@@ -58,6 +59,7 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analys
     sentiment_dict = json.load(fp4)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sentiment.json')) as fp5:
     reviews_sentiment_dict = json.load(fp5)
+    
 j = [0]
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -96,9 +98,40 @@ def bool_actors(len_actors, x):
         return 0
 
 
-def bold_important()
+def bold_important(summary, important_words):
+    for word in important_words:
+        search_string = word.lower() + "\S*"
+        x = re.search(search_string, (summary.lower()))
+        (start, end) = x.span()
+        summary = summary[:start] + "<b>" + summary[start:end] + "<b>" + summary[end:]
+    return summary
+
+#give a list of enjoyed dramas, creates an aggregrate 
+#of the vocab used in those summaries
+def create_common_words(dramas_enjoyed):
+    agg = np.zeros(16673)
+    for drama in dramas_enjoyed:
+        index = drama_name_to_index[drama]
+        agg = np.add(agg, doc_to_vocab[index])
+        
+    vocab_all = np.multiply(doc_to_vocab, agg)
+    most_common_words  = np.empty((num_dramas), dtype = object)
+    for (idx, row) in enumerate(vocab_all):
+        #sum_lenth = len(non_processed_data['Summary'][idx])
+        order = row.argsort()[-10:][::-1]
+        words = []
+        for index in order:
+            word = tfidf_index_to_vocab[str(index)]
+            words.append(word)
+        
+        most_common_words[idx] = words
+    return most_common_words
+    
+        
 
 def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
+    
+
     feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity','Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
     dramas_enjoyed = list(filter(lambda x: len(x) > 0, dramas_enjoyed))
@@ -200,10 +233,14 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
 
 
 def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
+    
     dramas_enj = dramas_enjoyed.split(', ')
     dramas_dis = dramas_disliked.split(', ')
     preferred_acts =  preferred_actors.split(', ')
     preferred_genres = preferred_genres.split(', ')
+    
+    common_word_list = create_common_words(dramas_enj)
+    
     """
     print("dramas_enjoyed: " + dramas_enjoyed)
     print("dramas_disliked: " + dramas_disliked)
@@ -232,6 +269,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     networks = {}
     sentiment_output = {}
     sentiment_reviews_output = {}
+    
     """feature_list = ['Title','Summary','Genre', 'Rating', 'Runtime','Actors', 'Network', 'Votes', 'Year','Similarity_Score', 'Sentiment_Score']
     result_exp = pd.DataFrame(None, index=np.arange(num_results), columns=feature_list)"""
     i = 0
@@ -240,7 +278,9 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         summary = str(non_processed_data['Summary'].loc[idx])
         """result_exp['Summary'].iloc[i] = summary"""
         if summary != "nan":
-            summaries[title] = summary
+            index = drama_name_to_index[title]
+            new_sum = bold_important(summaries[title], common_word_list[index])
+            summaries[title] = new_sum
         else:
             summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])

@@ -40,6 +40,10 @@ drama_name_to_index = {v.strip(): k for k, v in process_dict.items()}
 drama_name_to_index_unprocess = {v: k for k, v in drama_index_to_name.items()}
 
 
+american_data = pd.read_csv(os.path.join(os.getcwd(),"app", "irsystem", "models","cleaned_american_data.csv"))
+american_index_to_title = american_data['Title'].to_dict()
+american_name_to_index = {v.strip(): k for k, v in american_index_to_title.items()}
+
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'genre_name_to_index.json')) as fp:
     genre_name_to_index = json.load(fp)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_name_to_index.json')) as fp2:
@@ -115,7 +119,10 @@ def bold_important(summary, important_words):
 def create_common_words(dramas_enjoyed):
     agg = np.zeros(16673)
     for drama in dramas_enjoyed:
-        index = drama_name_to_index[drama]
+        if drama in drama_name_to_index:
+            index = drama_name_to_index[drama]
+        if drama in american_name_to_index:
+            index = american_name_to_index[drama]
         agg = np.add(agg, doc_to_vocab[index])
         
     vocab_all = np.multiply(doc_to_vocab, agg)
@@ -281,7 +288,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         summary = str(non_processed_data['Summary'].loc[idx])
         """result_exp['Summary'].iloc[i] = summary"""
         if summary != "nan":
-            new_sum = bold_important(summaries[title], common_word_list[idx])
+            new_sum = bold_important(summary, common_word_list[idx])
             summaries[title] = new_sum
         else:
             summaries[title] = "No summary information is available."

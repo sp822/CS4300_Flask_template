@@ -47,9 +47,6 @@
       width: 90%
   }
 
-  h2 {
-      margin-left: 30px;
-  }
 
   #back2Top {
       font-size: 50px;
@@ -203,41 +200,20 @@
       overflow-y: scroll !important;
       overflow-x: hidden !important;
   }
-  nav {
-      display: block;
-      max-height: 10%;
-      margin-left: 20px;
-      top: 230px;
-
-
-  }
-  nav ul {
-      padding-left: 0;
+ 
+  .right-side h2 {
       border-bottom: 2px solid navy;
+  }
+ 
+  .display_info h3 {   
+    background: linear-gradient(to top right, navy, lightblue);
 
   }
-  nav li {
+  .display_info h3 a {
+      color: white;
       text-decoration: none;
-      display: inline-block;
-      width: 30%;
-
   }
-
-  nav li a {
-      padding-left:2px;
-      color:black;
-      display: inline-block;
-      width: 100%;
-  }
-  nav li a:hover {
-      text-decoration: None;
-      color: white;
-      background-image: linear-gradient(to top right, navy, lightblue);
-  }
-  .clicked {
-      color: white;
-      background-image: linear-gradient(to top right, navy, lightblue);
-  }
+ 
 
 
 

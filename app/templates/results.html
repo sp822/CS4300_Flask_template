@@ -262,9 +262,14 @@
                                                 <strong>Most Negative Review:</strong>
                                                 <P class = n_style>{{ y[y.index("Lowest Sentiment Review:")+25 :y.index(", Sentiment Review")] }}</P>
 
-                                                <strong>All Reviews:</strong>
+                                                <strong>Other Reviews:</strong>
                                                 {% for r in y[y.index("Sentiment Reviews:")+19 :y.index(', Total')].replace("'", '"').replace('"]', '').replace('["', '').split('", "') %} 
-                                                <p class = "r_style">{{r.replace('"', "'")}}</p>
+                                                {% if r.replace('"', "'") not in  y[y.index("Highest Sentiment Review:")+26 :y.index(", Lowest Sentiment Review")] %}
+                                                {% if r.replace('"', "'") not in y[y.index("Lowest Sentiment Review:")+25 :y.index(", Sentiment Review")] %}
+                                                <p class = "r_style"> {{r.replace('"', "'")}}  </p>
+                                                        {%endif%}
+                                                    {%endif%}
+                                               
                                                 {%endfor%}
                                              
                                             

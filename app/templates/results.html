@@ -184,7 +184,7 @@
                                             {%for q in  y[y.find('Summary:')+8: y.index(',  Genre')].split(' ') %}
                                                 
                                                 {% if '**' in q%}
-                                                    <strong>{{q}}</strong>
+                                                    <strong>{{q.replace('**', '')}}</strong>
                                                 {%else%}
                                                  {{q}}
                                                 
@@ -193,7 +193,7 @@
                                                 
                                                
                                                    
-                                                </p><em>Bolded words surrounded by ** are common words between shows you enjoy and this show.</em> </div>                                           
+                                                </p><em>Bolded words are common words between shows you enjoy and this show.</em> </div>                                           
                                            
                                         </div>
                                             <!-- information about the actors -->

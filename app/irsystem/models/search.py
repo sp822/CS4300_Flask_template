@@ -134,7 +134,6 @@ def create_common_words(dramas_enjoyed):
         
 
 def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
-    
 
     feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity','Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
@@ -282,8 +281,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         summary = str(non_processed_data['Summary'].loc[idx])
         """result_exp['Summary'].iloc[i] = summary"""
         if summary != "nan":
-            index = drama_name_to_index[title]
-            new_sum = bold_important(summaries[title], common_word_list[index])
+            new_sum = bold_important(summaries[title], common_word_list[idx])
             summaries[title] = new_sum
         else:
             summaries[title] = "No summary information is available."

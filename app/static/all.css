@@ -291,9 +291,20 @@
       background: navy !important;
   }
 
-  .chart {
-      text-align: left;
+  .translation ul li {
+      list-style: None 
+
+      
   }
+
+  .g_style {
+      border: 2px solid green;
+  }
+
+  .n_style {
+      border: 2px solid red;
+  }
+
 
 
   

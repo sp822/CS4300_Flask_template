@@ -54,6 +54,7 @@
                     if (document.querySelector(x).classList.contains('hidden')) {
                         //hide the information of the other two tabs and show the one of the tab you wank
                         $(x).removeClass('hidden');
+                    
                 
                         // display which section you are on
                     
@@ -178,7 +179,21 @@
                                            
                                             <div class = 'rating'><p><strong> Rating: </strong>{{  y[y.find('Rating:')+7 :  y.index(', Runtime')] }}</p><p class = 'right'><strong> Year: </strong>{{  y[y.index('Years:')+6 :y.index(',  Sentiment:')] }}</p></div>
                                             <div class = 'genre'><p><strong> Genres: </strong>{{  y[y.find('Genre:')+6 : y.index(', Rating')] }}</p><p class = 'right'><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p></div>
-                                            <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary:')+8: y.index(',  Genre')] }}</p></div>                                           
+                                            
+                                            <div class = 'Summary'><p><strong> Summary: </strong>
+                                            {%for q in  y[y.find('Summary:')+8: y.index(',  Genre')].split(' ') %}
+                                                
+                                                {% if '**' in q%}
+                                                    <strong>{{q}}</strong>
+                                                {%else%}
+                                                 {{q}}
+                                                
+                                                {%endif%}
+                                                {%endfor%}
+                                                
+                                               
+                                                   
+                                                </p><em>Bolded words surrounded by ** are common words between shows you enjoy and this show.</em> </div>                                           
                                            
                                         </div>
                                             <!-- information about the actors -->
@@ -186,7 +201,10 @@
 
                                             <div class='actorid hidden'>
                                                     <div class = 'actors'><strong> Actors: </strong>
-                                                        <p>{{ y[y.find('Actors:')+ 7 :y.index(', Votes')]}}</p>
+                                                        {% for q in y[y.find('Actors:')+ 7 :y.index(', Votes')].split(',') %}
+                                                        <p>{{q}}</p>
+                                                        {%endfor%}
+
                                                             
                                                     </div>
                                             </div>
@@ -207,7 +225,7 @@
                                                 
                                                 <div class = 'translation'>
                                                     <strong>Similarity Score Breakdown:</strong>
-                                                        <ul class = "undecorate">
+                                                        <ul>
                                                             <li><strong>Summary Similarity Score: </strong>{{  y[y.index("Summary Score:")+15 :y.index(", Actor Score:")] }}</li>
                                                             <li><strong>Actors Similarity Score: </strong>{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}</li>
                                                             <li><strong>Genres Similarity Score: </strong>{{  y[y.index('Genre Score')+12 : ]}}</li>
@@ -234,11 +252,17 @@
                                             <div class= "sentiment">
             
                                                     <strong>Sentiment:</strong> 
-                                                    <p>{{  y[y.index("Sentiment:")+11 :y.index(", Sentiment Reviews")] }}</p>
+                                                    <p>{{  y[y.index("Sentiment:")+11 :y.index(", Highest Sentiment Review")] }}</p>
     
                                                     </div>
                                             <div class = 'reviews'>
-                                                <strong>Sentiment Reviews:</strong>
+                                                <strong>Most Positive Review:</strong>
+                                                <p class = "g_style">{{ y[y.index("Highest Sentiment Review:")+26 :y.index(", Lowest Sentiment Review")] }}</p>
+
+                                                <strong>Most Negative Review:</strong>
+                                                <P class = n_style>{{ y[y.index("Lowest Sentiment Review:")+25 :y.index(", Sentiment Review")] }}</P>
+
+                                                <strong>All Reviews:</strong>
                                                 {% for r in y[y.index("Sentiment Reviews:")+19 :y.index(', Total')].replace("'", '"').replace('"]', '').replace('["', '').split('", "') %} 
                                                 <p class = "r_style">{{r.replace('"', "'")}}</p>
                                                 {%endfor%}

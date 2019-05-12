@@ -111,7 +111,7 @@ def bold_important(summary, important_words):
     for word in important_words:
         if len(word) > 3:
             word = word[:-1]
-        search_string = word.lower() + "\S*"
+        search_string = ( word.lower()) + "\S*"
         x = re.search(search_string, (summary.lower()))
         if x is not None:
             (start, end) = x.span()
@@ -132,7 +132,6 @@ def create_common_words(dramas_enjoyed):
     vocab_all = np.multiply(doc_to_vocab, agg)
     most_common_words  = np.empty((num_dramas), dtype = object)
     for (idx, row) in enumerate(vocab_all):
-        #sum_lenth = len(non_processed_data['Summary'][idx])
         order = row.argsort()[-10:][::-1]
         words = []
         for index in order:

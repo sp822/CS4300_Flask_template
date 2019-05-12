@@ -118,7 +118,7 @@ def bold_important(summary, important_words):
             summary = summary[:start] +'**' + summary[start:end] + '**' + summary[end:]
     return summary
 
-#give a list of enjoyed dramas, creates an aggregrate 
+#give a list of enjoyed dramas, creates an aggregrate
 #of the vocab used in those summaries
 def create_common_words(dramas_enjoyed):
     agg = np.zeros(16673)
@@ -130,7 +130,7 @@ def create_common_words(dramas_enjoyed):
             index = american_name_to_index[drama]+1466
         if index != -1:
             agg = np.add(agg, doc_to_vocab[index])
-        
+
     vocab_all = np.multiply(doc_to_vocab, agg)
     most_common_words  = np.empty((num_dramas), dtype = object)
     for (idx, row) in enumerate(vocab_all):
@@ -139,11 +139,11 @@ def create_common_words(dramas_enjoyed):
         for index in order:
             word = tfidf_index_to_vocab[str(index)]
             words.append(word)
-        
+
         most_common_words[idx] = words
     return most_common_words
-    
-        
+
+
 
 
 def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
@@ -195,7 +195,6 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         if actor in actors_name_to_index.keys():
             index = actors_name_to_index[actor]
             result['Actor_Similarity']+= actors_inclusion_matrix[:,index]
-    result['Actor_Similarity'] = result['Actor_Similarity'].apply(lambda x: bool_actors(len(preferred_actors),int(x)))
     min_summary = result['Summary_Similarity'].min()
     max_summary = result['Summary_Similarity'].max()
     min_embedding = result['Embedding_Similarity'].min()
@@ -208,6 +207,8 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
         result['Embedding_Similarity'] = (result['Embedding_Similarity']- min_embedding)/(max_embedding - min_embedding)
     if min_sentiment != 0 and max_sentiment !=0:
         result['Sentiment_Analysis'] = (result['Sentiment_Analysis']- min_sentiment)/(max_sentiment-min_sentiment)
+    result['Genre_Similarity'] = result['Genre_Similarity']/len(preferred_genres)
+    result['Actor_Similarity'] = result['Actor_Similarity']/len(preferred_actors)
     summ = result['Summary_Similarity']
     embed = result['Embedding_Similarity']
     gen = result['Genre_Similarity']
@@ -237,9 +238,6 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
             result = result[result.index != idx]
 
     result = result[:num_results]
-    result = result.loc[result['Actor_Similarity'] != 0]
-    if len(preferred_actors) ==0:
-        result['Actor_Similarity'] = 0
     indices =  result.index.tolist()
     best_dramas = pd.Series([drama_index_to_name[index] for index in indices],index = result.index)
     result.insert(loc=0, column='Drama_Title', value=best_dramas)
@@ -352,7 +350,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         sentiment_high_reviews[title] = high_low_dict['Highest Sentiment Review']
         sentiment_low_reviews[title] = high_low_dict['Lowest Sentiment Review']
         sentiment_reviews_output[title] = sentiment_dictionary['Reviews']
- 
+
         """result_exp['Title'].iloc[i] = title
         result_exp['Similarity_Score'].iloc[i] = score
         result_exp['Sentiment_Score'].iloc[i] = sentiment_score"""

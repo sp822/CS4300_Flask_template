@@ -63,12 +63,8 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analys
     sentiment_dict = json.load(fp4)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sentiment.json')) as fp5:
     reviews_sentiment_dict = json.load(fp5)
-<<<<<<< HEAD
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'high_low_reviews.json')) as fp6:
     high_low_reviews= json.load(fp6)
-=======
-    
->>>>>>> 77c54dded7ff89300d9517f3682cbaa28d32d626
 j = [0]
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')

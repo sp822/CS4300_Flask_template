@@ -111,7 +111,7 @@ def bold_important(summary, important_words):
     for word in important_words:
         if len(word) > 3:
             word = word[:-1]
-        search_string = ( word.lower()) + "\S*"
+        search_string = ( '\\b' + word.lower()) + '\S*'
         x = re.search(search_string, (summary.lower()))
         if x is not None:
             (start, end) = x.span()

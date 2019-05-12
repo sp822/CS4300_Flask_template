@@ -12,8 +12,16 @@ import matplotlib.pyplot as plt
 import math
 import json
 from nltk.stem import PorterStemmer
+import zipfile
 
-
+with open(os.path.join(os.getcwd(), "app", "irsystem", "models",'tfidf_index_to_vocab.json')) as fp8:
+    tfidf_index_to_vocab = json.load(fp8)
+pathZip = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.zip")
+zip_ref = zipfile.ZipFile(pathZip, 'r')
+toExtract =  os.path.join(os.getcwd(), "app", "irsystem", "models")
+zip_ref.extractall(toExtract)
+path3 = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.npy")
+doc_to_vocab = np.load(path3)
 
 path = os.path.join(os.getcwd(),"app", "irsystem", "models", "cleaned_comprehensive_data.csv")
 data = pd.read_csv(path)
@@ -47,8 +55,11 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
 
-path7 = os.path.join(os.getcwd(),"app", "irsystem", "models", 'emb_sim_matrix_1.npy')
+american_data = pd.read_csv(os.path.join(os.getcwd(),"app", "irsystem", "models","cleaned_american_data.csv"))
+american_index_to_title = american_data['Title'].to_dict()
+american_name_to_index = {v.strip(): k for k, v in american_index_to_title.items()}
 
+path7 = os.path.join(os.getcwd(),"app", "irsystem", "models", 'emb_sim_matrix_1.npy')
 emb_sim_matrix = np.load(path7)
 
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analysis.json')) as fp4:
@@ -234,6 +245,7 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
 
 def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
     dramas_enj = dramas_enjoyed.split(', ')
+    common_word_list = create_common_words(dramas_enj)
     dramas_dis = dramas_disliked.split(', ')
     preferred_acts =  preferred_actors.split(', ')
     preferred_genres = preferred_genres.split(', ')
@@ -275,7 +287,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         summary = str(non_processed_data['Summary'].loc[idx])
         """result_exp['Summary'].iloc[i] = summary"""
         if summary != "nan":
-            summaries[title] = summary
+            new_sum = bold_important(summary, common_word_list[idx])
+            summaries[title] = new_sum
         else:
             summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])

@@ -94,6 +94,11 @@ def get_high_low_reviews(sentiment_dict, sentiment_scores_dict):
                 high_low_reviews[index] = {'Highest Sentiment Review': "None", 'Lowest Sentiment Review': sentiment_dict[index][0]['Reviews']}
             else:
                 high_low_reviews[index] = {'Highest Sentiment Review': sentiment_dict[index][0]['Reviews'], 'Lowest Sentiment Review': "None"}
+        elif sentiment_scores_dict[index].count(sentiment_scores_dict[index][0]) == len(sentiment_scores_dict[index]):
+            if sentiment_dict[index][0]['Sentiment'] =='Negative':
+                high_low_reviews[index] = {'Highest Sentiment Review': "None", 'Lowest Sentiment Review': sentiment_dict[index][0]['Reviews']}
+            else:
+                high_low_reviews[index] = {'Highest Sentiment Review': sentiment_dict[index][0]['Reviews'], 'Lowest Sentiment Review': "None"}
         else:
             lst = sentiment_scores_dict[index]
             min_index = lst.index(min(lst))

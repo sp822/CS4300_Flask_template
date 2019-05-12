@@ -14,6 +14,7 @@ import json
 from nltk.stem import PorterStemmer
 import zipfile
 
+
 with open(os.path.join(os.getcwd(), "app", "irsystem", "models",'tfidf_index_to_vocab.json')) as fp8:
     tfidf_index_to_vocab = json.load(fp8)
 pathZip = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.zip")
@@ -108,11 +109,12 @@ def bool_actors(len_actors, x):
 
 def bold_important(summary, important_words):
     for word in important_words:
-        search_string = "\w"+word.lower() + "\S*"
+        word = word[:-2]
+        search_string = word.lower() + "\S*"
         x = re.search(search_string, (summary.lower()))
         if x is not None:
             (start, end) = x.span()
-            summary = summary[:start] +'\033[1m' + summary[start:end] + '\033[0m' + summary[end:]
+            summary = summary[:start] +'[' + summary[start:end] + ']' + summary[end:]
     return summary
 
 #give a list of enjoyed dramas, creates an aggregrate 

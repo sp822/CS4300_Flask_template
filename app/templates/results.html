@@ -92,6 +92,19 @@
                     }
 
                 });
+                $(".actor").click(function(event){
+                  
+                  var z = $(this).attr("href")+"actor";
+         
+                
+                  if (document.querySelector(z).classList.contains('hidden')) {
+                      $(z).removeClass('hidden');
+                  }else {
+                      $(z).addClass('hidden');
+                 
+                  }
+
+              });
 
 
             });
@@ -157,8 +170,8 @@
                                 <!-- this contains the ratings, genre, summary e.t.c -->
                                 <div class = "display_info">
                                     
+
                                                 <!-- main overview -->
-                                         <h3 class = 'dec'><a class = "info clicked" >Details</a></h3>
 
                                         <div class = 'infoid'>
 
@@ -166,12 +179,17 @@
                                             <div class = 'rating'><p><strong> Rating: </strong>{{  y[y.find('Rating:')+7 :  y.index(', Runtime')] }}</p><p class = 'right'><strong> Year: </strong>{{  y[y.index('Years:')+6 :y.index(',  Sentiment:')] }}</p></div>
                                             <div class = 'genre'><p><strong> Genres: </strong>{{  y[y.find('Genre:')+6 : y.index(', Rating')] }}</p><p class = 'right'><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p></div>
                                             <div class = 'Summary'><p><strong> Summary: </strong>{{y[y.find('Summary:')+8: y.index(',  Genre')] }}</p></div>                                           
-                                            <div class = 'actors'><strong> Actors: </strong>
-                                                <p>{{ y[y.find('Actors:')+ 7 :y.index(', Votes')]}}</p>
-                                                    
-                                            </div>
+                                           
                                         </div>
                                             <!-- information about the actors -->
+                                            <h3 class= 'dec'><a class = "actor" >Actors</a></h3>
+
+                                            <div class='actorid hidden'>
+                                                    <div class = 'actors'><strong> Actors: </strong>
+                                                        <p>{{ y[y.find('Actors:')+ 7 :y.index(', Votes')]}}</p>
+                                                            
+                                                    </div>
+                                            </div>
                                             
                                             <!-- informaton about the scores -->
                                             <h3 class= 'dec'><a class = "score" >Similarity Score</a></h3>
@@ -179,6 +197,7 @@
 
                                                 <div class =  "users_message">
                                                     <div><strong>User Input:</strong><p>{{output_message}}</p></div>
+
 
                                                     <div class = 'Similarity'><strong>This drama's similarity to what you search:</strong><p style= "text-align: center;">{{  y[y.index("Similarity Score:")+17:y.index(", Sentiment Score:")] }}%</p></div>
                             
@@ -265,9 +284,11 @@
                                 var link_to_score = document.getElementsByClassName('scoreid'); // get all elements with this class
                                 var link_to_cast = document.getElementsByClassName('castid');
                                 var link_to_info = document.getElementsByClassName('infoid');
+                                var link_to_actor = document.getElementsByClassName('actorid');
+
 
                                 // set the class in this array to be clickable by setting their links
-                                var nav_link = ['cast', 'info', 'score'];
+                                var nav_link = ['cast', 'info', 'score', 'actor'];
                                 for (i = 0; i < nav_link.length; i++) {
                                     var link_to = document.getElementsByClassName(nav_link[i]);
                                     for (j = 0; j < link_to.length; j++) {
@@ -283,6 +304,7 @@
                                     var this_score = link_to_score[i];
                                     var this_info = link_to_info[i];
                                     var this_cast = link_to_cast[i];
+                                    var this_actor = link_to_actor[i];
                                     var get_id = g[i];
                                     var set_href = s[i];
                                     var back_search_of_show = back_search[i];
@@ -293,6 +315,8 @@
                                     this_score.setAttribute('id', new_ids[i]+'scoreh');
                                     this_info.setAttribute('id', new_ids[i]+'infoh');
                                     this_cast.setAttribute('id', new_ids[i]+'cast');
+                                    this_actor.setAttribute('id', new_ids[i]+'actor');
+
 
                                     get_link_href.setAttribute('href', '#'+ new_ids[i]);
                                     set_href.setAttribute('href', '#'+ new_ids[i]);

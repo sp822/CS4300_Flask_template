@@ -201,11 +201,11 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
     max_embedding = result['Embedding_Similarity'].max()
     min_sentiment = result['Sentiment_Analysis'].min()
     max_sentiment = result['Sentiment_Analysis'].max()
-    if min_summary != 0 and max_summary != 0:
+    if min_summary != 0 or max_summary != 0:
         result['Summary_Similarity'] = (result['Summary_Similarity']-min_summary)/(max_summary-min_summary)
-    if min_embedding != 0 and max_embedding !=0:
+    if min_embedding != 0 or max_embedding !=0:
         result['Embedding_Similarity'] = (result['Embedding_Similarity']- min_embedding)/(max_embedding - min_embedding)
-    if min_sentiment != 0 and max_sentiment !=0:
+    if min_sentiment != 0 or max_sentiment !=0:
         result['Sentiment_Analysis'] = (result['Sentiment_Analysis']- min_sentiment)/(max_sentiment-min_sentiment)
     result['Genre_Similarity'] = result['Genre_Similarity']/len(preferred_genres)
     result['Actor_Similarity'] = result['Actor_Similarity']/len(preferred_actors)

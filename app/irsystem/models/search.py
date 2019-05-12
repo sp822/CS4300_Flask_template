@@ -12,14 +12,9 @@ import matplotlib.pyplot as plt
 import math
 import json
 from nltk.stem import PorterStemmer
-import zipfile
 
-pathZip = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.zip")
-zip_ref = zipfile.ZipFile(pathZip, 'r')
-toExtract =  os.path.join(os.getcwd(), "app", "irsystem", "models")
-zip_ref.extractall(toExtract)
-path3 = os.path.join(os.getcwd(), "app", "irsystem", "models", "doc_by_vocab.npy")
-doc_to_vocab = np.load(path3)
+
+
 path = os.path.join(os.getcwd(),"app", "irsystem", "models", "cleaned_comprehensive_data.csv")
 data = pd.read_csv(path)
 num_dramas = len(data)
@@ -39,11 +34,6 @@ process_dict = data['Title'].to_dict()
 drama_name_to_index = {v.strip(): k for k, v in process_dict.items()}
 drama_name_to_index_unprocess = {v: k for k, v in drama_index_to_name.items()}
 
-
-american_data = pd.read_csv(os.path.join(os.getcwd(),"app", "irsystem", "models","cleaned_american_data.csv"))
-american_index_to_title = american_data['Title'].to_dict()
-american_name_to_index = {v.strip(): k for k, v in american_index_to_title.items()}
-
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'genre_name_to_index.json')) as fp:
     genre_name_to_index = json.load(fp)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_name_to_index.json')) as fp2:
@@ -56,8 +46,6 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
     actors_dict = json.load(fp2)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
-with open(os.path.join(os.getcwd(), "app", "irsystem", "models",'tfidf_index_to_vocab.json')) as fp8:
-    tfidf_index_to_vocab = json.load(fp8)
 
 path7 = os.path.join(os.getcwd(),"app", "irsystem", "models", 'emb_sim_matrix_1.npy')
 
@@ -142,8 +130,8 @@ def create_common_words(dramas_enjoyed):
     
         
 
-def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
 
+def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
     feature_list = ['Embedding_Similarity','Summary_Similarity', 'Actor_Similarity', 'Genre_Similarity','Sentiment_Analysis', 'Total']
     result = pd.DataFrame(0, index=np.arange(1466), columns=feature_list)
     dramas_enjoyed = list(filter(lambda x: len(x) > 0, dramas_enjoyed))
@@ -245,14 +233,10 @@ def best_match(dramas_enjoyed, dramas_disliked, preferred_genres, preferred_acto
 
 
 def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors, preferred_time_frame, num_results):
-    
     dramas_enj = dramas_enjoyed.split(', ')
     dramas_dis = dramas_disliked.split(', ')
     preferred_acts =  preferred_actors.split(', ')
     preferred_genres = preferred_genres.split(', ')
-    
-    common_word_list = create_common_words(dramas_enj)
-    
     """
     print("dramas_enjoyed: " + dramas_enjoyed)
     print("dramas_disliked: " + dramas_disliked)
@@ -283,7 +267,6 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     sentiment_high_reviews = {}
     sentiment_low_reviews = {}
     sentiment_reviews_output = {}
-    
     """feature_list = ['Title','Summary','Genre', 'Rating', 'Runtime','Actors', 'Network', 'Votes', 'Year','Similarity_Score', 'Sentiment_Score']
     result_exp = pd.DataFrame(None, index=np.arange(num_results), columns=feature_list)"""
     i = 0
@@ -292,8 +275,7 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         summary = str(non_processed_data['Summary'].loc[idx])
         """result_exp['Summary'].iloc[i] = summary"""
         if summary != "nan":
-            new_sum = bold_important(summary, common_word_list[idx])
-            summaries[title] = new_sum
+            summaries[title] = summary
         else:
             summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])
@@ -348,9 +330,10 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
         else:
             years[title] = "No timeframe information is available."
         sentiment_dictionary = reviews_sentiment_dict[str(idx)]
+        high_low_dict = high_low_reviews[str(idx)]
         sentiment_output[title] = sentiment_dictionary["Predicted Sentiment"]
-        sentiment_high_reviews[title] = sentiment_dictionary['Highest Sentiment Review']
-        sentiment_low_reviews[title] = sentiment_dictionary['Lowest Sentiment Review']
+        sentiment_high_reviews[title] = high_low_dict['Highest Sentiment Review']
+        sentiment_low_reviews[title] = high_low_dict['Lowest Sentiment Review']
         sentiment_reviews_output[title] = sentiment_dictionary['Reviews']
  
         """result_exp['Title'].iloc[i] = title

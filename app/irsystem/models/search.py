@@ -13,6 +13,7 @@ import math
 import json
 from nltk.stem import PorterStemmer
 import zipfile
+from prompt_toolkit import HTML
 
 
 with open(os.path.join(os.getcwd(), "app", "irsystem", "models",'tfidf_index_to_vocab.json')) as fp8:
@@ -109,7 +110,8 @@ def bool_actors(len_actors, x):
 
 def bold_important(summary, important_words):
     for word in important_words:
-        word = word[:-2]
+        if len(word) > 3:
+            word = word[:-1]
         search_string = word.lower() + "\S*"
         x = re.search(search_string, (summary.lower()))
         if x is not None:

@@ -55,6 +55,8 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'actors_dict.json
     actors_dict = json.load(fp2)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'years_dict.json')) as fp3:
     years_dict = json.load(fp3)
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'korean_summaries.json')) as fp4:
+    imdb_summaries = json.load(fp4)
 
 american_data = pd.read_csv(os.path.join(os.getcwd(),"app", "irsystem", "models","cleaned_american_data.csv"))
 american_index_to_title = american_data['Title'].to_dict()
@@ -293,10 +295,13 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     for title, score, sentiment_score,_,_,_,_ in result:
         idx = drama_name_to_index_unprocess[title]
         summary = str(non_processed_data['Summary'].loc[idx])
+        summary2 = imdb_summaries[str(idx)]
         """result_exp['Summary'].iloc[i] = summary"""
         if summary != "nan":
             new_sum = bold_important(summary, common_word_list[idx])
             summaries[title] = new_sum
+        elif len(summary2)!=0 and '\"Edit page\"' not in summary2[0]:
+            summaries[title] = summary2[0]
         else:
             summaries[title] = "No summary information is available."
         genre = str(non_processed_data['Genre'].loc[idx])

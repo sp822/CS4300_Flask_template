@@ -55,6 +55,8 @@ with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'sentiment_analys
     sentiment_dict = json.load(fp4)
 with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'reviews_sentiment.json')) as fp5:
     reviews_sentiment_dict = json.load(fp5)
+with open(os.path.join(os.getcwd(),"app", "irsystem", "models",'high_low_reviews.json')) as fp6:
+    high_low_reviews= json.load(fp6)
 j = [0]
 def cleanhtml(raw_html):
     clean = re.compile('<.*?>')
@@ -225,6 +227,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
     years = {}
     networks = {}
     sentiment_output = {}
+    sentiment_high_reviews = {}
+    sentiment_low_reviews = {}
     sentiment_reviews_output = {}
     """feature_list = ['Title','Summary','Genre', 'Rating', 'Runtime','Actors', 'Network', 'Votes', 'Year','Similarity_Score', 'Sentiment_Score']
     result_exp = pd.DataFrame(None, index=np.arange(num_results), columns=feature_list)"""
@@ -290,7 +294,10 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
             years[title] = "No timeframe information is available."
         sentiment_dictionary = reviews_sentiment_dict[str(idx)]
         sentiment_output[title] = sentiment_dictionary["Predicted Sentiment"]
+        sentiment_high_reviews[title] = sentiment_dictionary['Highest Sentiment Review']
+        sentiment_low_reviews[title] = sentiment_dictionary['Lowest Sentiment Review']
         sentiment_reviews_output[title] = sentiment_dictionary['Reviews']
+ 
         """result_exp['Title'].iloc[i] = title
         result_exp['Similarity_Score'].iloc[i] = score
         result_exp['Sentiment_Score'].iloc[i] = sentiment_score"""
@@ -298,8 +305,8 @@ def display (dramas_enjoyed, dramas_disliked, preferred_genres, preferred_actors
 
     """j[0]+=1
     result_exp.to_csv(os.path.join("app", "irsystem", "models", 'test_results', str("result" + str(j[0])+ ".csv")))"""
-    return ['{},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Actors: {}, Votes: {}, Years: {},  Sentiment: {}, Sentiment Reviews: {}, Total Similarity Score: {}, Sentiment Score: {}, Embedding Score: {}, Summary Score: {}, Actor Score: {}, Genre Score: {}'.format(title, summaries[title], \
-    genres[title], ratings[title], runtimes[title], actors[title], votes[title], years[title], sentiment_output[title], sentiment_reviews_output[title], round(100*score,4), round(100*sentiment_score,4), round(100*embedding_score,4), round(100*summary_score,4), \
+    return ['{},  Summary: {},  Genre: {}, Rating: {}, Runtime: {}, Actors: {}, Votes: {}, Years: {},  Sentiment: {}, Highest Sentiment Review: {}, Lowest Sentiment Review: {}, Sentiment Reviews: {}, Total Similarity Score: {}, Sentiment Score: {}, Embedding Score: {}, Summary Score: {}, Actor Score: {}, Genre Score: {}'.format(title, summaries[title], \
+    genres[title], ratings[title], runtimes[title], actors[title], votes[title], years[title], sentiment_output[title], sentiment_high_reviews[title], sentiment_low_reviews[title], sentiment_reviews_output[title], round(100*score,4), round(100*sentiment_score,4), round(100*embedding_score,4), round(100*summary_score,4), \
     round(100*actor_score,4), round(100*genre_score,4)) for title, score, sentiment_score, embedding_score, summary_score, actor_score, genre_score in result]
 """
 display("", "","fantasy","", [1958, 2019], 5)

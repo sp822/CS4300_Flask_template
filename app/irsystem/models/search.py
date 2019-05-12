@@ -108,7 +108,7 @@ def bool_actors(len_actors, x):
 
 def bold_important(summary, important_words):
     for word in important_words:
-        search_string = word.lower() + "\S*"
+        search_string = "\d+"+word.lower() + "\S*"
         x = re.search(search_string, (summary.lower()))
         if x is not None:
             (start, end) = x.span()
@@ -123,7 +123,7 @@ def create_common_words(dramas_enjoyed):
         if drama in drama_name_to_index:
             index = drama_name_to_index[drama]
         if drama in american_name_to_index:
-            index = american_name_to_index[drama]
+            index+1466 = american_name_to_index[drama]
         agg = np.add(agg, doc_to_vocab[index])
         
     vocab_all = np.multiply(doc_to_vocab, agg)

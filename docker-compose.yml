@@ -1,9 +1,7 @@
 flask:
-<<<<<<< HEAD
-    image: yangkt/flask-template:v1
-=======
-    image: yangkt/flask-template:v4
->>>>>>> e78f033fcd5586ec5d4c91252bddd548fee6e462
+
+
+    image: yangkt/flask-template:v4S
     ports:
       - "5000:5000"
     environment:

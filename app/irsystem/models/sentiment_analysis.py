@@ -71,6 +71,37 @@ def get_sentiment(datas):
 
 sentiment_dict = get_sentiment(datas)
 
+def get_sentiment_scores_dict(sentiment_dict):
+    sentiment_scores_dict = {}
+    for index in sentiment_dict:
+        sentiment_scores_list = []
+        for element in sentiment_dict[index]:
+            if element['Sentiment'] == 'Negative':
+                sentiment_scores_list.append(element['Probability'] * (-1.0))
+            else:
+                sentiment_scores_list.append(element['Probability'])
+        sentiment_scores_dict[index] = sentiment_scores_list 
+    return sentiment_scores_dict
+sentiment_scores_dict = get_sentiment_scores_dict(sentiment_dict)
+
+def get_high_low_reviews(sentiment_dict, sentiment_scores_dict):
+    high_low_reviews = {}
+    for index in sentiment_dict:
+        if len(sentiment_scores_dict[index])==0:
+            high_low_reviews[index] = {'Highest Sentiment Review': "None", 'Lowest Sentiment Review': "None"}
+        elif len(sentiment_scores_dict[index]) == 1:
+            if sentiment_dict[index][0]['Sentiment'] =='Negative':
+                high_low_reviews[index] = {'Highest Sentiment Review': "None", 'Lowest Sentiment Review': sentiment_dict[index][0]['Reviews']}
+            else:
+                high_low_reviews[index] = {'Highest Sentiment Review': sentiment_dict[index][0]['Reviews'], 'Lowest Sentiment Review': "None"}
+        else:
+            lst = sentiment_scores_dict[index]
+            min_index = lst.index(min(lst))
+            max_index = lst.index(max(lst))
+            high_low_reviews[index] = {'Highest Sentiment Review': sentiment_dict[index][max_index]['Reviews'], 'Lowest Sentiment Review': sentiment_dict[index][min_index]['Reviews']}
+    return high_low_reviews
+
+high_low_reviews = get_high_low_reviews(sentiment_dict, sentiment_scores_dict)
 def get_sentiment_score(sentiment_dict):
     sentiment_scores = {}
     for index in sentiment_dict:
@@ -87,25 +118,27 @@ def get_reviews_and_sentiment(datas, sentiment_scores):
     reviews_sent = {}
     for key in datas: 
         if (len(datas[key]) == 0):
-            reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': 0.0, 'Reviews': 'There are no reviews for this drama.'}
+            reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': 0.0, 'High Sentiment Review': 'None', 'Lowest Sentiment Review': 'None', 'Reviews': 'There are no reviews for this drama.'}
         elif (sentiment_scores[key]==0.0 and len(datas[key]) > 0):
             if len(datas[key]) < 5:
-                reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key]}
+                reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': sentiment_scores[key], 'Highest Sentiment Review': high_low_reviews[key]['Highest Sentiment Review'], 'Lowest Sentiment Review': high_low_reviews[key]['Lowest Sentiment Review'], 'Reviews': datas[key]}
             else:
-                reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key][:5]}
+                reviews_sent[key] = {'Predicted Sentiment': 'Neutral', 'Sentiment Score': sentiment_scores[key], 'Highest Sentiment Review': high_low_reviews[key]['Highest Sentiment Review'], 'Lowest Sentiment Review': high_low_reviews[key]['Lowest Sentiment Review'], 'Reviews': datas[key][:5]}
         elif len(datas[key]) < 5: 
             if (sentiment_scores[key] < 0): 
-                reviews_sent[key] = {'Predicted Sentiment': 'Negative', 'Sentiment Score': abs(sentiment_scores[key]), 'Reviews': datas[key]}
+                reviews_sent[key] = {'Predicted Sentiment': 'Negative', 'Sentiment Score': abs(sentiment_scores[key]), 'Highest Sentiment Review': high_low_reviews[key]['Highest Sentiment Review'], 'Lowest Sentiment Review': high_low_reviews[key]['Lowest Sentiment Review'], 'Reviews': datas[key]}
             else: 
-                reviews_sent[key] = {'Predicted Sentiment': 'Positive', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key]}
+                reviews_sent[key] = {'Predicted Sentiment': 'Positive', 'Sentiment Score': sentiment_scores[key], 'Highest Sentiment Review': high_low_reviews[key]['Highest Sentiment Review'], 'Lowest Sentiment Review': high_low_reviews[key]['Lowest Sentiment Review'], 'Reviews': datas[key]}
         else: 
             if (sentiment_scores[key] < 0): 
-                reviews_sent[key] = {'Predicted Sentiment': 'Negative', 'Sentiment Score': abs(sentiment_scores[key]), 'Reviews': datas[key][:5]}
+                reviews_sent[key] = {'Predicted Sentiment': 'Negative', 'Sentiment Score': abs(sentiment_scores[key]), 'Highest Sentiment Review': high_low_reviews[key]['Highest Sentiment Review'], 'Lowest Sentiment Review': high_low_reviews[key]['Lowest Sentiment Review'], 'Reviews': datas[key][:5]}
             else: 
-                reviews_sent[key] = {'Predicted Sentiment': 'Positive', 'Sentiment Score': sentiment_scores[key], 'Reviews': datas[key][:5]}
-    return reviews_sent
+                reviews_sent[key] = {'Predicted Sentiment': 'Positive', 'Sentiment Score': sentiment_scores[key], 'Highest Sentiment Review': high_low_reviews[key]['Highest Sentiment Review'], 'Lowest Sentiment Review': high_low_reviews[key]['Lowest Sentiment Review'], 'Reviews': datas[key][:5]}
+    return reviews_sent 
 reviews_sent = get_reviews_and_sentiment(datas, sentiment_scores)
 with open('sentiment_analysis.json', 'w') as fp:
     json.dump(sentiment_scores, fp)
 with open('reviews_sentiment.json', 'w') as fp:
     json.dump(reviews_sent, fp)
+with open('high_low_reviews.json', 'w') as fp:
+    json.dump(high_low_reviews, fp) 

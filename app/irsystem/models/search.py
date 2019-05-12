@@ -115,7 +115,7 @@ def bold_important(summary, important_words):
         x = re.search(search_string, (summary.lower()))
         if x is not None:
             (start, end) = x.span()
-            summary = summary[:start] +'[' + summary[start:end] + ']' + summary[end:]
+            summary = summary[:start] +'**' + summary[start:end] + '**' + summary[end:]
     return summary
 
 #give a list of enjoyed dramas, creates an aggregrate 

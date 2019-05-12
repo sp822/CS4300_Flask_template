@@ -123,11 +123,13 @@ def bold_important(summary, important_words):
 def create_common_words(dramas_enjoyed):
     agg = np.zeros(16673)
     for drama in dramas_enjoyed:
+        index = -1
         if drama in drama_name_to_index:
             index = drama_name_to_index[drama]
         if drama in american_name_to_index:
             index = american_name_to_index[drama]+1466
-        agg = np.add(agg, doc_to_vocab[index])
+        if index != -1:
+            agg = np.add(agg, doc_to_vocab[index])
         
     vocab_all = np.multiply(doc_to_vocab, agg)
     most_common_words  = np.empty((num_dramas), dtype = object)

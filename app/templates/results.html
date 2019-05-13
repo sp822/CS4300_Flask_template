@@ -265,8 +265,9 @@
                                                 <strong>Most Positive Review:</strong>
                                                 <p class = "g_style">{{ y[y.index("Highest Sentiment Review:")+26 :y.index(", Lowest Sentiment Review")] }}</p>
 
-                                                <strong>Most Negative Review:</strong>
+                                                <strong>Most Negative Review :</strong>
                                                 <P class = n_style>{{ y[y.index("Lowest Sentiment Review:")+25 :y.index(", Sentiment Review")] }}</P>
+                                                <p><em>This review is not necessarily a bad review it just the most negative relative to the reviews this show has.</em></p>
 
                                                 <strong>Other Reviews:</strong>
                                                 {% for r in y[y.index("Sentiment Reviews:")+19 :y.index(', Total')].replace("'", '"').replace('\n', ' ').replace('"]', '').replace('["', '').split('", "') %} 

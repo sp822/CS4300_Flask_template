@@ -178,7 +178,23 @@
 
                                            
                                             <div class = 'rating'><p><strong> Rating: </strong>{{  y[y.find('Rating:')+7 :  y.index(', Runtime')] }}</p><p class = 'right'><strong> Year: </strong>{{  y[y.index('Years:')+6 :y.index(',  Sentiment:')] }}</p></div>
-                                            <div class = 'genre'><p><strong> Genres: </strong>{{  y[y.find('Genre:')+6 : y.index(', Rating')] }}</p><p class = 'right'><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p></div>
+                                            <div class = 'genre'><p><strong> Genres: </strong>
+                                            {% for z in y[y.find('Genre:')+6 : y.index(', Rating')].split(',') %}
+                        
+                                            
+                                            {%if z in output_message%}
+                                             <span class = "rs_style"><strong>{{ z }}</strong></span>
+                                                {%else%}
+                                                    {{z}}
+                                                {%endif%}
+                                            {%endfor%}
+                                            </p>
+
+                                                <p class = 'right'><strong> Votes: </strong>{{  y[y.find('Votes')+6 :y.index(', Years')] }}</p>
+                                            </div>
+                                            <div style="magrin-left: 10px"><em>Highlighted genres are genres you searched for</em></div>
+
+                                            
                                             
                                             <div class = 'Summary'><p><strong> Summary: </strong>
                                             {%for q in  y[y.find('Summary:')+8: y.index(',  Genre')].split(' ') %}
@@ -186,9 +202,9 @@
                                                 {% if '**' in q%}
                                                     {%if '.' in q%}
                                                     
-                                                    <span class = 'r_style'><strong>{{q.split('.')[0].replace('**', '')}}.</strong></span>
+                                                    <span class = 'rs_style'><strong>{{q.split('.')[0].replace('**', '')}}.</strong></span>
                                                     {%else%}
-                                                    <span class = 'r_style'><strong>{{q.replace('**', '')}}</strong></span>
+                                                    <span class = 'rs_style'><strong>{{q.replace('**', '')}}</strong></span>
                                                     {%endif%}
 
                                                 {%else%}
@@ -199,7 +215,7 @@
                                                 
                                                
                                                    
-                                                </p><em>Bolded words in boxes are common words between the summaries of the shows you enjoy and this show.</em> </div>                                           
+                                                </p><em>Highlighted words are common words between the summaries of the shows you enjoy and this show.</em> </div>                                           
                                            
                                         </div>
                                             <!-- information about the actors -->
@@ -207,8 +223,14 @@
 
                                             <div class='actorid hidden'>
                                                     <div class = 'actors'><strong> Actors: </strong>
+                                                        <div style="margin-left: 0"><em>Highlighted actors are actors you searched for</em></div>
+
                                                         {% for q in y[y.find('Actors:')+ 7 :y.index(', Votes')].split(',') %}
+                                                        {%if q in output_message%}
+                                                        <span class = "rs_style"><strong>{{ q }}</strong></span>
+                                                        {%else%}
                                                         <p>{{q}}</p>
+                                                        {%endif%}
                                                         {%endfor%}
 
                                                             

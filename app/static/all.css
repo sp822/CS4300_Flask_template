@@ -99,12 +99,29 @@
       margin: 10px;
   }
 
-  footer {
-      background-color: navy;
-      padding: 10px;
-      color: white;
-      bottom: 0;
+ #searchForm footer {
+    
+      position: fixed;
+   
   }
+
+  footer {
+    background-color: navy;
+    padding: 10px;
+    color: white;
+    bottom: 0;
+    width: 100%;
+  
+}
+footer a {
+    background: white;
+    color: navy;
+}
+footer a:hover {
+    text-decoration: none;
+    background: lightblue;
+    color: black;
+}
 
   .sidebyside {
       display: flex;

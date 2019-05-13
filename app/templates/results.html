@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="static/bootstrap.min.css">
@@ -227,7 +228,7 @@
 
                                                         {% for q in y[y.find('Actors:')+ 7 :y.index(', Votes')].split(',') %}
                                                         {%if q in output_message%}
-                                                        <span class = "rs_style"><strong>{{ q }}</strong></span>
+                                                        <p><span class = "rs_style"><strong>{{ q }}</strong></span></p>
                                                         {%else%}
                                                         <p>{{q}}</p>
                                                         {%endif%}
@@ -254,13 +255,25 @@
                                                 <div class = 'translation'>
                                                     <strong>Similarity Score Breakdown:</strong>
                                                         <ul>
-                                                            <li><strong>Raw Summary Similarity Score: </strong>{{  y[y.index("Summary Score:")+15 :y.index(", Actor Score:")] }}</li>
-                                                            <li><strong>Raw Actors Similarity Score: </strong>{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}</li>
-                                                            <li><strong>Raw Genres Similarity Score: </strong>{{  y[y.index('Genre Score')+12 : ]}}</li>
-                                                            <li><strong>Raw Embedded Similarity Score: </strong>{{  y[y.index("Embedding Score")+16 :y.index(", Summary")] }}</li>
-                                                            <li><strong>Raw Sentiment Similarity Score: </strong>{{y[y.index('Sentiment Score:')+17 : y.index(', Embedding Score:')]}}</li>
-                                                            <li><strong>Total Similarity Score: </strong>{{  y[y.index("Similarity Score:")+18 :y.index(", Sentiment Score:")] }}</li>
-                                                         
+                                                            <li><strong>Raw Summary Similarity Score: </strong>{{  y[y.index("Summary Score:")+15 :y.index(", Actor Score:")] }}%</li>
+                                                            <span>This is the similarity between the summary of the show(s) you searched and this show.</span>
+                                                            <hr/>
+                                                            <li><strong>Raw Actors Similarity Score: </strong>{{  y[y.index("Actor Score")+12 :y.index(", Genre")] }}%</li>
+                                                            <span>This is the similarity score between actors on this show and the actor(s) you searched. If the show has the actor(s) the higher this score is.</span>
+                                                            <hr/>
+                                                            <li><strong>Raw Genres Similarity Score: </strong>{{  y[y.index('Genre Score')+12 : ]}}%</li>
+                                                            <span>This is the similarity between the genre(s) of this show and the genr(s) you searched. If the shows has the genre(s) the higher this score is.</span>
+                                                            <hr/>
+                                                            <li><strong>Raw Embedding Similarity Score: </strong>{{  y[y.index("Embedding Score")+16 :y.index(", Summary")] }}%</li>
+                                                            <span>The embedding score is an evaluation of how similar, language wise, certain summaries are to each other. The more similar the embedding score is the more similar the mode of the show(s) you search is to this show.</span>
+                                                            <hr/>
+                                                            <li><strong>Raw Sentiment Similarity Score: </strong>{{y[y.index('Sentiment Score:')+17 : y.index(', Embedding Score:')]}}%</li>
+                                                            
+                                                            <span>This is the average sentiment score based on the sentiment scores for all of the reviews for this drama. If the sentiment scores falls in the range 0%-49.99%, then reviews for the drama overall is negative, 50% is neutral sentiment (or has no reviews), and a score between 
+                                                                    51%-100% means that the reviews overall have positive sentiment.</span>
+                                                                <hr/>
+                                                            <li><strong>Total Similarity Score: </strong>{{  y[y.index("Similarity Score:")+18 :y.index(", Sentiment Score:")] }}%</li>
+                                                            <span>This is the total similarity between your input and this show. It is based on the sum of the raw score multiplied by a weight based on the importance of the score.</span>
                                                         </ul>
                                                     </div>
 
